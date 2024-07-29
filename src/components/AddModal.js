@@ -53,18 +53,26 @@ const AddModal = () => {
             value={productToAdd.name}
             onChange={handleProductChange}
             maxLength={25}
-            className="w-[77%] inputClass"
+            className={`w-[77%] ${
+              isDarkMode ? "inputClassDark" : "inputClassLight"
+            }`}
           />
           <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
             <select
               name="category"
               value={productToAdd.category}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
             >
               <option
                 value=""
-                className="font-normal text-sm text-neutral-black-dark"
+                className={`font-normal text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
               >
                 Select Category
               </option>
@@ -72,7 +80,11 @@ const AddModal = () => {
                 <option
                   value={category}
                   key={index}
-                  className="font-normal text-sm text-neutral-black-dark"
+                  className={`font-normal text-sm ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
                 >
                   {category}
                 </option>
@@ -82,11 +94,17 @@ const AddModal = () => {
               name="brand"
               value={productToAdd.brand}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
             >
               <option
                 value=""
-                className="font-normal text-sm text-neutral-black-dark"
+                className={`font-normal text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
               >
                 Select Type
               </option>
@@ -94,7 +112,11 @@ const AddModal = () => {
                 <option
                   value={brand}
                   key={index}
-                  className="font-normal text-sm text-neutral-black-dark"
+                  className={`font-normal text-sm ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
                 >
                   {brand}
                 </option>
@@ -108,24 +130,36 @@ const AddModal = () => {
               name="price"
               value={productToAdd.price || ""}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
             />
             <select
               name="weight"
               value={productToAdd.weight}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
             >
               <option
                 value=""
-                className="font-normal text-sm text-neutral-black-dark"
+                className={`font-normal text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
               >
                 Select Weight
               </option>
               {productWeight?.map((weight, index) => (
                 <option
                   value={weight}
-                  className="font-normal text-sm text-neutral-black-dark"
+                  className={`font-normal text-sm ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
                   key={index}
                 >
                   {weight}
@@ -136,18 +170,28 @@ const AddModal = () => {
               name="unit"
               value={productToAdd.unit}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
             >
               <option
                 value=""
-                className="font-normal text-sm text-neutral-black-dark"
+                className={`font-normal text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
               >
                 Select Unit
               </option>
               {productUnit?.map((unit, index) => (
                 <option
                   value={unit}
-                  className="font-normal text-sm text-neutral-black-dark"
+                  className={`font-normal text-sm ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
                   key={index}
                 >
                   {unit}
@@ -160,11 +204,17 @@ const AddModal = () => {
               name="origin"
               value={productToAdd.origin}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
             >
               <option
                 value=""
-                className="font-normal text-sm text-neutral-black-dark"
+                className={`font-normal text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
               >
                 Select Origin
               </option>
@@ -172,7 +222,11 @@ const AddModal = () => {
                 <option
                   value={origin}
                   key={index}
-                  className="font-normal text-sm text-neutral-black-dark"
+                  className={`font-normal text-sm ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
                 >
                   {origin}
                 </option>
@@ -182,11 +236,17 @@ const AddModal = () => {
               name="storageTemperature"
               value={productToAdd.storageTemperature}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
             >
               <option
                 value=""
-                className="font-normal text-sm text-neutral-black-dark"
+                className={`font-normal text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
               >
                 Select Temp.
               </option>
@@ -194,7 +254,11 @@ const AddModal = () => {
                 <option
                   value={temp}
                   key={index}
-                  className="font-normal text-sm text-neutral-black-dark"
+                  className={`font-normal text-sm ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
                 >
                   {temp}
                 </option>
@@ -206,7 +270,9 @@ const AddModal = () => {
               name="discount"
               value={productToAdd.discount || ""}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
             />
           </div>
           <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
@@ -214,11 +280,17 @@ const AddModal = () => {
               name="available"
               value={productToAdd.available}
               onChange={handleProductChange}
-              className="w-[25%] inputClass"
+              className={`w-[25%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
             >
               <option
                 value=""
-                className="font-normal text-sm text-neutral-black-dark"
+                className={`font-normal text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
               >
                 Stock
               </option>
@@ -226,14 +298,24 @@ const AddModal = () => {
                 <option
                   value={available}
                   key={index}
-                  className="font-normal text-sm text-neutral-black-dark"
+                  className={`font-normal text-sm ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
                 >
                   {available}
                 </option>
               ))}
             </select>
             <div className="w-[25%] h-fit flex justify-start items-center space-x-[2%]">
-              <span className="font-semibold text-base text-neutral-black-dark">
+              <span
+                className={`font-semibold text-base ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
                 Halal :
               </span>
               <Toggle data={productToAdd.isHalal} toggleClick={toggleHalal} />
@@ -245,7 +327,9 @@ const AddModal = () => {
             value={productToAdd.description}
             onChange={handleProductChange}
             maxLength={100}
-            className="w-[77%] h-[33%] textareaClass"
+            className={`w-[77%] h-[33%] ${
+              isDarkMode ? "textareaClassDark" : "textareaClassLight"
+            }`}
           ></textarea>
         </div>
         <div className="w-full h-fit flex justify-center items-center">

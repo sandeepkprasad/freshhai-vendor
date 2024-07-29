@@ -6,16 +6,32 @@
   @apply w-fit h-fit bg-neutral-black-dark border border-neutral-black-dark rounded-3xl shadow-md px-[1%] py-[0.5%] font-normal text-xs text-neutral-gray-light focus:outline-none active:scale-95 duration-300
 }
 
+.selectClassLight {
+  @apply h-8 bg-neutral-white border rounded-lg shadow font-normal text-base text-neutral-black-dark px-[2%] focus:outline-none
+}
+
+.selectClassDark {
+  @apply h-8 bg-neutral-black-dark border rounded-lg shadow font-normal text-base text-neutral-gray-light px-[2%] focus:outline-none
+}
+
 .buttonClass {
   @apply font-semibold text-base text-neutral-white rounded-lg shadow-md px-2 py-0.5 active:scale-95 duration-300
 }
 
-.inputClass {
+.inputClassLight {
   @apply h-8 bg-neutral-gray-light rounded-lg font-normal text-base text-neutral-black-dark px-[2%] focus:outline-none
 }
 
-.textareaClass {
+.inputClassDark {
+  @apply h-8 bg-neutral-black-light rounded-lg font-normal text-base text-neutral-gray-light px-[2%] focus:outline-none
+}
+
+.textareaClassLight {
   @apply bg-neutral-gray-light rounded-lg font-normal text-sm text-neutral-black-dark px-[2%] py-[1%] focus:outline-none resize-none
+}
+
+.textareaClassDark {
+  @apply bg-neutral-black-light rounded-lg font-normal text-sm text-neutral-gray-light px-[2%] py-[1%] focus:outline-none resize-none
 }
 
 .customScrollbar::-webkit-scrollbar {
