@@ -6,19 +6,10 @@ import adminContext from "../context/adminContext";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 import OrderFilter from "../components/customComponents/OrderFilter";
-import HeadText from "../components/customComponents/HeadText";
+import HeadRow from "../components/customComponents/HeadRow";
 import OrderModal from "../components/OrderModal";
 
 const OrderRow = lazy(() => import("../components/customComponents/OrderRow"));
-
-const headTextArray = [
-  "Products",
-  "Order Id",
-  "Customer Name",
-  "Amount",
-  "Payment",
-  "Status",
-];
 
 const Orders = () => {
   const {
@@ -42,7 +33,7 @@ const Orders = () => {
 
   const handleTotalOrders = () => {
     setSelectedOrderData(2);
-    handleNotification(true, "green", "Toral Orders Selected");
+    handleNotification(true, "green", "Total Orders Selected");
   };
 
   // Getting Today's Orders
@@ -64,25 +55,19 @@ const Orders = () => {
             {selectedOrderData === 0 && (
               <div className="w-full h-fit flex justify-between items-center">
                 <Heading heading={"Latest Orders"} />
-                <div className="w-[50%] h-fit">
-                  <OrderFilter dataType={"latest"} />
-                </div>
+                <OrderFilter dataType={"latest"} />
               </div>
             )}
             {selectedOrderData === 1 && (
               <div className="w-full h-fit flex justify-between items-center">
                 <Heading heading={"Today's Orders"} />
-                <div className="w-[50%] h-fit">
-                  <OrderFilter dataType={"today"} />
-                </div>
+                <OrderFilter dataType={"today"} />
               </div>
             )}
             {selectedOrderData === 2 && (
               <div className="w-full h-fit flex justify-between items-center">
                 <Heading heading={"Total Orders"} />
-                <div className="w-[50%] h-fit">
-                  <OrderFilter dataType={"total"} />
-                </div>
+                <OrderFilter dataType={"total"} />
               </div>
             )}
             <div
@@ -92,11 +77,16 @@ const Orders = () => {
                   : "bg-neutral-white border"
               } flex flex-col justify-between items-center rounded-3xl shadow-md p-[1%]`}
             >
-              <div className="w-full h-fit flex justify-between items-center border-b pb-[1%]">
-                {headTextArray?.map((text, index) => (
-                  <HeadText text={text} key={index} />
-                ))}
-              </div>
+              <HeadRow
+                rowData={[
+                  "Products",
+                  "Order Id",
+                  "Customer Name",
+                  "Amount",
+                  "Payment",
+                  "Status",
+                ]}
+              />
               {selectedOrderData === 0 && (
                 <>
                   {latestOrders?.length > 0 ? (

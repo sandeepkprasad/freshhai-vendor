@@ -5,7 +5,7 @@ import adminContext from "../../context/adminContext";
 import RowText from "./RowText";
 import RowTextStatus from "./RowTextStatus";
 
-const OrderRow = ({ data, isClickable }) => {
+const OrderRow = ({ data, isClickable = false }) => {
   const { handleOrderModal } = useContext(adminContext);
 
   return (

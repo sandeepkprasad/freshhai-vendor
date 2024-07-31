@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import adminContext from "../../context/adminContext";
 import { orderFilterData } from "../../utils/LocalData";
 
-const OrderFilter = ({ dataType = "" }) => {
-  const { isDarkMode, orderFilter, setOrderFilter } = useContext(adminContext);
+const CustomerFilter = ({ dataType = "" }) => {
+  const { isDarkMode, userFilter, setUserFilter } = useContext(adminContext);
 
   // Handle Product Filter
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setOrderFilter((prevFilter) => ({
+    setUserFilter((prevFilter) => ({
       ...prevFilter,
       [name]: value,
     }));
@@ -16,16 +16,16 @@ const OrderFilter = ({ dataType = "" }) => {
 
   // Handle Clear Filter
   const handleClearFilters = () => {
-    setOrderFilter({ id: "", status: "" });
+    setUserFilter({ phone: "", isBlocked: "" });
   };
 
   return (
     <div className="w-[50%] h-fit flex justify-end items-center space-x-[2%]">
       <input
         type="text"
-        name="id"
-        placeholder="Search by order id"
-        value={orderFilter?.id}
+        name="phone"
+        placeholder="Search by phone number"
+        value={userFilter?.phone}
         onChange={handleFilterChange}
         className={`${
           isDarkMode
@@ -34,13 +34,13 @@ const OrderFilter = ({ dataType = "" }) => {
         } w-[50%] h-6 rounded-3xl shadow-md font-normal text-base px-[2%] focus:outline-none placeholder:text-xs`}
       />
       <select
-        name="status"
-        value={orderFilter?.status}
+        name="isBlocked"
+        value={userFilter?.isBlocked}
         onChange={handleFilterChange}
         className={`${isDarkMode ? "dropdownClassDark" : "dropdownClass"}`}
       >
         <option value="">By Status</option>
-        {orderFilterData?.status?.map((status, index) => (
+        {["Blocked", "Active"].map((status, index) => (
           <option value={status} key={index}>
             {status}
           </option>
@@ -58,4 +58,4 @@ const OrderFilter = ({ dataType = "" }) => {
   );
 };
 
-export default OrderFilter;
+export default CustomerFilter;

@@ -5,6 +5,7 @@ import adminContext from "./adminContext";
 import { profileData } from "../api/profileData";
 import { allProductsData } from "../api/allProducts";
 import { latestOrdersData, allOrdersData } from "../api/apiHandler";
+import { userData } from "../api/apiHandler";
 
 const AdminState = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -18,6 +19,7 @@ const AdminState = ({ children }) => {
   const [allProducts, setAllProducts] = useState(allProductsData);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState(allOrdersData);
+  const [totalUsers, setTotalUsers] = useState(userData);
   const [productFilter, setProductFilter] = useState({
     category: "",
     available: "",
@@ -25,6 +27,7 @@ const AdminState = ({ children }) => {
     origin: "",
   });
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
+  const [userFilter, setUserFilter] = useState({ phone: "", isBlocked: "" });
   const [isAddModal, setIsAddModal] = useState(false);
   const [isUpdateModal, setIsUpdateModal] = useState(false);
   const [productToUpdate, setProductToUpdate] = useState(null);
@@ -32,6 +35,8 @@ const AdminState = ({ children }) => {
   const [productToDelete, setProductToDelete] = useState(null);
   const [isOrderModal, setIsOrderModal] = useState(false);
   const [orderToUpdate, setOrderToUpdate] = useState(null);
+  const [isUserModal, setIsUserModal] = useState(false);
+  const [userToUpdate, setUserToUpdate] = useState(null);
 
   // Handle Notification Popup
   const handleNotification = (getFlag, getType, getText) => {
@@ -150,6 +155,28 @@ const AdminState = ({ children }) => {
     }
   };
 
+  // Handle User Modal
+  const handleUserModal = (getUserId) => {
+    const dataById = totalUsers?.find((user) => user?.userId === getUserId);
+    setUserToUpdate(dataById);
+    setIsUserModal(true);
+  };
+
+  // User Update
+  const updateUser = (updatedUser) => {
+    if (updatedUser) {
+      setTotalUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.userId === updatedUser.userId ? updatedUser : user
+        )
+      );
+      setIsUserModal(false);
+      handleNotification(true, "green", "User updated successfully.");
+    } else {
+      handleNotification(true, "red", "User couldn't update.");
+    }
+  };
+
   return (
     <adminContext.Provider
       value={{
@@ -183,6 +210,14 @@ const AdminState = ({ children }) => {
         orderToUpdate,
         updateOrder,
         handlePrintOrder,
+        totalUsers,
+        handleUserModal,
+        isUserModal,
+        setIsUserModal,
+        userToUpdate,
+        updateUser,
+        userFilter,
+        setUserFilter,
       }}
     >
       {children}
