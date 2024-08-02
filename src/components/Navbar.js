@@ -34,8 +34,11 @@ const Navbar = () => {
           isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
         } flex justify-between items-center rounded-3xl shadow-md px-[2%] duration-300`}
       >
-        {/** <img src="/assets/freshhai.png" className="w-[9%]" /> */}
-        <div></div>
+        <img
+          src="/assets/freshhai.png"
+          alt="freshhai_logo"
+          className="w-[9%]"
+        />
         <div className="w-[50%] h-fit flex justify-end items-center space-x-[2%]">
           <span
             className={`font-normal text-xs ${
@@ -68,6 +71,7 @@ const Navbar = () => {
           >
             <img
               src={adminProfile?.img}
+              alt="profile_img"
               className="w-10 bg-neutral-gray-light rounded-full"
             />
             <span

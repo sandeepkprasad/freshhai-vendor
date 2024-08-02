@@ -7,7 +7,11 @@ const Login = () => {
   return (
     <div className="w-screen h-screen bg-neutral-gray-light flex flex-col justify-center items-center p-[2%] space-y-[1%] overflow-hidden">
       <div className="w-full h-fit flex justify-center items-center space-x-[1%]">
-        <img src="/assets/freshhai.png" className="w-[8%]" />
+        <img
+          src="/assets/freshhai.png"
+          alt="freshhai_logo"
+          className="w-[8%]"
+        />
         <p className="font-semibold text-2xl text-neutral-black-dark">
           Admin Login
         </p>
