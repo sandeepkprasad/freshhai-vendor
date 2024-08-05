@@ -337,7 +337,7 @@ const AddModal = () => {
             className="buttonClass bg-primary-blue-dark"
             onClick={() => addProduct(productToAdd)}
           >
-            Add Product
+            Save Product
           </button>
         </div>
       </div>

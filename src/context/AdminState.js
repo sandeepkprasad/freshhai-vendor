@@ -4,8 +4,12 @@ import adminContext from "./adminContext";
 // API Imports
 import { profileData } from "../api/profileData";
 import { allProductsData } from "../api/allProducts";
-import { latestOrdersData, allOrdersData } from "../api/apiHandler";
-import { userData } from "../api/apiHandler";
+import {
+  latestOrdersData,
+  allOrdersData,
+  userData,
+  deliveryPartnersData,
+} from "../api/apiHandler";
 
 const AdminState = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -20,6 +24,8 @@ const AdminState = ({ children }) => {
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState(allOrdersData);
   const [totalUsers, setTotalUsers] = useState(userData);
+  const [deliveryPartners, setDeliveryPartners] =
+    useState(deliveryPartnersData);
   const [productFilter, setProductFilter] = useState({
     category: "",
     available: "",
@@ -28,6 +34,7 @@ const AdminState = ({ children }) => {
   });
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [userFilter, setUserFilter] = useState({ phone: "", isBlocked: "" });
+  const [deliveryFilter, setDeliveryFilter] = useState({ name: "", phone: "" });
   const [isAddModal, setIsAddModal] = useState(false);
   const [isUpdateModal, setIsUpdateModal] = useState(false);
   const [productToUpdate, setProductToUpdate] = useState(null);
@@ -37,6 +44,7 @@ const AdminState = ({ children }) => {
   const [orderToUpdate, setOrderToUpdate] = useState(null);
   const [isUserModal, setIsUserModal] = useState(false);
   const [userToUpdate, setUserToUpdate] = useState(null);
+  const [isDeliveryAgentModal, setIsDeliveryAgentModal] = useState(false);
 
   // Handle Notification Popup
   const handleNotification = (getFlag, getType, getText) => {
@@ -177,6 +185,29 @@ const AdminState = ({ children }) => {
     }
   };
 
+  const addDeliveryAgent = (agentToAdd) => {
+    const isValid =
+      agentToAdd?.name &&
+      agentToAdd?.availability &&
+      agentToAdd?.vehicle &&
+      agentToAdd?.licenseNumber &&
+      agentToAdd?.status &&
+      agentToAdd?.contact?.phone !== undefined &&
+      agentToAdd?.contact?.email &&
+      agentToAdd?.address?.street &&
+      agentToAdd?.address?.city &&
+      agentToAdd?.address?.state &&
+      agentToAdd?.address?.zip !== undefined;
+
+    if (isValid) {
+      setDeliveryPartners((prevProducts) => [...prevProducts, agentToAdd]);
+      handleNotification(true, "green", "Delivery Agent added successfully.");
+      setIsDeliveryAgentModal(false);
+    } else {
+      handleNotification(true, "red", "Please fill all the details.");
+    }
+  };
+
   return (
     <adminContext.Provider
       value={{
@@ -218,6 +249,12 @@ const AdminState = ({ children }) => {
         updateUser,
         userFilter,
         setUserFilter,
+        deliveryPartners,
+        deliveryFilter,
+        setDeliveryFilter,
+        isDeliveryAgentModal,
+        setIsDeliveryAgentModal,
+        addDeliveryAgent,
       }}
     >
       {children}

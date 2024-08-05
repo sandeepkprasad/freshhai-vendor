@@ -174,7 +174,7 @@ const Customers = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
-                title="Click for Latest Orders"
+                title="Click for Today's Users"
                 onClick={handleTodayUsers}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
@@ -198,7 +198,7 @@ const Customers = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
-                title="Click for Today's Orders"
+                title="Click for Total Users"
                 onClick={handleTotalUsers}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
@@ -222,7 +222,7 @@ const Customers = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
-                title="Click for Total Orders"
+                title="Click for Blocked Users"
                 onClick={handleBlockedUsers}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">

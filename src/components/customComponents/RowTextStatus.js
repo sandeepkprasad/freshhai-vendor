@@ -20,6 +20,14 @@ const RowTextStatus = ({ text }) => {
           ? "text-secondary-red-dark"
           : text === "Returned"
           ? "text-secondary-orange-dark"
+          : text === "Available"
+          ? "text-primary-green-dark"
+          : text === "Unavailable"
+          ? "text-secondary-red-dark"
+          : text === "Busy"
+          ? "text-secondary-orange-dark"
+          : text === "Suspended"
+          ? "text-neutral-gray-light"
           : null
       } overflow-hidden`}
     >

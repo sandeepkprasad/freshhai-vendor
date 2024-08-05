@@ -16,6 +16,11 @@ const ProductFilter = () => {
     }));
   };
 
+  // Handle Apply Filter
+  const handleApplyFilter = () => {
+    alert("Order Filter Applied");
+  };
+
   // Handle Clear Filter
   const handleClearFilters = () => {
     setProductFilter({
@@ -24,6 +29,8 @@ const ProductFilter = () => {
       brand: "",
       origin: "",
     });
+
+    alert("Order Filter Cleared");
   };
 
   return (
@@ -80,6 +87,9 @@ const ProductFilter = () => {
           </option>
         ))}
       </select>
+      <button className="filterApplyBtn" onClick={handleApplyFilter}>
+        Filter
+      </button>
       <button
         className={`font-normal text-xs ${
           isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-light"

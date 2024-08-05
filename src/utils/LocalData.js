@@ -20,6 +20,24 @@ export const newProductSchema = {
   origin: "",
 };
 
+export const newDeliveryPartnersSchema = {
+  name: "",
+  contact: {
+    phone: "",
+    email: "",
+  },
+  address: {
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+  },
+  vehicle: "",
+  licenseNumber: "",
+  status: "Active",
+  availability: "Available",
+};
+
 export const productFilterData = {
   category: ["Fish", "Prawns", "Crab", "Seafood", "Poultry", "Meat"],
   stock: ["Available", "Not Available"],

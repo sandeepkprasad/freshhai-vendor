@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import adminContext from "../../context/adminContext";
 
-const CustomerFilter = ({ dataType = "" }) => {
-  const { isDarkMode, userFilter, setUserFilter } = useContext(adminContext);
+const DeliveryFilter = ({ dataType = "" }) => {
+  const { isDarkMode, deliveryFilter, setDeliveryFilter } =
+    useContext(adminContext);
 
-  // Handle Product Filter
+  // Handle Delivery Filter
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setUserFilter((prevFilter) => ({
+    setDeliveryFilter((prevFilter) => ({
       ...prevFilter,
       [name]: value,
     }));
@@ -15,42 +16,41 @@ const CustomerFilter = ({ dataType = "" }) => {
 
   // Handle Apply Filter
   const handleApplyFilter = () => {
-    alert("Customer Filter Applied");
+    alert("Delivery Filter Applied");
   };
 
   // Handle Clear Filter
   const handleClearFilters = () => {
-    setUserFilter({ phone: "", isBlocked: "" });
-    alert("Customer Filter Cleared");
+    setDeliveryFilter({ name: "", phone: "" });
+    alert("Delivery Filter Cleared");
   };
 
   return (
-    <div className="w-[50%] h-fit flex justify-end items-center space-x-[2%]">
+    <div className="w-[75%] h-fit flex justify-end items-center space-x-[2%]">
       <input
         type="text"
-        name="phone"
-        placeholder="Search by phone number"
-        value={userFilter?.phone}
+        name="name"
+        placeholder="Search by name"
+        value={deliveryFilter?.name}
         onChange={handleFilterChange}
         className={`${
           isDarkMode
             ? "bg-neutral-black-dark text-neutral-gray-light"
             : "bg-neutral-white text-neutral-black-dark"
-        } w-[50%] h-6 rounded-3xl shadow-md font-normal text-base px-[2%] focus:outline-none placeholder:text-xs`}
+        } w-[33%] rounded-3xl shadow-md font-normal text-base px-[2%] py-[0.25%] focus:outline-none placeholder:text-xs`}
       />
-      <select
-        name="isBlocked"
-        value={userFilter?.isBlocked}
+      <input
+        type="text"
+        name="phone"
+        placeholder="Search by phone number"
+        value={deliveryFilter?.phone}
         onChange={handleFilterChange}
-        className={`${isDarkMode ? "dropdownClassDark" : "dropdownClass"}`}
-      >
-        <option value="">By Status</option>
-        {["Blocked", "Active"].map((status, index) => (
-          <option value={status} key={index}>
-            {status}
-          </option>
-        ))}
-      </select>
+        className={`${
+          isDarkMode
+            ? "bg-neutral-black-dark text-neutral-gray-light"
+            : "bg-neutral-white text-neutral-black-dark"
+        } w-[33%] rounded-3xl shadow-md font-normal text-base px-[2%] py-[0.25%] focus:outline-none placeholder:text-xs`}
+      />
       <button className="filterApplyBtn" onClick={handleApplyFilter}>
         Filter
       </button>
@@ -66,4 +66,4 @@ const CustomerFilter = ({ dataType = "" }) => {
   );
 };
 
-export default CustomerFilter;
+export default DeliveryFilter;

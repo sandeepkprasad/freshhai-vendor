@@ -14,13 +14,19 @@ const OrderFilter = ({ dataType = "" }) => {
     }));
   };
 
+  // Handle Apply Filter
+  const handleApplyFilter = () => {
+    alert("Product Filter Applied");
+  };
+
   // Handle Clear Filter
   const handleClearFilters = () => {
     setOrderFilter({ id: "", status: "" });
+    alert("Product Filter Cleared");
   };
 
   return (
-    <div className="w-[50%] h-fit flex justify-end items-center space-x-[2%]">
+    <div className="w-[75%] h-fit flex justify-end items-center space-x-[2%]">
       <input
         type="text"
         name="id"
@@ -31,7 +37,7 @@ const OrderFilter = ({ dataType = "" }) => {
           isDarkMode
             ? "bg-neutral-black-dark text-neutral-gray-light"
             : "bg-neutral-white text-neutral-black-dark"
-        } w-[50%] h-6 rounded-3xl shadow-md font-normal text-base px-[2%] focus:outline-none placeholder:text-xs`}
+        } w-[33%] rounded-3xl shadow-md font-normal text-base px-[2%] py-[0.25%] focus:outline-none placeholder:text-xs`}
       />
       <select
         name="status"
@@ -46,6 +52,9 @@ const OrderFilter = ({ dataType = "" }) => {
           </option>
         ))}
       </select>
+      <button className="filterApplyBtn" onClick={handleApplyFilter}>
+        Filter
+      </button>
       <button
         className={`font-normal text-xs ${
           isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-light"

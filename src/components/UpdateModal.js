@@ -337,7 +337,7 @@ const UpdateModal = () => {
             className="buttonClass bg-primary-blue-dark"
             onClick={() => updateProduct(updatedProduct)}
           >
-            Update Product
+            Save Product
           </button>
         </div>
       </div>

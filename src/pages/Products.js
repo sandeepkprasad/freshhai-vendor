@@ -64,9 +64,12 @@ const Products = () => {
                   </div>
                 }
               >
-                {filteredProducts.map((product, index) => (
-                  <ProductCard data={product} key={index} />
-                ))}
+                {filteredProducts
+                  .slice()
+                  .reverse()
+                  .map((product, index) => (
+                    <ProductCard data={product} key={index} />
+                  ))}
               </Suspense>
             </div>
           ) : (

@@ -38,6 +38,10 @@ body {
   @apply bg-neutral-black-light rounded-lg font-normal text-sm text-neutral-gray-light px-[2%] py-[1%] focus:outline-none resize-none
 }
 
+.filterApplyBtn {
+  @apply bg-primary-blue-dark font-medium text-xs text-neutral-white rounded-3xl shadow-md px-[2%] py-[0.75%] active:scale-95 duration-300
+}
+
 .customScrollbar::-webkit-scrollbar {
   width: 0px;
 }

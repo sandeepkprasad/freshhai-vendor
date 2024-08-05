@@ -15,14 +15,14 @@ const CustomerRow = ({ data, isClickable = false }) => {
           onClick={() => handleUserModal(data?.userId)}
         >
           <RowText text={data?.name} />
-          <RowText text={data.phone} />
-          <RowText text={data.email} />
+          <RowText text={data?.phone} />
+          <RowText text={data?.email} />
           <span
             className={`flex-1 text-start font-normal text-sm ${
               isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
             } overflow-hidden`}
           >
-            {data.isBlocked ? "Blocked" : "Active"}
+            {data?.isBlocked ? "Blocked" : "Active"}
           </span>
         </div>
       )}
@@ -30,14 +30,14 @@ const CustomerRow = ({ data, isClickable = false }) => {
       {!isClickable && (
         <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%]">
           <RowText text={data?.name} />
-          <RowText text={data.phone} />
-          <RowText text={data.email} />
+          <RowText text={data?.phone} />
+          <RowText text={data?.email} />
           <span
             className={`flex-1 text-start font-normal text-sm ${
               isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
             } overflow-hidden`}
           >
-            {data.isBlocked ? "Blocked" : "Active"}
+            {data?.isBlocked ? "Blocked" : "Active"}
           </span>
         </div>
       )}
