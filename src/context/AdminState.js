@@ -216,6 +216,7 @@ const AdminState = ({ children }) => {
         handleNotification,
         notificationData,
         adminProfile,
+        setAdminProfile,
         allProducts,
         productFilter,
         setProductFilter,

@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { MdKeyboardArrowDown } from "../utils/Icons";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
+import { getInitials, getFirstName } from "../utils/OtherUtils";
 
 // React Icons
 import { MdOutlineWbSunny, LuSunMoon } from "../utils/Icons";
@@ -69,11 +70,17 @@ const Navbar = () => {
             title="Logout"
             onClick={handleProfileClick}
           >
-            <img
-              src={adminProfile?.img}
-              alt="profile_img"
-              className="w-10 bg-neutral-gray-light rounded-full"
-            />
+            {adminProfile?.img ? (
+              <img
+                src={adminProfile?.img}
+                alt="profile_img"
+                className="w-10 bg-neutral-gray-light rounded-full"
+              />
+            ) : (
+              <span className="bg-primary-green-medium rounded-full px-[4%] py-[2.5%] font-medium text-lg text-neutral-gray-light">
+                {getInitials(adminProfile?.name)}
+              </span>
+            )}
             <span
               className={`font-semibold text-sm ${
                 isDarkMode
@@ -81,7 +88,7 @@ const Navbar = () => {
                   : "text-neutral-black-dark"
               }`}
             >
-              {adminProfile?.firstName}
+              {getFirstName(adminProfile?.name)}
             </span>
             <span
               className={`text-xl ${

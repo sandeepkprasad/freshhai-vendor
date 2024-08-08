@@ -1,6 +1,5 @@
 export const profileData = {
   img: "/assets/default_profile.png",
-  firstName: "Sandeep",
-  lastName: "Kumar",
+  name: "Sandeep Kumar",
   email: "sandeep@email.com",
 };

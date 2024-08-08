@@ -10,6 +10,7 @@ import {
   MdKeyboardArrowDown,
   MdOutlineDeliveryDining,
   MdPrint,
+  MdEdit,
 } from "react-icons/md";
 
 import { LuSunMoon } from "react-icons/lu";
@@ -37,4 +38,5 @@ export {
   MdOutlineDeliveryDining,
   FaFishFins,
   MdPrint,
+  MdEdit,
 };
