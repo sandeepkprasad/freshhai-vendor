@@ -29,7 +29,7 @@ const TopSellingProductCard = ({ data }) => {
                 : "text-neutral-black-light"
             }`}
           >
-            7,000 Sales
+            7,000 Orders
           </span>
           {data?.available === "Available" ? (
             <span className="font-semibold text-xs text-primary-green-dark">

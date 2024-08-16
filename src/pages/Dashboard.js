@@ -12,6 +12,13 @@ const TopSellingProductCard = lazy(() =>
 const Dashboard = () => {
   const { isDarkMode, topSellingProducts } = useContext(adminContext);
 
+  const overviewData = [
+    { heading: "Total Value", data: `₹ ${7000}` },
+    { heading: "Avg. Order Value", data: `₹ ${7000}` },
+    { heading: "Total Orders", data: `${7000}` },
+    { heading: "Total Products", data: `${70}` },
+  ];
+
   return (
     <DashboardWrapper>
       <div className="w-full h-full flex flex-col justify-between items-start pb-[0.5%] space-y-[2%] overflow-hidden">
@@ -24,15 +31,28 @@ const Dashboard = () => {
             } border rounded-3xl shadow-md`}
           ></div>
           <div className="w-[40%] h-full grid grid-cols-2 gap-x-[4%] gap-y-[8%]">
-            {[1, 2, 3, 4]?.map((boxData, index) => (
+            {overviewData?.map((boxData, index) => (
               <div
                 className={`w-full h-full ${
                   isDarkMode
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
-                } border rounded-3xl shadow-md`}
+                } flex flex-col justify-center items-start border rounded-3xl shadow-md p-[5%]`}
                 key={index}
-              ></div>
+              >
+                <p className="font-semibold text-[0.75vw] text-neutral-black-light">
+                  {boxData?.heading}
+                </p>
+                <p
+                  className={`font-semibold text-[1.5vw] ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  {boxData?.data}
+                </p>
+              </div>
             ))}
           </div>
         </div>
