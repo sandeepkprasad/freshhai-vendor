@@ -83,7 +83,10 @@ const OrderModal = () => {
               ))}
             </select>
           </div>
-          <OrderText text1="Customer Name :" text2={updatedOrder?.customerName} />
+          <OrderText
+            text1="Customer Name :"
+            text2={updatedOrder?.customerName}
+          />
           <OrderText
             text1="Mobile Number :"
             text2={updatedOrder?.customerMobile}
@@ -142,7 +145,7 @@ const OrderModal = () => {
             />
             <OrderText
               text1="Grand Total"
-              text2={"₹" + " " + updatedOrder?.totalPrice}
+              text2={`₹ ${updatedOrder?.totalPrice}`}
             />
           </div>
           <hr />
