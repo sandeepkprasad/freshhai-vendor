@@ -20,9 +20,9 @@ const AdminState = ({ children }) => {
   });
   const [adminProfile, setAdminProfile] = useState(profileData);
   const [allProducts, setAllProducts] = useState(allProductsData);
-  const [topSellingProducts, setTopSellingProducts] = useState(allProductsData);
+  const [topSellingProducts, setTopSellingProducts] = useState([]);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
-  const [allOrders, setAllOrders] = useState(allOrdersData);
+  const [allOrders, setAllOrders] = useState([]);
   const [totalUsers, setTotalUsers] = useState(userData);
   const [deliveryPartners, setDeliveryPartners] =
     useState(deliveryPartnersData);
@@ -45,6 +45,12 @@ const AdminState = ({ children }) => {
   const [isUserModal, setIsUserModal] = useState(false);
   const [userToUpdate, setUserToUpdate] = useState(null);
   const [isDeliveryAgentModal, setIsDeliveryAgentModal] = useState(false);
+
+  // Updating topSellingProducts & allOrders data
+  useEffect(() => {
+    setTopSellingProducts(allProductsData);
+    setAllOrders(allOrdersData);
+  }, []);
 
   // Handle Notification Popup
   const handleNotification = (getFlag, getType, getText) => {
