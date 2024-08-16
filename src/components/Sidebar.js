@@ -8,11 +8,11 @@ import {
   MdOutlineDashboard,
   MdOutlineShoppingCart,
   MdOutlineAllInbox,
-  MdOutlineAnalytics,
+  //MdOutlineAnalytics,
   MdPeopleOutline,
   MdOutlineDeliveryDining,
   MdOutlinePersonOutline,
-  MdOutlineSettings,
+  //MdOutlineSettings,
 } from "../utils/Icons";
 
 const sidebarItems = [

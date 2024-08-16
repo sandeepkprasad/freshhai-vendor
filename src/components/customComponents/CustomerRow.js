@@ -5,7 +5,7 @@ import adminContext from "../../context/adminContext";
 import RowText from "./RowText";
 
 const CustomerRow = ({ data, isClickable = false }) => {
-  const { isDarkMode, handleUserModal } = useContext(adminContext);
+  const { handleUserModal } = useContext(adminContext);
 
   return (
     <>

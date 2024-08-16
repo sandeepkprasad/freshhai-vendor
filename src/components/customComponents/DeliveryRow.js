@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 // Components Imports
 import RowText from "./RowText";
