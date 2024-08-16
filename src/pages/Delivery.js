@@ -29,7 +29,7 @@ const Delivery = () => {
 
   const handleInactiveAgents = () => {
     setSelectedAgentData(1);
-    handleNotification(true, "green", "Inactive Agents Selected");
+    handleNotification(true, "green", "Total Agents Selected");
   };
 
   const handleSuspendedAgents = () => {
@@ -51,8 +51,8 @@ const Delivery = () => {
             )}
             {selectedAgentData === 1 && (
               <div className="w-full h-fit flex justify-between items-center">
-                <Heading heading="Inactive Agents" />
-                <DeliveryFilter dataType={"inactive"} />
+                <Heading heading="Total Agents" />
+                <DeliveryFilter dataType={"total"} />
               </div>
             )}
             {selectedAgentData === 2 && (
@@ -70,7 +70,13 @@ const Delivery = () => {
               } flex flex-col justify-between items-center rounded-3xl shadow-md p-[1%]`}
             >
               <HeadRow
-                rowData={["Name", "Mobile", "Vechile", "Licence", "Availability"]}
+                rowData={[
+                  "Name",
+                  "Mobile",
+                  "Vechile",
+                  "Vechile No.",
+                  "Availability",
+                ]}
               />
               {selectedAgentData === 0 && (
                 <>
@@ -111,7 +117,7 @@ const Delivery = () => {
                         fallback={
                           <div className="w-full h-[95%] flex justify-center items-center">
                             <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading Inactive Agents...
+                              Loading Total Agents...
                             </p>
                           </div>
                         }
@@ -214,7 +220,7 @@ const Delivery = () => {
                 onClick={handleInactiveAgents}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Inactive Agents
+                  Total Agents
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${

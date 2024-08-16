@@ -18,9 +18,9 @@ const AdminState = ({ children }) => {
     type: "",
     text: "",
   });
-
   const [adminProfile, setAdminProfile] = useState(profileData);
   const [allProducts, setAllProducts] = useState(allProductsData);
+  const [topSellingProducts, setTopSellingProducts] = useState(allProductsData);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState(allOrdersData);
   const [totalUsers, setTotalUsers] = useState(userData);
@@ -218,6 +218,7 @@ const AdminState = ({ children }) => {
         adminProfile,
         setAdminProfile,
         allProducts,
+        topSellingProducts,
         productFilter,
         setProductFilter,
         handleUpdateModal,

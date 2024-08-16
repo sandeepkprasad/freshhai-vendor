@@ -31,3 +31,25 @@ export const extractDateTime = (dateString) => {
     date: `${day.toString().padStart(2, "0")} ${month} ${year}`,
   };
 };
+
+// Extract Delivery Date & Time
+export const extractDeliveryTimeDate = (dateString) => {
+  const date = new Date(dateString);
+
+  const month = date.toLocaleString("default", { month: "long" });
+  const day = date.getDate();
+
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours || 12;
+
+  return {
+    time: `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")} ${ampm}`,
+    date: `${day.toString().padStart(2, "0")} ${month}`,
+  };
+};

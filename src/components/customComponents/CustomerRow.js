@@ -17,13 +17,7 @@ const CustomerRow = ({ data, isClickable = false }) => {
           <RowText text={data?.name} />
           <RowText text={data?.phone} />
           <RowText text={data?.email} />
-          <span
-            className={`flex-1 text-start font-normal text-sm ${
-              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            } overflow-hidden`}
-          >
-            {data?.isBlocked ? "Blocked" : "Active"}
-          </span>
+          <RowText text={data?.addresses[0]?.postalCode} />
         </div>
       )}
 
@@ -32,13 +26,7 @@ const CustomerRow = ({ data, isClickable = false }) => {
           <RowText text={data?.name} />
           <RowText text={data?.phone} />
           <RowText text={data?.email} />
-          <span
-            className={`flex-1 text-start font-normal text-sm ${
-              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            } overflow-hidden`}
-          >
-            {data?.isBlocked ? "Blocked" : "Active"}
-          </span>
+          <RowText text={data?.addresses[0]?.postalCode} />
         </div>
       )}
     </>

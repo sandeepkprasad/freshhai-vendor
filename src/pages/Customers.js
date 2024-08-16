@@ -19,7 +19,7 @@ const Customers = () => {
 
   const handleTodayUsers = () => {
     setSelectedCustomerData(0);
-    handleNotification(true, "green", "Today's Users Selected");
+    handleNotification(true, "green", "Recent Users Selected");
   };
 
   const handleTotalUsers = () => {
@@ -40,8 +40,8 @@ const Customers = () => {
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             {selectedCustomerData === 0 && (
               <div className="w-full h-fit flex justify-between items-center">
-                <Heading heading="Today's Users" />
-                <CustomerFilter dataType={"today"} />
+                <Heading heading="Recent Users" />
+                <CustomerFilter dataType={"recent"} />
               </div>
             )}
             {selectedCustomerData === 1 && (
@@ -64,7 +64,7 @@ const Customers = () => {
                   : "bg-neutral-white border"
               } flex flex-col justify-between items-center rounded-3xl shadow-md p-[1%]`}
             >
-              <HeadRow rowData={["Name", "Number", "Email", "Status"]} />
+              <HeadRow rowData={["Name", "Number", "Email", "Postal Code"]} />
               {selectedCustomerData === 0 && (
                 <>
                   {totalUsers?.length > 0 ? (
@@ -112,7 +112,7 @@ const Customers = () => {
                         {totalUsers?.map((user, index) => (
                           <CustomerRow
                             data={user}
-                            isClickable={true}
+                            isClickable={false}
                             key={index}
                           />
                         ))}
@@ -143,7 +143,7 @@ const Customers = () => {
                         {totalUsers?.map((user, index) => (
                           <CustomerRow
                             data={user}
-                            isClickable={true}
+                            isClickable={false}
                             key={index}
                           />
                         ))}
@@ -167,7 +167,7 @@ const Customers = () => {
               <Heading heading={"Overview"} />
             </div>
             <div className="w-full h-[90%] bg-transparent flex flex-col justify-between items-center space-y-[8%]">
-              {/** Today Users */}
+              {/** Recent Users */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -178,7 +178,7 @@ const Customers = () => {
                 onClick={handleTodayUsers}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Today's Users
+                  Recent Users
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -211,7 +211,7 @@ const Customers = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {totalUsers?.length} Orders
+                  {totalUsers?.length} Users
                 </p>
               </div>
 
@@ -235,7 +235,7 @@ const Customers = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {totalUsers?.length} Orders
+                  {totalUsers?.length} Users
                 </p>
               </div>
             </div>

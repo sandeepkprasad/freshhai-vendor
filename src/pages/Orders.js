@@ -28,7 +28,7 @@ const Orders = () => {
 
   const handleTodayOrders = () => {
     setSelectedOrderData(1);
-    handleNotification(true, "green", "Today's Orders Selected");
+    handleNotification(true, "green", "Last Month Orders Selected");
   };
 
   const handleTotalOrders = () => {
@@ -60,8 +60,8 @@ const Orders = () => {
             )}
             {selectedOrderData === 1 && (
               <div className="w-full h-fit flex justify-between items-center">
-                <Heading heading={"Today's Orders"} />
-                <OrderFilter dataType={"today"} />
+                <Heading heading={"Last Month Orders"} />
+                <OrderFilter dataType={"month"} />
               </div>
             )}
             {selectedOrderData === 2 && (
@@ -79,11 +79,11 @@ const Orders = () => {
             >
               <HeadRow
                 rowData={[
-                  "Products",
                   "Order Id",
-                  "Customer Name",
-                  "Amount",
+                  "Product",
+                  "Price",
                   "Payment",
+                  "Delivery",
                   "Status",
                 ]}
               />
@@ -112,7 +112,7 @@ const Orders = () => {
                   ) : (
                     <div className="w-full h-[95%] flex justify-center items-center">
                       <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Latest Order Available
+                        No Order Available
                       </p>
                     </div>
                   )}
@@ -143,7 +143,7 @@ const Orders = () => {
                   ) : (
                     <div className="w-full h-[95%] flex justify-center items-center">
                       <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Today's Order Available
+                        No Order Available
                       </p>
                     </div>
                   )}
@@ -174,7 +174,7 @@ const Orders = () => {
                   ) : (
                     <div className="w-full h-[95%] flex justify-center items-center">
                       <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Total Order Available
+                        No Order Available
                       </p>
                     </div>
                   )}
@@ -189,14 +189,14 @@ const Orders = () => {
               <Heading heading={"Overview"} />
             </div>
             <div className="w-full h-[90%] bg-transparent flex flex-col justify-between items-center space-y-[8%]">
-              {/** Latest Orders */}
+              {/** Recent Orders */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
-                title="Click for Latest Orders"
+                title="Click for Recent Orders"
                 onClick={handleLatestOrders}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
@@ -220,11 +220,11 @@ const Orders = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
-                title="Click for Today's Orders"
+                title="Click for Month's Orders"
                 onClick={handleTodayOrders}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Today's Orders
+                  Last Month Orders
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${

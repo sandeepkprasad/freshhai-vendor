@@ -53,7 +53,7 @@ const UpdateModal = () => {
             value={updatedProduct.name}
             onChange={handleProductChange}
             maxLength={25}
-            className={`w-[77%] ${
+            className={`w-[79%] ${
               isDarkMode ? "inputClassDark" : "inputClassLight"
             }`}
           />
@@ -327,7 +327,7 @@ const UpdateModal = () => {
             value={updatedProduct.description}
             onChange={handleProductChange}
             maxLength={100}
-            className={`w-[77%] h-[33%] ${
+            className={`w-[79%] h-[33%] ${
               isDarkMode ? "textareaClassDark" : "textareaClassLight"
             }`}
           ></textarea>

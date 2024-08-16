@@ -16,10 +16,10 @@ import {
 } from "../utils/Icons";
 
 const sidebarItems = [
-  { icon: <MdOutlineDashboard />, title: "Dashboard", route: "/" },
+  { icon: <MdOutlineDashboard />, title: "Overview", route: "/" },
   { icon: <MdOutlineShoppingCart />, title: "Orders", route: "/orders" },
   { icon: <MdOutlineAllInbox />, title: "Products", route: "/products" },
-  { icon: <MdOutlineAnalytics />, title: "Analytics", route: "/analytics" },
+  //{ icon: <MdOutlineAnalytics />, title: "Analytics", route: "/analytics" },
   { icon: <MdPeopleOutline />, title: "Customers", route: "/customers" },
   { icon: <MdOutlineDeliveryDining />, title: "Delivery", route: "/delivery" },
   { icon: <MdOutlinePersonOutline />, title: "Profile", route: "/profile" },
