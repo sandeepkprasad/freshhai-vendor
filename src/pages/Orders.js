@@ -50,7 +50,7 @@ const Orders = () => {
     <>
       <DashboardWrapper>
         <div className="w-full h-full flex justify-between items-center pb-[0.5%] space-x-[2%] overflow-hidden">
-          {/** Right Side Part */}
+          {/** Left Side Part */}
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             {selectedOrderData === 0 && (
               <div className="w-full h-fit flex justify-between items-center">
@@ -183,7 +183,7 @@ const Orders = () => {
             </div>
           </div>
 
-          {/** Left Side Part */}
+          {/** Right Side Part */}
           <div className="w-[20%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-end items-center">
               <Heading heading={"Overview"} />

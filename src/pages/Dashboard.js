@@ -1,16 +1,22 @@
 import React, { useContext, Suspense, lazy } from "react";
 import adminContext from "../context/adminContext";
+import { Link } from "react-router-dom";
 
 // Components Imports
 import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
+import HeadRow from "../components/customComponents/HeadRow";
 
 const TopSellingProductCard = lazy(() =>
   import("../components/TopSellingProductCard")
 );
+const LatestOrderRow = lazy(() =>
+  import("../components/customComponents/LatestOrderRow")
+);
 
 const Dashboard = () => {
-  const { isDarkMode, topSellingProducts } = useContext(adminContext);
+  const { isDarkMode, latestOrders, topSellingProducts } =
+    useContext(adminContext);
 
   const overviewData = [
     { heading: "Total Value", data: `₹ ${7000}` },
@@ -37,7 +43,7 @@ const Dashboard = () => {
                   isDarkMode
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
-                } flex flex-col justify-center items-start border rounded-3xl shadow-md p-[5%]`}
+                } flex flex-col justify-center items-start border rounded-3xl shadow-md p-[10%]`}
                 key={index}
               >
                 <p className="font-semibold text-[0.75vw] text-neutral-black-light">
@@ -62,18 +68,12 @@ const Dashboard = () => {
               isDarkMode
                 ? "bg-neutral-black-dark border border-neutral-black-dark"
                 : "bg-neutral-white border"
-            } border rounded-3xl shadow-md`}
-          ></div>
-          <div
-            className={`w-[40%] h-full ${
-              isDarkMode
-                ? "bg-neutral-black-dark border border-neutral-black-dark"
-                : "bg-neutral-white border"
             } flex flex-col justify-between items-center rounded-3xl shadow-md p-[1%]`}
           >
             <div className="w-full h-fit flex justify-between items-center">
-              <Heading heading="Top Selling Product" />
-              <button
+              <Heading heading="Latest Orders" />
+              <Link
+                to="/orders"
                 className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
@@ -81,7 +81,46 @@ const Dashboard = () => {
                 } active:scale-95 duration-300`}
               >
                 View All
-              </button>
+              </Link>
+            </div>
+            <div className="w-full h-[85%] overflow-hidden">
+              <HeadRow
+                rowData={["Order Id", "Name", "Price", "Delivery", "Status"]}
+              />
+              {latestOrders?.length > 0 ? (
+                <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-[95%] flex justify-center items-center">
+                        <p className="font-semibold text-xl text-neutral-gray-medium">
+                          Loading Latest Orders...
+                        </p>
+                      </div>
+                    }
+                  >
+                    {latestOrders?.map((order, index) => (
+                      <LatestOrderRow data={order} key={index} />
+                    ))}
+                  </Suspense>
+                </div>
+              ) : (
+                <div className="w-full h-[95%] flex justify-center items-center">
+                  <p className="font-semibold text-xl text-neutral-gray-medium">
+                    No Order Available
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          <div
+            className={`w-[40%] h-full ${
+              isDarkMode
+                ? "bg-neutral-black-dark border border-neutral-black-dark"
+                : "bg-neutral-white border"
+            } flex flex-col justify-between items-center rounded-3xl shadow-md p-[1%]`}
+          >
+            <div className="w-full h-fit">
+              <Heading heading="Top Selling Product" />
             </div>
             <div
               className={`w-full h-[85%] overflow-x-hidden overflow-y-scroll space-y-[2%] customScrollbar`}
