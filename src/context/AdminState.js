@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import adminContext from "./adminContext";
 
+// Firebase Imports
+import { app } from "../firebase";
+
 // API Imports
-import { profileData } from "../api/profileData";
 import { allProductsData } from "../api/allProducts";
 import {
   latestOrdersData,
@@ -18,7 +20,7 @@ const AdminState = ({ children }) => {
     type: "",
     text: "",
   });
-  const [adminProfile, setAdminProfile] = useState(profileData);
+  const [adminProfile, setAdminProfile] = useState(null);
   const [allProducts, setAllProducts] = useState(allProductsData);
   const [topSellingProducts, setTopSellingProducts] = useState([]);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
@@ -217,6 +219,7 @@ const AdminState = ({ children }) => {
   return (
     <adminContext.Provider
       value={{
+        app,
         isDarkMode,
         setIsDarkMode,
         handleNotification,

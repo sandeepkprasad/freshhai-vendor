@@ -4,6 +4,9 @@ import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 import { getInitials, getFirstName } from "../utils/OtherUtils";
 
+// Firebase Imports
+import { getAuth, signOut } from "firebase/auth";
+
 // React Icons
 import { MdOutlineWbSunny, LuSunMoon } from "../utils/Icons";
 
@@ -11,16 +14,24 @@ import { MdOutlineWbSunny, LuSunMoon } from "../utils/Icons";
 import { getCurrentDate } from "../utils/DateUtils";
 
 const Navbar = () => {
-  const { adminProfile, isDarkMode, setIsDarkMode } = useContext(adminContext);
+  const { app, adminProfile, isDarkMode, setIsDarkMode, handleNotification } =
+    useContext(adminContext);
   const [isLogoutPopup, setIsLogoutPopup] = useState(false);
   const navigate = useNavigate();
+
+  const auth = getAuth(app);
 
   const handleProfileClick = () => {
     setIsLogoutPopup((prev) => !prev);
   };
 
+  // Handling Admin Logout
   const handleLogout = () => {
-    navigate("/login");
+    signOut(auth);
+    handleNotification(true, "green", "Signed out successfully.");
+    setTimeout(() => {
+      navigate("/login");
+    }, 1000);
   };
 
   // Hanlde Light/Dark Mode
@@ -70,26 +81,42 @@ const Navbar = () => {
             title="Logout"
             onClick={handleProfileClick}
           >
-            {adminProfile?.img ? (
+            {adminProfile?.photoURL ? (
               <img
-                src={adminProfile?.img}
+                src={adminProfile?.photoURL}
                 alt="profile_img"
-                className="w-10 bg-neutral-gray-light rounded-full"
+                onError={(e) => (e.target.src = "/assets/default_profile.png")}
+                className="w-10 bg-neutral-gray-light rounded-full object-contain"
               />
             ) : (
-              <span className="bg-primary-green-medium rounded-full px-[4%] py-[2.5%] font-medium text-lg text-neutral-gray-light">
-                {getInitials(adminProfile?.name)}
+              <img
+                src="/assets/default_profile.png"
+                alt="profile_img"
+                onError={(e) => (e.target.src = "/assets/default_profile.png")}
+                className="w-10 bg-neutral-gray-light rounded-full object-contain"
+              />
+            )}
+            {adminProfile?.displayName ? (
+              <span
+                className={`font-semibold text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                {getFirstName(adminProfile?.displayName)}
+              </span>
+            ) : (
+              <span
+                className={`font-semibold text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                Admin
               </span>
             )}
-            <span
-              className={`font-semibold text-sm ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-dark"
-              }`}
-            >
-              {getFirstName(adminProfile?.name)}
-            </span>
             <span
               className={`text-xl ${
                 isDarkMode

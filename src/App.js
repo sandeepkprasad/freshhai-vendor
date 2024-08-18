@@ -12,6 +12,7 @@ import Customers from "./pages/Customers";
 import Delivery from "./pages/Delivery";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import NotificationPopup from "./components/NotificationPopup";
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/delivery" element={<Delivery />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -14,6 +14,7 @@ const firebaseConfig = {
   messagingSenderId: "515496255028",
   appId: "1:515496255028:web:619a7f970a9a2eff3ff461",
   measurementId: "G-TWB71910W8",
+  databaseURL: "https://freshhai-all-default-rtdb.firebaseio.com",
 };
 
 // Initialize Firebase
