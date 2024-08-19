@@ -23,15 +23,16 @@ const Products = () => {
   } = useContext(adminContext);
 
   // Filtering logic
-  const filteredProducts = allProducts.filter((product) => {
+  const filteredProducts = allProducts?.filter((product) => {
     return (
-      (productFilter.category === "" ||
-        product.category === productFilter.category) &&
-      (productFilter.brand === "" || product.brand === productFilter.brand) &&
-      (productFilter.origin === "" ||
-        product.origin === productFilter.origin) &&
-      (productFilter.available === "" ||
-        product.available === productFilter.available)
+      (productFilter?.category === "" ||
+        product?.category === productFilter?.category) &&
+      (productFilter?.brand === "" ||
+        product?.brand === productFilter?.brand) &&
+      (productFilter?.origin === "" ||
+        product?.origin === productFilter?.origin) &&
+      (productFilter?.available === "" ||
+        product?.available === productFilter?.available)
     );
   });
 

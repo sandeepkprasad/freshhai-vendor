@@ -66,6 +66,7 @@ const AdminState = ({ children }) => {
   // Handle Product Add
   const addProduct = (productToAdd) => {
     const isValid =
+      productToAdd?.imageUrl &&
       productToAdd?.name &&
       productToAdd?.description &&
       productToAdd?.category &&
@@ -76,7 +77,7 @@ const AdminState = ({ children }) => {
       productToAdd?.unit &&
       productToAdd?.storageTemperature &&
       productToAdd?.origin &&
-      productToAdd?.available !== undefined;
+      productToAdd?.available;
 
     if (isValid) {
       setAllProducts((prevProducts) => [...prevProducts, productToAdd]);
@@ -97,6 +98,7 @@ const AdminState = ({ children }) => {
   // Handle Product Update
   const updateProduct = (updatedProduct) => {
     const isValid =
+      updatedProduct?.imageUrl &&
       updatedProduct?.name &&
       updatedProduct?.description &&
       updatedProduct?.category &&
@@ -107,7 +109,7 @@ const AdminState = ({ children }) => {
       updatedProduct?.unit &&
       updatedProduct?.storageTemperature &&
       updatedProduct?.origin &&
-      updatedProduct?.available !== undefined;
+      updatedProduct?.available;
 
     if (isValid) {
       setAllProducts((prevProducts) =>

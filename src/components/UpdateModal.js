@@ -20,6 +20,21 @@ const UpdateModal = () => {
     useContext(adminContext);
   const [updatedProduct, setUpdatedProduct] = useState(productToUpdate);
 
+  const handleProductImgChange = (e) => {
+    const files = e.target.files;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUpdatedProduct((prevState) => ({
+          ...prevState,
+          imageUrl: [reader.result],
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleProductChange = (e) => {
     const { name, value } = e.target;
     setUpdatedProduct((prevProduct) => ({
@@ -46,17 +61,29 @@ const UpdateModal = () => {
           >
             Update a Product
           </p>
-          <input
-            type="text"
-            placeholder="Product Name"
-            name="name"
-            value={updatedProduct.name}
-            onChange={handleProductChange}
-            maxLength={25}
-            className={`w-[79%] ${
-              isDarkMode ? "inputClassDark" : "inputClassLight"
-            }`}
-          />
+          <div className="w-full h-fit flex justify-between items-center">
+            <input type="file" onChange={handleProductImgChange} />
+            {updatedProduct.imageUrl.length > 0 && (
+              <img
+                src={updatedProduct.imageUrl}
+                alt="product_img"
+                className="w-[4%] rounded object-contain"
+              />
+            )}
+          </div>
+          <div className="w-full h-full flex justify-start items-center">
+            <input
+              type="text"
+              placeholder="Product Name"
+              name="name"
+              value={updatedProduct.name}
+              onChange={handleProductChange}
+              maxLength={25}
+              className={`w-[79%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
+          </div>
           <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
             <select
               name="category"
