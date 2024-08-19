@@ -18,6 +18,7 @@ export const newProductSchema = {
 };
 
 export const newDeliveryPartnersSchema = {
+  imageUrl: [],
   name: "",
   contact: {
     phone: "",

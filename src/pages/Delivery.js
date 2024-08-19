@@ -1,4 +1,4 @@
-import React, { useContext, useState, Suspense, lazy } from "react";
+import React, { useContext, useState, Suspense, lazy, useEffect } from "react";
 import adminContext from "../context/adminContext";
 
 // Components Imports
@@ -16,11 +16,17 @@ const Delivery = () => {
   const {
     isDarkMode,
     handleNotification,
+    getDeliveryPartners,
     deliveryPartners,
     isDeliveryAgentModal,
     setIsDeliveryAgentModal,
   } = useContext(adminContext);
   const [selectedAgentData, setSelectedAgentData] = useState(0);
+
+  // Fetching all delivery partners
+  useEffect(() => {
+    getDeliveryPartners();
+  }, [getDeliveryPartners]);
 
   const handleActiveAgents = () => {
     setSelectedAgentData(0);

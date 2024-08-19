@@ -3,15 +3,19 @@ import adminContext from "./adminContext";
 
 // Firebase Imports
 import { app } from "../firebase";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 
 // API Imports
 import { allProductsData } from "../api/allProducts";
-import {
-  latestOrdersData,
-  allOrdersData,
-  userData,
-  deliveryPartnersData,
-} from "../api/apiHandler";
+import { latestOrdersData, allOrdersData, userData } from "../api/apiHandler";
 
 const AdminState = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -21,13 +25,12 @@ const AdminState = ({ children }) => {
     text: "",
   });
   const [adminProfile, setAdminProfile] = useState(null);
-  const [allProducts, setAllProducts] = useState(allProductsData);
+  const [allProducts, setAllProducts] = useState(null);
   const [topSellingProducts, setTopSellingProducts] = useState([]);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState([]);
   const [totalUsers, setTotalUsers] = useState(userData);
-  const [deliveryPartners, setDeliveryPartners] =
-    useState(deliveryPartnersData);
+  const [deliveryPartners, setDeliveryPartners] = useState(null);
   const [productFilter, setProductFilter] = useState({
     category: "",
     available: "",
@@ -48,6 +51,8 @@ const AdminState = ({ children }) => {
   const [userToUpdate, setUserToUpdate] = useState(null);
   const [isDeliveryAgentModal, setIsDeliveryAgentModal] = useState(false);
 
+  const firestore = getFirestore(app);
+
   // Updating topSellingProducts & allOrders data
   useEffect(() => {
     setTopSellingProducts(allProductsData);
@@ -64,7 +69,7 @@ const AdminState = ({ children }) => {
   };
 
   // Handle Product Add
-  const addProduct = (productToAdd) => {
+  const addProduct = async (productToAdd) => {
     const isValid =
       productToAdd?.imageUrl &&
       productToAdd?.name &&
@@ -80,12 +85,41 @@ const AdminState = ({ children }) => {
       productToAdd?.available;
 
     if (isValid) {
+      await addDoc(collection(firestore, "products"), {
+        imageUrl: productToAdd?.imageUrl,
+        name: productToAdd?.name,
+        category: productToAdd?.category,
+        price: productToAdd?.price,
+        description: productToAdd?.description,
+        available: productToAdd?.available,
+        discount: productToAdd?.discount,
+        brand: productToAdd?.brand,
+        weight: productToAdd?.weight,
+        unit: productToAdd?.unit,
+        storageTemperature: productToAdd?.storageTemperature,
+        origin: productToAdd?.origin,
+        rating: productToAdd?.rating,
+        numReviews: productToAdd?.numReviews,
+        expiryDate: productToAdd?.expiryDate,
+        isHalal: productToAdd?.isHalal,
+      });
       setAllProducts((prevProducts) => [...prevProducts, productToAdd]);
       handleNotification(true, "green", "Product added successfully.");
       setIsAddModal(false);
     } else {
       handleNotification(true, "red", "Please fill all the details.");
     }
+  };
+
+  // Handle Get Products
+  const getProducts = async () => {
+    const productsCollectionRef = collection(firestore, "products");
+    const querySnapshot = await getDocs(productsCollectionRef);
+    const productsList = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setAllProducts(productsList);
   };
 
   // Handle Update Modal
@@ -96,7 +130,7 @@ const AdminState = ({ children }) => {
   };
 
   // Handle Product Update
-  const updateProduct = (updatedProduct) => {
+  const updateProduct = async (updatedProduct) => {
     const isValid =
       updatedProduct?.imageUrl &&
       updatedProduct?.name &&
@@ -112,9 +146,11 @@ const AdminState = ({ children }) => {
       updatedProduct?.available;
 
     if (isValid) {
+      const docRef = doc(firestore, "products", updatedProduct?.id);
+      await updateDoc(docRef, updatedProduct);
       setAllProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === updatedProduct.id ? updatedProduct : product
+        prevProducts?.map((product) =>
+          product?.id === updatedProduct?.id ? updatedProduct : product
         )
       );
       handleNotification(true, "green", "Product updated successfully.");
@@ -131,7 +167,9 @@ const AdminState = ({ children }) => {
   };
 
   // Handle Product Delete
-  const deleteProductById = () => {
+  const deleteProductById = async () => {
+    const docRef = doc(firestore, "products", productToDelete);
+    await deleteDoc(docRef);
     setAllProducts((prevProducts) =>
       prevProducts.filter((product) => product.id !== productToDelete)
     );
@@ -195,8 +233,10 @@ const AdminState = ({ children }) => {
     }
   };
 
-  const addDeliveryAgent = (agentToAdd) => {
+  // Add Delivery Partners
+  const addDeliveryAgent = async (agentToAdd) => {
     const isValid =
+      agentToAdd?.imageUrl &&
       agentToAdd?.name &&
       agentToAdd?.availability &&
       agentToAdd?.vehicle &&
@@ -210,6 +250,24 @@ const AdminState = ({ children }) => {
       agentToAdd?.address?.zip !== undefined;
 
     if (isValid) {
+      await addDoc(collection(firestore, "deliveryPartners"), {
+        imageUrl: agentToAdd?.imageUrl,
+        name: agentToAdd?.name,
+        availability: agentToAdd?.availability,
+        vehicle: agentToAdd?.vehicle,
+        licenseNumber: agentToAdd?.licenseNumber,
+        status: agentToAdd?.status,
+        contact: {
+          phone: agentToAdd?.contact?.phone,
+          email: agentToAdd?.contact?.email,
+        },
+        address: {
+          street: agentToAdd?.address?.street,
+          city: agentToAdd?.address?.city,
+          state: agentToAdd?.address?.state,
+          zip: agentToAdd?.address?.zip,
+        },
+      });
       setDeliveryPartners((prevProducts) => [...prevProducts, agentToAdd]);
       handleNotification(true, "green", "Delivery Agent added successfully.");
       setIsDeliveryAgentModal(false);
@@ -217,6 +275,22 @@ const AdminState = ({ children }) => {
       handleNotification(true, "red", "Please fill all the details.");
     }
   };
+
+  // Handle Get DeliveryPartners
+  const getDeliveryPartners = async () => {
+    const deliveryPartnersCollectionRef = collection(
+      firestore,
+      "deliveryPartners"
+    );
+    const querySnapshot = await getDocs(deliveryPartnersCollectionRef);
+    const deliveryPartnersList = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setDeliveryPartners(deliveryPartnersList);
+  };
+
+  console.log("Delivery Partners : ", deliveryPartners);
 
   return (
     <adminContext.Provider
@@ -228,6 +302,7 @@ const AdminState = ({ children }) => {
         notificationData,
         adminProfile,
         setAdminProfile,
+        getProducts,
         allProducts,
         topSellingProducts,
         productFilter,
@@ -262,6 +337,7 @@ const AdminState = ({ children }) => {
         updateUser,
         userFilter,
         setUserFilter,
+        getDeliveryPartners,
         deliveryPartners,
         deliveryFilter,
         setDeliveryFilter,

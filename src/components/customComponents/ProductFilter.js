@@ -17,9 +17,7 @@ const ProductFilter = () => {
   };
 
   // Handle Apply Filter
-  const handleApplyFilter = () => {
-    alert("Order Filter Applied");
-  };
+  const handleApplyFilter = () => {};
 
   // Handle Clear Filter
   const handleClearFilters = () => {
@@ -29,8 +27,6 @@ const ProductFilter = () => {
       brand: "",
       origin: "",
     });
-
-    alert("Order Filter Cleared");
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useContext, Suspense, lazy } from "react";
+import React, { useContext, Suspense, lazy, useEffect } from "react";
 import "../App.css";
 import adminContext from "../context/adminContext";
 
@@ -14,6 +14,7 @@ const ProductCard = lazy(() => import("../components/ProductCard"));
 
 const Products = () => {
   const {
+    getProducts,
     allProducts,
     productFilter,
     isAddModal,
@@ -21,6 +22,11 @@ const Products = () => {
     isUpdateModal,
     isDeleteModal,
   } = useContext(adminContext);
+
+  // Fetching all products
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
 
   // Filtering logic
   const filteredProducts = allProducts?.filter((product) => {
