@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { MdKeyboardArrowDown } from "../utils/Icons";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
-import { getInitials, getFirstName } from "../utils/OtherUtils";
+import { getFirstName } from "../utils/OtherUtils";
 
 // Firebase Imports
 import { getAuth, signOut } from "firebase/auth";

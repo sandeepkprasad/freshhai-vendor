@@ -33,7 +33,7 @@ const Dashboard = () => {
         navigate("/login");
       }
     });
-  }, []);
+  }, [auth, navigate, setAdminProfile]);
 
   const overviewData = [
     { heading: "Total Value", data: `₹ ${7000}` },

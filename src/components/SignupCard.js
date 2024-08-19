@@ -3,7 +3,7 @@ import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 
 // Firebase Imports
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 // React Icons
 import { ImEye, ImEyeBlocked } from "../utils/Icons";
