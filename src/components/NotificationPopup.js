@@ -8,7 +8,7 @@ const NotificationPopup = () => {
     if (notificationData.flag) {
       const timer = setTimeout(() => {
         handleNotification(false, "", "");
-      }, 5000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [notificationData.flag, handleNotification]);

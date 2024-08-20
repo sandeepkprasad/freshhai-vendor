@@ -177,8 +177,8 @@ const AgentModal = () => {
             <input
               type="number"
               placeholder="PIN Code"
-              name="address.pin"
-              value={agentToAdd.address.pin}
+              name="address.zip"
+              value={agentToAdd.address.zip}
               onChange={handleDeliveryAgentChange}
               maxLength={6}
               className={`w-[33%] ${
