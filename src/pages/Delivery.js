@@ -16,8 +16,14 @@ const Delivery = () => {
   const {
     isDarkMode,
     handleNotification,
-    getDeliveryPartners,
+    getActiveDeliveryPartners,
+    getAllDeliveryPartners,
+    getSuspendedDeliveryPartners,
     deliveryPartners,
+    activeDeliveryPartners,
+    suspendedDeliveryPartners,
+    getDeliveryPartnersCount,
+    deliveryPartnersCount,
     isDeliveryAgentModal,
     setIsDeliveryAgentModal,
   } = useContext(adminContext);
@@ -25,20 +31,28 @@ const Delivery = () => {
 
   // Fetching all delivery partners
   useEffect(() => {
-    getDeliveryPartners();
-  }, [getDeliveryPartners]);
+    getActiveDeliveryPartners();
+  }, [getActiveDeliveryPartners]);
+
+  // Get delivery partners count
+  useEffect(() => {
+    getDeliveryPartnersCount();
+  }, [getDeliveryPartnersCount]);
 
   const handleActiveAgents = () => {
+    getActiveDeliveryPartners();
     setSelectedAgentData(0);
     handleNotification(true, "green", "Active Agents Selected");
   };
 
-  const handleInactiveAgents = () => {
+  const handleTotalAgents = () => {
+    getAllDeliveryPartners();
     setSelectedAgentData(1);
     handleNotification(true, "green", "Total Agents Selected");
   };
 
   const handleSuspendedAgents = () => {
+    getSuspendedDeliveryPartners();
     setSelectedAgentData(2);
     handleNotification(true, "green", "Suspended Agents Selected");
   };
@@ -81,12 +95,13 @@ const Delivery = () => {
                   "Mobile",
                   "Vechile",
                   "Vechile No.",
+                  "Status",
                   "Availability",
                 ]}
               />
               {selectedAgentData === 0 && (
                 <>
-                  {deliveryPartners?.length > 0 ? (
+                  {activeDeliveryPartners?.length > 0 ? (
                     <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
                       <Suspense
                         fallback={
@@ -97,7 +112,7 @@ const Delivery = () => {
                           </div>
                         }
                       >
-                        {deliveryPartners?.map((user, index) => (
+                        {activeDeliveryPartners?.map((user, index) => (
                           <DeliveryRow
                             data={user}
                             isClickable={false}
@@ -148,7 +163,7 @@ const Delivery = () => {
               )}
               {selectedAgentData === 2 && (
                 <>
-                  {deliveryPartners?.length > 0 ? (
+                  {suspendedDeliveryPartners?.length > 0 ? (
                     <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
                       <Suspense
                         fallback={
@@ -159,10 +174,10 @@ const Delivery = () => {
                           </div>
                         }
                       >
-                        {deliveryPartners?.map((user, index) => (
+                        {suspendedDeliveryPartners?.map((user, index) => (
                           <DeliveryRow
                             data={user}
-                            isClickable={true}
+                            isClickable={false}
                             key={index}
                           />
                         ))}
@@ -202,7 +217,7 @@ const Delivery = () => {
                 onClick={handleActiveAgents}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Active Agents
+                  Active Partners
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -211,7 +226,7 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {deliveryPartners?.length} Agents
+                  {deliveryPartnersCount?.active} Active
                 </p>
               </div>
 
@@ -223,10 +238,10 @@ const Delivery = () => {
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
                 title="Click for Inactive Agents"
-                onClick={handleInactiveAgents}
+                onClick={handleTotalAgents}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Total Agents
+                  Total Partners
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -235,7 +250,7 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {deliveryPartners?.length} Agents
+                  {deliveryPartnersCount?.total} Total
                 </p>
               </div>
 
@@ -250,7 +265,7 @@ const Delivery = () => {
                 onClick={handleSuspendedAgents}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Suspended Agents
+                  Suspended Partners
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -259,7 +274,7 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {deliveryPartners?.length} Agents
+                  {deliveryPartnersCount?.suspended} Suspended
                 </p>
               </div>
             </div>

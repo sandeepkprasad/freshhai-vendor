@@ -3,6 +3,7 @@ import { MdKeyboardArrowDown } from "../utils/Icons";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 import { getFirstName } from "../utils/OtherUtils";
+import { defaultImageAssets } from "../utils/LocalData";
 
 // Firebase Imports
 import { getAuth, signOut } from "firebase/auth";
@@ -47,7 +48,7 @@ const Navbar = () => {
         } flex justify-between items-center rounded-3xl shadow-md px-[2%] duration-300`}
       >
         <img
-          src="/assets/freshhai.png"
+          src={defaultImageAssets?.brandLogo}
           alt="freshhai_logo"
           className="w-[9%]"
         />
@@ -90,7 +91,7 @@ const Navbar = () => {
               />
             ) : (
               <img
-                src="/assets/default_profile.png"
+                src={defaultImageAssets?.defaultProfileImageUrl}
                 alt="profile_img"
                 onError={(e) => (e.target.src = "/assets/default_profile.png")}
                 className="w-10 bg-neutral-gray-light rounded-full object-contain"

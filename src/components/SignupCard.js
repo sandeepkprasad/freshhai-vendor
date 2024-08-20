@@ -1,9 +1,14 @@
 import React, { useContext, useState } from "react";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
+import { defaultImageAssets } from "../utils/LocalData";
 
 // Firebase Imports
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 // React Icons
 import { ImEye, ImEyeBlocked } from "../utils/Icons";
@@ -48,14 +53,22 @@ const SignupCard = () => {
         signupCred?.password
       )
         .then((userCredential) => {
-          setAdminProfile(userCredential?.user);
-          handleNotification(true, "green", "Signed up successfully.");
-          setTimeout(() => {
-            navigate("/");
-          }, 1000);
+          updateProfile(userCredential.user, {
+            photoURL: defaultImageAssets?.defaultProfileImageUrl,
+            displayName: "Admin",
+          })
+            .then(() => {
+              setAdminProfile(userCredential?.user);
+              handleNotification(true, "green", "Signed up successfully.");
+              setTimeout(() => {
+                navigate("/");
+              }, 1000);
+            })
+            .catch((error) => {
+              handleNotification(true, "red", "Failed to set display name.");
+            });
         })
         .catch((error) => {
-          //const errorCode = error.code;
           const errorMessage = error.message;
           handleNotification(true, "red", errorMessage);
         });

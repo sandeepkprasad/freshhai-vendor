@@ -11,6 +11,8 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  query,
+  where,
 } from "firebase/firestore";
 
 // API Imports
@@ -24,13 +26,21 @@ const AdminState = ({ children }) => {
     type: "",
     text: "",
   });
-  const [adminProfile, setAdminProfile] = useState(null);
+  const [adminProfile, setAdminProfile] = useState();
   const [allProducts, setAllProducts] = useState(null);
   const [topSellingProducts, setTopSellingProducts] = useState([]);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState([]);
   const [totalUsers, setTotalUsers] = useState(userData);
   const [deliveryPartners, setDeliveryPartners] = useState(null);
+  const [activeDeliveryPartners, setActiveDeliveryPartners] = useState(null);
+  const [deliveryPartnersCount, setDeliveryPartnersCount] = useState({
+    total: 0,
+    active: 0,
+    suspended: 0,
+  });
+  const [suspendedDeliveryPartners, setSuspendedDeliveryPartners] =
+    useState(null);
   const [productFilter, setProductFilter] = useState({
     category: "",
     available: "",
@@ -276,8 +286,8 @@ const AdminState = ({ children }) => {
     }
   };
 
-  // Handle Get DeliveryPartners
-  const getDeliveryPartners = async () => {
+  // Handle Get All Delivery Partners
+  const getAllDeliveryPartners = async () => {
     const deliveryPartnersCollectionRef = collection(
       firestore,
       "deliveryPartners"
@@ -290,7 +300,84 @@ const AdminState = ({ children }) => {
     setDeliveryPartners(deliveryPartnersList);
   };
 
-  console.log("Delivery Partners : ", deliveryPartners);
+  // Handle Get Active Delivery Partners
+  const getActiveDeliveryPartners = async () => {
+    const deliveryPartnersCollectionRef = collection(
+      firestore,
+      "deliveryPartners"
+    );
+
+    const activeDeliveryPartnersQuery = query(
+      deliveryPartnersCollectionRef,
+      where("status", "==", "Active")
+    );
+
+    const querySnapshot = await getDocs(activeDeliveryPartnersQuery);
+
+    const deliveryPartnersList = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setActiveDeliveryPartners(deliveryPartnersList);
+  };
+
+  // Handle Get Suspended Delivery Partners
+  const getSuspendedDeliveryPartners = async () => {
+    const deliveryPartnersCollectionRef = collection(
+      firestore,
+      "deliveryPartners"
+    );
+
+    const suspendedDeliveryPartnersQuery = query(
+      deliveryPartnersCollectionRef,
+      where("status", "==", "Suspended")
+    );
+
+    const querySnapshot = await getDocs(suspendedDeliveryPartnersQuery);
+
+    const deliveryPartnersList = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setSuspendedDeliveryPartners(deliveryPartnersList);
+  };
+
+  // Get Delivery Partners Counts
+  const getDeliveryPartnersCount = async () => {
+    const deliveryPartnersCollectionRef = collection(
+      firestore,
+      "deliveryPartners"
+    );
+
+    // Total documents count
+    const querySnapshot = await getDocs(deliveryPartnersCollectionRef);
+    const totalDocuments = querySnapshot.size;
+
+    // Active documents count
+    const activeQuery = query(
+      deliveryPartnersCollectionRef,
+      where("status", "==", "Active")
+    );
+    const activeQuerySnapshot = await getDocs(activeQuery);
+    const activeDocumentsCount = activeQuerySnapshot.size;
+
+    // Suspended documents count
+    const suspendedQuery = query(
+      deliveryPartnersCollectionRef,
+      where("status", "==", "Suspended")
+    );
+    const suspendedQuerySnapshot = await getDocs(suspendedQuery);
+    const suspendedDocumentsCount = suspendedQuerySnapshot.size;
+
+    setDeliveryPartnersCount((prevState) => ({
+      ...prevState,
+      total: totalDocuments,
+      active: activeDocumentsCount,
+      suspended: suspendedDocumentsCount,
+    }));
+  };
 
   return (
     <adminContext.Provider
@@ -337,8 +424,14 @@ const AdminState = ({ children }) => {
         updateUser,
         userFilter,
         setUserFilter,
-        getDeliveryPartners,
+        getActiveDeliveryPartners,
+        getAllDeliveryPartners,
+        getSuspendedDeliveryPartners,
         deliveryPartners,
+        activeDeliveryPartners,
+        suspendedDeliveryPartners,
+        getDeliveryPartnersCount,
+        deliveryPartnersCount,
         deliveryFilter,
         setDeliveryFilter,
         isDeliveryAgentModal,

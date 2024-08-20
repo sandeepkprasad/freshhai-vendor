@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import adminContext from "../context/adminContext";
+import { defaultImageAssets } from "../utils/LocalData";
 
 const ProductCard = ({ data }) => {
   const { isDarkMode, handleUpdateModal, handleDeleteModal } =
@@ -17,7 +18,9 @@ const ProductCard = ({ data }) => {
         <div className="w-full h-fit flex items-start space-x-[2%] mb-[2%]">
           <img
             src={data?.imageUrl}
-            onError={(e) => (e.target.src = "/assets/image_not_found.jpeg")}
+            onError={(e) =>
+              (e.target.src = defaultImageAssets?.imageNotFoundUrl)
+            }
             loading="lazy"
             alt="product_image"
             className="w-[25%] bg-neutral-gray-light rounded-2xl object-contain"

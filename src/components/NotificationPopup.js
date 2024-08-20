@@ -5,18 +5,18 @@ const NotificationPopup = () => {
   const { notificationData, handleNotification } = useContext(adminContext);
 
   useEffect(() => {
-    if (notificationData.flag) {
+    if (notificationData?.flag) {
       const timer = setTimeout(() => {
         handleNotification(false, "", "");
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [notificationData.flag, handleNotification]);
+  }, [notificationData?.flag, handleNotification]);
 
-  if (!notificationData.flag) return null;
+  if (!notificationData?.flag) return null;
 
   const getBackgroundColor = () => {
-    switch (notificationData.type) {
+    switch (notificationData?.type) {
       case "green":
         return "bg-primary-green-dark";
       case "yellow":

@@ -1,5 +1,10 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import adminContext from "../context/adminContext";
+import { useNavigate } from "react-router-dom";
+import { defaultImageAssets } from "../utils/LocalData";
+
+// Firebase Imports
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // React Icons
 import { MdEdit } from "../utils/Icons";
@@ -9,10 +14,35 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 
 const Profile = () => {
-  const { isDarkMode, adminProfile, setAdminProfile } =
+  const { app, isDarkMode, adminProfile, setAdminProfile } =
     useContext(adminContext);
   const [isProfileUpdate, setProfileUpdate] = useState(false);
+  const [adminProfileUpdate, setAdminProfileUpdate] = useState({
+    img: [],
+    name: "",
+  });
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
+  const auth = getAuth(app);
+
+  // Handling Admin Login State
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAdminProfile(user);
+        navigate("/profile");
+      } else {
+        navigate("/login");
+      }
+    });
+  }, [auth, navigate, setAdminProfile]);
+
+  useEffect(() => {
+    setAdminProfileUpdate((prevData) => ({
+      ...prevData,
+      name: adminProfile?.displayName,
+    }));
+  }, [adminProfile?.displayName]);
 
   const handleImageUpload = () => {
     if (fileInputRef.current) {
@@ -20,24 +50,40 @@ const Profile = () => {
     }
   };
 
-  const handleProfileUpdate = () => {
-    setProfileUpdate((prev) => !prev);
+  const handleImageChange = (e) => {
+    const files = e.target.files;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAdminProfileUpdate((prevState) => ({
+          ...prevState,
+          img: [reader.result],
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleProfileChange = (e) => {
-    const { name, value } = e.target;
-    setAdminProfile((prevData) => ({
+    const { value } = e.target;
+    setAdminProfileUpdate((prevData) => ({
       ...prevData,
-      [name]: value,
+      name: value,
     }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Selected image file:", file);
-    }
+  // Edit Admin Profile
+  const handleProfileEdit = () => {
+    setProfileUpdate((prev) => !prev);
   };
+
+  // Edit Admin Profile Update
+  const handleProfileSave = () => {
+    setProfileUpdate((prev) => !prev);
+  };
+
+  console.log("Admin Profile Update : ", adminProfileUpdate);
 
   return (
     <DashboardWrapper>
@@ -57,14 +103,14 @@ const Profile = () => {
               {isProfileUpdate ? (
                 <button
                   className="buttonClass bg-primary-blue-dark"
-                  onClick={handleProfileUpdate}
+                  onClick={handleProfileSave}
                 >
                   Save
                 </button>
               ) : (
                 <button
                   className="buttonClass bg-primary-blue-dark"
-                  onClick={handleProfileUpdate}
+                  onClick={handleProfileEdit}
                 >
                   Edit
                 </button>
@@ -74,8 +120,17 @@ const Profile = () => {
               {isProfileUpdate ? (
                 <div className="w-[25%] h-fit flex justify-center items-center mb-[1%] relative">
                   <img
-                    src={adminProfile?.img}
-                    alt="admin_profile"
+                    src={
+                      adminProfileUpdate?.img
+                        ? adminProfileUpdate?.img
+                        : adminProfile?.photoURL
+                    }
+                    alt="admin_profile_img"
+                    onError={(e) =>
+                      (e.target.src =
+                        defaultImageAssets?.defaultProfileImageUrl)
+                    }
+                    loading="lazy"
                     className="w-full bg-neutral-gray-light rounded-3xl object-contain"
                   />
                   <button
@@ -93,8 +148,12 @@ const Profile = () => {
                 </div>
               ) : (
                 <img
-                  src={adminProfile?.img}
-                  alt="admin_profile"
+                  src={adminProfile?.photoURL}
+                  alt="admin_profile_img"
+                  onError={(e) =>
+                    (e.target.src = "/assets/default_profile.png")
+                  }
+                  loading="lazy"
                   className="w-[25%] bg-neutral-gray-light rounded-3xl object-contain"
                 />
               )}
@@ -103,7 +162,7 @@ const Profile = () => {
                   type="text"
                   placeholder="Full Name"
                   name="name"
-                  value={adminProfile.name}
+                  value={adminProfileUpdate.name}
                   onChange={handleProfileChange}
                   maxLength={25}
                   className={`w-[33%] ${
@@ -118,7 +177,7 @@ const Profile = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {adminProfile?.name}
+                  {adminProfile?.displayName}
                 </p>
               )}
               <p
