@@ -15,7 +15,6 @@ const DeliveryRow = lazy(() =>
 const Delivery = () => {
   const {
     isDarkMode,
-    handleNotification,
     getActiveDeliveryPartners,
     getAllDeliveryPartners,
     getSuspendedDeliveryPartners,
@@ -42,19 +41,16 @@ const Delivery = () => {
   const handleActiveAgents = () => {
     getActiveDeliveryPartners();
     setSelectedAgentData(0);
-    handleNotification(true, "green", "Active Agents Selected");
   };
 
   const handleTotalAgents = () => {
     getAllDeliveryPartners();
     setSelectedAgentData(1);
-    handleNotification(true, "green", "Total Agents Selected");
   };
 
   const handleSuspendedAgents = () => {
     getSuspendedDeliveryPartners();
     setSelectedAgentData(2);
-    handleNotification(true, "green", "Suspended Agents Selected");
   };
 
   return (

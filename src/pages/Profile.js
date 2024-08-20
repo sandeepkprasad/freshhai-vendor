@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
 
 // Firebase Imports
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // React Icons
 import { MdEdit } from "../utils/Icons";
@@ -14,7 +15,7 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 
 const Profile = () => {
-  const { app, isDarkMode, adminProfile, setAdminProfile } =
+  const { app, isDarkMode, handleNotification, adminProfile, setAdminProfile } =
     useContext(adminContext);
   const [isProfileUpdate, setProfileUpdate] = useState(false);
   const [adminProfileUpdate, setAdminProfileUpdate] = useState({
@@ -24,6 +25,8 @@ const Profile = () => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const auth = getAuth(app);
+  const storage = getStorage(app);
+  const getCurrentUser = auth.currentUser;
 
   // Handling Admin Login State
   useEffect(() => {
@@ -44,6 +47,22 @@ const Profile = () => {
     }));
   }, [adminProfile?.displayName]);
 
+  // Function to handle image upload
+  const handleImageUploadToStorage = async (file) => {
+    try {
+      const storageRef = ref(
+        storage,
+        `admin_profile_images/${getCurrentUser.uid}`
+      );
+      const uploadResult = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(uploadResult.ref);
+      return downloadURL;
+    } catch (error) {
+      handleNotification(true, "red", "Error while uploading image");
+      return null;
+    }
+  };
+
   const handleImageUpload = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -54,14 +73,10 @@ const Profile = () => {
     const files = e.target.files;
     if (files.length > 0) {
       const file = files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAdminProfileUpdate((prevState) => ({
-          ...prevState,
-          img: [reader.result],
-        }));
-      };
-      reader.readAsDataURL(file);
+      setAdminProfileUpdate((prevState) => ({
+        ...prevState,
+        img: [file],
+      }));
     }
   };
 
@@ -78,12 +93,38 @@ const Profile = () => {
     setProfileUpdate((prev) => !prev);
   };
 
-  // Edit Admin Profile Update
-  const handleProfileSave = () => {
-    setProfileUpdate((prev) => !prev);
-  };
+  // Function to handle profile save
+  const handleProfileSave = async () => {
+    if (getCurrentUser) {
+      let photoURL = getCurrentUser.photoURL;
 
-  console.log("Admin Profile Update : ", adminProfileUpdate);
+      if (adminProfileUpdate?.img instanceof File) {
+        const uploadedImageUrl = await handleImageUploadToStorage(
+          adminProfileUpdate?.img[0]
+        );
+        if (uploadedImageUrl) {
+          photoURL = uploadedImageUrl;
+        }
+      }
+
+      console.log("Uploaded Image Url : ", photoURL);
+
+      updateProfile(getCurrentUser, {
+        displayName: adminProfileUpdate?.name || getCurrentUser.displayName,
+        photoURL: photoURL,
+      })
+        .then(() => {
+          handleNotification(true, "green", "Profile updated successfully");
+          setProfileUpdate((prev) => !prev);
+        })
+        .catch((error) => {
+          console.error("Error updating profile:", error);
+          handleNotification(true, "red", "Error while updating profile");
+        });
+    } else {
+      handleNotification(true, "red", "No user is currently signed in.");
+    }
+  };
 
   return (
     <DashboardWrapper>
