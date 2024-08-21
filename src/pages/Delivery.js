@@ -7,6 +7,7 @@ import Heading from "../components/customComponents/Heading";
 import DeliveryFilter from "../components/customComponents/DeliveryFilter";
 import HeadRow from "../components/customComponents/HeadRow";
 import AgentModal from "../components/AgentModal";
+import ViewDeliveryPartnerModal from "../components/ViewDeliveryPartnerModal";
 
 const DeliveryRow = lazy(() =>
   import("../components/customComponents/DeliveryRow")
@@ -25,6 +26,7 @@ const Delivery = () => {
     deliveryPartnersCount,
     isDeliveryAgentModal,
     setIsDeliveryAgentModal,
+    isViewDeliveryPartnerModal,
   } = useContext(adminContext);
   const [selectedAgentData, setSelectedAgentData] = useState(0);
 
@@ -279,6 +281,7 @@ const Delivery = () => {
       </DashboardWrapper>
 
       {isDeliveryAgentModal && <AgentModal />}
+      {isViewDeliveryPartnerModal && <ViewDeliveryPartnerModal />}
     </>
   );
 };

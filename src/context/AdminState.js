@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import adminContext from "./adminContext";
 
 // Firebase Imports
@@ -62,6 +62,9 @@ const AdminState = ({ children }) => {
   const [isUserModal, setIsUserModal] = useState(false);
   const [userToUpdate, setUserToUpdate] = useState(null);
   const [isDeliveryAgentModal, setIsDeliveryAgentModal] = useState(false);
+  const [viewDeliveryPartner, setViewDeliveryPartner] = useState(null);
+  const [isViewDeliveryPartnerModal, setIsViewDeliveryPartnerModal] =
+    useState(false);
 
   const firestore = useMemo(() => getFirestore(app), [app]);
   const storage = useMemo(() => getStorage(app), [app]);
@@ -264,6 +267,15 @@ const AdminState = ({ children }) => {
     }
   };
 
+  // Handle View Delivery Partner
+  const handleDeliveryPartnerModal = (getDeliveryPartnerId) => {
+    const dataById = deliveryPartners?.find(
+      (user) => user?.id === getDeliveryPartnerId
+    );
+    setViewDeliveryPartner(dataById);
+    setIsViewDeliveryPartnerModal(true);
+  };
+
   // Add Delivery Partners
   const addDeliveryAgent = async (agentToAdd) => {
     const isValid =
@@ -323,11 +335,12 @@ const AdminState = ({ children }) => {
       id: doc.id,
       ...doc.data(),
     }));
+    console.log("All Delivery Partners : ", deliveryPartnersList);
     setDeliveryPartners(deliveryPartnersList);
   };
 
   // Handle Get Active Delivery Partners
-  const getActiveDeliveryPartners = async () => {
+  const getActiveDeliveryPartners = useCallback(async () => {
     const deliveryPartnersCollectionRef = collection(
       firestore,
       "deliveryPartners"
@@ -345,8 +358,9 @@ const AdminState = ({ children }) => {
       ...doc.data(),
     }));
 
+    console.log("Active Delivery Partners : ", deliveryPartnersList);
     setActiveDeliveryPartners(deliveryPartnersList);
-  };
+  }, []);
 
   // Handle Get Suspended Delivery Partners
   const getSuspendedDeliveryPartners = async () => {
@@ -367,11 +381,12 @@ const AdminState = ({ children }) => {
       ...doc.data(),
     }));
 
+    console.log("Suspended Delivery Partners : ", deliveryPartnersList);
     setSuspendedDeliveryPartners(deliveryPartnersList);
   };
 
   // Get Delivery Partners Counts
-  const getDeliveryPartnersCount = async () => {
+  const getDeliveryPartnersCount = useCallback(async () => {
     const deliveryPartnersCollectionRef = collection(
       firestore,
       "deliveryPartners"
@@ -380,6 +395,7 @@ const AdminState = ({ children }) => {
     // Total documents count
     const querySnapshot = await getDocs(deliveryPartnersCollectionRef);
     const totalDocuments = querySnapshot.size;
+    console.log("Total Delivery Partners : ", totalDocuments);
 
     // Active documents count
     const activeQuery = query(
@@ -388,6 +404,7 @@ const AdminState = ({ children }) => {
     );
     const activeQuerySnapshot = await getDocs(activeQuery);
     const activeDocumentsCount = activeQuerySnapshot.size;
+    console.log("Active Delivery Partners : ", activeDocumentsCount);
 
     // Suspended documents count
     const suspendedQuery = query(
@@ -396,6 +413,7 @@ const AdminState = ({ children }) => {
     );
     const suspendedQuerySnapshot = await getDocs(suspendedQuery);
     const suspendedDocumentsCount = suspendedQuerySnapshot.size;
+    console.log("Suspended Delivery Partners : ", suspendedDocumentsCount);
 
     setDeliveryPartnersCount((prevState) => ({
       ...prevState,
@@ -403,7 +421,7 @@ const AdminState = ({ children }) => {
       active: activeDocumentsCount,
       suspended: suspendedDocumentsCount,
     }));
-  };
+  }, [firestore]);
 
   return (
     <adminContext.Provider
@@ -464,6 +482,10 @@ const AdminState = ({ children }) => {
         isDeliveryAgentModal,
         setIsDeliveryAgentModal,
         addDeliveryAgent,
+        handleDeliveryPartnerModal,
+        viewDeliveryPartner,
+        isViewDeliveryPartnerModal,
+        setIsViewDeliveryPartnerModal,
       }}
     >
       {children}
