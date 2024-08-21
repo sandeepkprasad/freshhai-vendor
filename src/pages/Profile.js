@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useState, useRef, useEffect, useMemo } from "react";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
@@ -25,7 +25,7 @@ const Profile = () => {
   });
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const auth = getAuth(app);
+  const auth = useMemo(() => getAuth(app), [app]);
   const getCurrentUser = auth.currentUser;
 
   // Handling Admin Login State
