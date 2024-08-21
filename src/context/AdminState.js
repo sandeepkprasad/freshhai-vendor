@@ -14,6 +14,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // API Imports
 import { allProductsData } from "../api/allProducts";
@@ -62,6 +63,7 @@ const AdminState = ({ children }) => {
   const [isDeliveryAgentModal, setIsDeliveryAgentModal] = useState(false);
 
   const firestore = getFirestore(app);
+  const storage = getStorage(app);
 
   // Updating topSellingProducts & allOrders data
   useEffect(() => {
@@ -76,6 +78,19 @@ const AdminState = ({ children }) => {
       type: getType,
       text: getText,
     });
+  };
+
+  // Products Image Upload
+  const uploadImageToStorage = async (imageFile, pathToAdd) => {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+
+    const storageRef = ref(
+      storage,
+      `${pathToAdd}/${timestamp}_${imageFile.name}`
+    );
+    await uploadBytes(storageRef, imageFile);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
   };
 
   // Handle Product Add
@@ -95,8 +110,13 @@ const AdminState = ({ children }) => {
       productToAdd?.available;
 
     if (isValid) {
+      const imageUrlToUpoad = await uploadImageToStorage(
+        productToAdd?.imageUrl,
+        "products"
+      );
+
       await addDoc(collection(firestore, "products"), {
-        imageUrl: productToAdd?.imageUrl,
+        imageUrl: imageUrlToUpoad,
         name: productToAdd?.name,
         category: productToAdd?.category,
         price: productToAdd?.price,

@@ -21,18 +21,11 @@ const AddModal = () => {
   const [productToAdd, setProductToAdd] = useState(newProductSchema);
 
   const handleProductImgChange = (e) => {
-    const files = e.target.files;
-    if (files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProductToAdd((prevState) => ({
-          ...prevState,
-          imageUrl: [reader.result],
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
+    const fileData = e.target.files[0];
+    setProductToAdd((prevState) => ({
+      ...prevState,
+      imageUrl: fileData,
+    }));
   };
 
   const handleProductChange = (e) => {
@@ -50,6 +43,8 @@ const AddModal = () => {
     }));
   };
 
+  console.log("Upload Image Data : ", productToAdd?.imageUrl);
+
   return (
     <ModalWrapper closeModal={setIsAddModal}>
       <div className="w-full h-full flex flex-col justify-between items-center">
@@ -61,15 +56,12 @@ const AddModal = () => {
           >
             Add a Product
           </p>
-          <div className="w-full h-fit flex justify-between items-center">
-            <input type="file" onChange={handleProductImgChange} />
-            {productToAdd.imageUrl.length > 0 && (
-              <img
-                src={productToAdd.imageUrl}
-                alt="product_img"
-                className="w-[4%] rounded object-contain"
-              />
-            )}
+          <div className="w-full h-fit flex justify-start items-center">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleProductImgChange}
+            />
           </div>
           <div className="w-full h-fit flex justify-start items-center">
             <input

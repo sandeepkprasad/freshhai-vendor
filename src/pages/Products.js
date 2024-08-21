@@ -42,6 +42,8 @@ const Products = () => {
     );
   });
 
+  console.log("Get All Products : ", allProducts);
+
   return (
     <>
       <DashboardWrapper>

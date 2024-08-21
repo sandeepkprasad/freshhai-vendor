@@ -1,5 +1,5 @@
 export const newProductSchema = {
-  imageUrl: [],
+  imageUrl: null,
   name: "",
   description: "",
   category: "",

@@ -75,7 +75,7 @@ const Profile = () => {
       const file = files[0];
       setAdminProfileUpdate((prevState) => ({
         ...prevState,
-        img: [file],
+        img: [...prevState.img, file],
       }));
     }
   };
@@ -125,6 +125,8 @@ const Profile = () => {
       handleNotification(true, "red", "No user is currently signed in.");
     }
   };
+
+  console.log("Profile Data Upload : ", adminProfileUpdate);
 
   return (
     <DashboardWrapper>
