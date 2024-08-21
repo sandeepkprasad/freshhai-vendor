@@ -5,7 +5,6 @@ import { defaultImageAssets } from "../utils/LocalData";
 
 // Firebase Imports
 import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // React Icons
 import { MdEdit } from "../utils/Icons";
@@ -15,53 +14,36 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 
 const Profile = () => {
-  const { app, isDarkMode, handleNotification, adminProfile, setAdminProfile } =
+  const { app, isDarkMode, handleNotification, uploadImageToStorage } =
     useContext(adminContext);
   const [isProfileUpdate, setProfileUpdate] = useState(false);
   const [adminProfileUpdate, setAdminProfileUpdate] = useState({
-    img: [],
+    img: null,
+    imgUrl: "",
     name: "",
+    email: "",
   });
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const auth = getAuth(app);
-  const storage = getStorage(app);
   const getCurrentUser = auth.currentUser;
 
   // Handling Admin Login State
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAdminProfile(user);
+        setAdminProfileUpdate((prevData) => ({
+          ...prevData,
+          imgUrl: user?.photoURL,
+          name: user?.displayName,
+          email: user?.email,
+        }));
         navigate("/profile");
       } else {
         navigate("/login");
       }
     });
-  }, [auth, navigate, setAdminProfile]);
-
-  useEffect(() => {
-    setAdminProfileUpdate((prevData) => ({
-      ...prevData,
-      name: adminProfile?.displayName,
-    }));
-  }, [adminProfile?.displayName]);
-
-  // Function to handle image upload
-  const handleImageUploadToStorage = async (file) => {
-    try {
-      const storageRef = ref(
-        storage,
-        `admin_profile_images/${getCurrentUser.uid}`
-      );
-      const uploadResult = await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(uploadResult.ref);
-      return downloadURL;
-    } catch (error) {
-      handleNotification(true, "red", "Error while uploading image");
-      return null;
-    }
-  };
+  }, [auth, navigate, setAdminProfileUpdate]);
 
   const handleImageUpload = () => {
     if (fileInputRef.current) {
@@ -70,14 +52,11 @@ const Profile = () => {
   };
 
   const handleImageChange = (e) => {
-    const files = e.target.files;
-    if (files.length > 0) {
-      const file = files[0];
-      setAdminProfileUpdate((prevState) => ({
-        ...prevState,
-        img: [...prevState.img, file],
-      }));
-    }
+    const fileData = e.target.files[0];
+    setAdminProfileUpdate((prevState) => ({
+      ...prevState,
+      img: fileData,
+    }));
   };
 
   const handleProfileChange = (e) => {
@@ -95,26 +74,18 @@ const Profile = () => {
 
   // Function to handle profile save
   const handleProfileSave = async () => {
-    if (getCurrentUser) {
-      let photoURL = getCurrentUser.photoURL;
-
-      if (adminProfileUpdate?.img instanceof File) {
-        const uploadedImageUrl = await handleImageUploadToStorage(
-          adminProfileUpdate?.img[0]
-        );
-        if (uploadedImageUrl) {
-          photoURL = uploadedImageUrl;
-        }
-      }
-
-      console.log("Uploaded Image Url : ", photoURL);
+    if (getCurrentUser && adminProfileUpdate?.img && adminProfileUpdate?.name) {
+      const imageUrlToUpoad = await uploadImageToStorage(
+        adminProfileUpdate?.img,
+        "admin-profile"
+      );
 
       updateProfile(getCurrentUser, {
         displayName: adminProfileUpdate?.name || getCurrentUser.displayName,
-        photoURL: photoURL,
+        photoURL: imageUrlToUpoad,
       })
         .then(() => {
-          handleNotification(true, "green", "Profile updated successfully");
+          handleNotification(true, "green", "Profile updated successfully.");
           setProfileUpdate((prev) => !prev);
         })
         .catch((error) => {
@@ -122,11 +93,9 @@ const Profile = () => {
           handleNotification(true, "red", "Error while updating profile");
         });
     } else {
-      handleNotification(true, "red", "No user is currently signed in.");
+      handleNotification(true, "red", "Please fill all the details.");
     }
   };
-
-  console.log("Profile Data Upload : ", adminProfileUpdate);
 
   return (
     <DashboardWrapper>
@@ -144,12 +113,20 @@ const Profile = () => {
           >
             <div className="w-full h-fit flex justify-end items-center">
               {isProfileUpdate ? (
-                <button
-                  className="buttonClass bg-primary-blue-dark"
-                  onClick={handleProfileSave}
-                >
-                  Save
-                </button>
+                <div className="w-full h-fit flex justify-end items-center space-x-[1%]">
+                  <button
+                    className="buttonClass bg-primary-blue-dark"
+                    onClick={handleProfileSave}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="buttonClass bg-secondary-red-dark"
+                    onClick={handleProfileEdit}
+                  >
+                    Cancel
+                  </button>
+                </div>
               ) : (
                 <button
                   className="buttonClass bg-primary-blue-dark"
@@ -166,7 +143,7 @@ const Profile = () => {
                     src={
                       adminProfileUpdate?.img
                         ? adminProfileUpdate?.img
-                        : adminProfile?.photoURL
+                        : adminProfileUpdate?.imgUrl
                     }
                     alt="admin_profile_img"
                     onError={(e) =>
@@ -191,10 +168,10 @@ const Profile = () => {
                 </div>
               ) : (
                 <img
-                  src={adminProfile?.photoURL}
+                  src={adminProfileUpdate?.imgUrl}
                   alt="admin_profile_img"
                   onError={(e) =>
-                    (e.target.src = "/assets/default_profile.png")
+                    (e.target.src = defaultImageAssets?.defaultProfileImageUrl)
                   }
                   loading="lazy"
                   className="w-[25%] bg-neutral-gray-light rounded-3xl object-contain"
@@ -205,7 +182,7 @@ const Profile = () => {
                   type="text"
                   placeholder="Full Name"
                   name="name"
-                  value={adminProfileUpdate.name}
+                  value={adminProfileUpdate?.name}
                   onChange={handleProfileChange}
                   maxLength={25}
                   className={`w-[33%] ${
@@ -220,7 +197,7 @@ const Profile = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {adminProfile?.displayName}
+                  {adminProfileUpdate?.name}
                 </p>
               )}
               <p
@@ -230,7 +207,7 @@ const Profile = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {adminProfile?.email}
+                {adminProfileUpdate?.email}
               </p>
             </div>
           </div>

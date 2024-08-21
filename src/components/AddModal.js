@@ -43,8 +43,6 @@ const AddModal = () => {
     }));
   };
 
-  console.log("Upload Image Data : ", productToAdd?.imageUrl);
-
   return (
     <ModalWrapper closeModal={setIsAddModal}>
       <div className="w-full h-full flex flex-col justify-between items-center">

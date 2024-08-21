@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import { MdKeyboardArrowDown } from "../utils/Icons";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ const Navbar = () => {
   const [isLogoutPopup, setIsLogoutPopup] = useState(false);
   const navigate = useNavigate();
 
-  const auth = getAuth(app);
+  const auth = useMemo(() => getAuth(app), [app]);
 
   const handleProfileClick = () => {
     setIsLogoutPopup((prev) => !prev);

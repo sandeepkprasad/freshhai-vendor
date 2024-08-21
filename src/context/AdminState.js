@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import adminContext from "./adminContext";
 
 // Firebase Imports
@@ -28,20 +28,21 @@ const AdminState = ({ children }) => {
     text: "",
   });
   const [adminProfile, setAdminProfile] = useState();
-  const [allProducts, setAllProducts] = useState(null);
+  const [allProducts, setAllProducts] = useState([]);
   const [topSellingProducts, setTopSellingProducts] = useState([]);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState([]);
   const [totalUsers, setTotalUsers] = useState(userData);
-  const [deliveryPartners, setDeliveryPartners] = useState(null);
-  const [activeDeliveryPartners, setActiveDeliveryPartners] = useState(null);
+  const [deliveryPartners, setDeliveryPartners] = useState([]);
+  const [activeDeliveryPartners, setActiveDeliveryPartners] = useState([]);
+  const [suspendedDeliveryPartners, setSuspendedDeliveryPartners] = useState(
+    []
+  );
   const [deliveryPartnersCount, setDeliveryPartnersCount] = useState({
     total: 0,
     active: 0,
     suspended: 0,
   });
-  const [suspendedDeliveryPartners, setSuspendedDeliveryPartners] =
-    useState(null);
   const [productFilter, setProductFilter] = useState({
     category: "",
     available: "",
@@ -62,8 +63,8 @@ const AdminState = ({ children }) => {
   const [userToUpdate, setUserToUpdate] = useState(null);
   const [isDeliveryAgentModal, setIsDeliveryAgentModal] = useState(false);
 
-  const firestore = getFirestore(app);
-  const storage = getStorage(app);
+  const firestore = useMemo(() => getFirestore(app), [app]);
+  const storage = useMemo(() => getStorage(app), [app]);
 
   // Updating topSellingProducts & allOrders data
   useEffect(() => {
@@ -280,8 +281,13 @@ const AdminState = ({ children }) => {
       agentToAdd?.address?.zip !== undefined;
 
     if (isValid) {
+      const imageUrlToUpoad = await uploadImageToStorage(
+        agentToAdd?.imageUrl,
+        "delivery-partners"
+      );
+
       await addDoc(collection(firestore, "deliveryPartners"), {
-        imageUrl: agentToAdd?.imageUrl,
+        imageUrl: imageUrlToUpoad,
         name: agentToAdd?.name,
         availability: agentToAdd?.availability,
         vehicle: agentToAdd?.vehicle,
@@ -407,6 +413,7 @@ const AdminState = ({ children }) => {
         setIsDarkMode,
         handleNotification,
         notificationData,
+        uploadImageToStorage,
         adminProfile,
         setAdminProfile,
         getProducts,

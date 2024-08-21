@@ -12,18 +12,11 @@ const AgentModal = () => {
   const [agentToAdd, setAgentToAdd] = useState(newDeliveryPartnersSchema);
 
   const handleDeliveryAgentImgChange = (e) => {
-    const files = e.target.files;
-    if (files.length > 0) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAgentToAdd((prevState) => ({
-          ...prevState,
-          imageUrl: [reader.result],
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
+    const fileData = e.target.files[0];
+    setAgentToAdd((prevState) => ({
+      ...prevState,
+      imageUrl: fileData,
+    }));
   };
 
   const handleDeliveryAgentChange = (e) => {
@@ -66,15 +59,8 @@ const AgentModal = () => {
           >
             Add a Delivery Agent
           </p>
-          <div className="w-full h-fit flex justify-between items-center">
+          <div className="w-full h-fit flex justify-start items-center">
             <input type="file" onChange={handleDeliveryAgentImgChange} />
-            {agentToAdd.imageUrl.length > 0 && (
-              <img
-                src={agentToAdd.imageUrl}
-                alt="delivery_agent_img"
-                className="w-[4%] rounded object-contain"
-              />
-            )}
           </div>
           <div className="w-full h-fit flex justify-start items-center">
             <input
