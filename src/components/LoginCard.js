@@ -3,18 +3,17 @@ import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 
 // Firebase Imports
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 // Reacr Icons
 import { ImEye, ImEyeBlocked } from "../utils/Icons";
 
 const LoginCard = () => {
-  const { app, handleNotification, setAdminProfile } = useContext(adminContext);
+  const { auth, handleNotification, setAdminProfile } =
+    useContext(adminContext);
   const [loginCred, setLoginCred] = useState({ email: "", password: "" });
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const navigate = useNavigate();
-
-  const auth = getAuth(app);
 
   // Handle Admin Login OnChange
   const handleAdminLoginChange = (e) => {

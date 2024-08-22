@@ -3,7 +3,7 @@ import adminContext from "../context/adminContext";
 import { Link, useNavigate } from "react-router-dom";
 
 // Firebase Imports
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 
 // Components Imports
 import DashboardWrapper from "../components/DashboardWrapper";
@@ -18,10 +18,14 @@ const LatestOrderRow = lazy(() =>
 );
 
 const Dashboard = () => {
-  const { app, setAdminProfile, isDarkMode, latestOrders, topSellingProducts } =
-    useContext(adminContext);
+  const {
+    auth,
+    setAdminProfile,
+    isDarkMode,
+    latestOrders,
+    topSellingProducts,
+  } = useContext(adminContext);
   const navigate = useNavigate();
-  const auth = getAuth(app);
 
   // Handling Admin Login State
   useEffect(() => {

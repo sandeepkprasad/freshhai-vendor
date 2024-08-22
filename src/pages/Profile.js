@@ -1,10 +1,10 @@
-import React, { useContext, useState, useRef, useEffect, useMemo } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
 
 // Firebase Imports
-import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 
 // React Icons
 import { MdEdit } from "../utils/Icons";
@@ -14,7 +14,7 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 
 const Profile = () => {
-  const { app, isDarkMode, handleNotification, uploadImageToStorage } =
+  const { auth, isDarkMode, handleNotification, uploadImageToStorage } =
     useContext(adminContext);
   const [isProfileUpdate, setProfileUpdate] = useState(false);
   const [adminProfileUpdate, setAdminProfileUpdate] = useState({
@@ -25,7 +25,6 @@ const Profile = () => {
   });
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const auth = useMemo(() => getAuth(app), [app]);
   const getCurrentUser = auth.currentUser;
 
   // Handling Admin Login State

@@ -4,23 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
 
 // Firebase Imports
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 // React Icons
 import { ImEye, ImEyeBlocked } from "../utils/Icons";
 
 const SignupCard = () => {
-  const { app, handleNotification, setAdminProfile } = useContext(adminContext);
+  const { auth, handleNotification, setAdminProfile } =
+    useContext(adminContext);
   const [signupCred, setSignupCred] = useState({ email: "", password: "" });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const navigate = useNavigate();
-
-  const auth = getAuth(app);
 
   // Handle Admin Signup OnChange
   const handleAdminSignupChange = (e) => {

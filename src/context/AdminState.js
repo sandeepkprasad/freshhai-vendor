@@ -3,6 +3,7 @@ import adminContext from "./adminContext";
 
 // Firebase Imports
 import { app } from "../firebase";
+import { getAuth } from "firebase/auth";
 import {
   getFirestore,
   collection,
@@ -66,8 +67,10 @@ const AdminState = ({ children }) => {
   const [isViewDeliveryPartnerModal, setIsViewDeliveryPartnerModal] =
     useState(false);
 
-  const firestore = useMemo(() => getFirestore(app), [app]);
-  const storage = useMemo(() => getStorage(app), [app]);
+  // Firebase services
+  const auth = useMemo(() => getAuth(app), []);
+  const firestore = useMemo(() => getFirestore(app), []);
+  const storage = useMemo(() => getStorage(app), []);
 
   // Updating topSellingProducts & allOrders data
   useEffect(() => {
@@ -268,12 +271,10 @@ const AdminState = ({ children }) => {
   };
 
   // Handle View Delivery Partner
-  const handleDeliveryPartnerModal = (getDeliveryPartnerId) => {
-    const dataById = deliveryPartners?.find(
-      (user) => user?.id === getDeliveryPartnerId
-    );
-    setViewDeliveryPartner(dataById);
+  const handleDeliveryPartnerModal = (deliveryPartnerToView) => {
+    setViewDeliveryPartner(deliveryPartnerToView);
     setIsViewDeliveryPartnerModal(true);
+    console.log("Delivery Partner to view : ", deliveryPartnerToView);
   };
 
   // Add Delivery Partners
@@ -360,7 +361,7 @@ const AdminState = ({ children }) => {
 
     console.log("Active Delivery Partners : ", deliveryPartnersList);
     setActiveDeliveryPartners(deliveryPartnersList);
-  }, []);
+  }, [firestore]);
 
   // Handle Get Suspended Delivery Partners
   const getSuspendedDeliveryPartners = async () => {
@@ -427,6 +428,9 @@ const AdminState = ({ children }) => {
     <adminContext.Provider
       value={{
         app,
+        auth,
+        firestore,
+        storage,
         isDarkMode,
         setIsDarkMode,
         handleNotification,

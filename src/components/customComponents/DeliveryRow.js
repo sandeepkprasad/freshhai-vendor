@@ -13,7 +13,7 @@ const CustomerRow = ({ data, isClickable = false }) => {
       {isClickable && (
         <div
           className="w-full h-fit flex justify-between items-center border-b py-[0.5%] cursor-pointer active:scale-95 duration-300"
-          onClick={() => handleDeliveryPartnerModal(data?.id)}
+          onClick={() => handleDeliveryPartnerModal(data)}
         >
           <RowText text={data?.name} />
           <RowText text={data?.contact?.phone} />

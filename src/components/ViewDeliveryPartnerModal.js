@@ -8,8 +8,6 @@ const ViewDeliveryPartnerModal = React.memo(() => {
   const { isDarkMode, viewDeliveryPartner, setIsViewDeliveryPartnerModal } =
     useContext(adminContext);
 
-  console.log("View Delivery Partner : ", viewDeliveryPartner);
-
   return (
     <ModalWrapper closeModal={setIsViewDeliveryPartnerModal}>
       <div className="w-full h-full flex flex-col justify-between items-center">

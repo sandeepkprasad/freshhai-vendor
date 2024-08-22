@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext, useState } from "react";
 import { MdKeyboardArrowDown } from "../utils/Icons";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import { getFirstName } from "../utils/OtherUtils";
 import { defaultImageAssets } from "../utils/LocalData";
 
 // Firebase Imports
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 
 // React Icons
 import { MdOutlineWbSunny, LuSunMoon } from "../utils/Icons";
@@ -15,12 +15,10 @@ import { MdOutlineWbSunny, LuSunMoon } from "../utils/Icons";
 import { getCurrentDate } from "../utils/DateUtils";
 
 const Navbar = () => {
-  const { app, adminProfile, isDarkMode, setIsDarkMode, handleNotification } =
+  const { auth, adminProfile, isDarkMode, setIsDarkMode, handleNotification } =
     useContext(adminContext);
   const [isLogoutPopup, setIsLogoutPopup] = useState(false);
   const navigate = useNavigate();
-
-  const auth = useMemo(() => getAuth(app), [app]);
 
   const handleProfileClick = () => {
     setIsLogoutPopup((prev) => !prev);
