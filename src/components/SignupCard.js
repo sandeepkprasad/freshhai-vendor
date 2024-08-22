@@ -1,17 +1,16 @@
 import React, { useContext, useState } from "react";
 import adminContext from "../context/adminContext";
+import { FirebaseContext } from "../context/FirebaseContext";
 import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
-
-// Firebase Imports
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 // React Icons
 import { ImEye, ImEyeBlocked } from "../utils/Icons";
 
 const SignupCard = () => {
-  const { auth, handleNotification, setAdminProfile } =
-    useContext(adminContext);
+  const { auth, createUserWithEmailAndPassword, updateProfile } =
+    useContext(FirebaseContext);
+  const { handleNotification, setAdminProfile } = useContext(adminContext);
   const [signupCred, setSignupCred] = useState({ email: "", password: "" });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);

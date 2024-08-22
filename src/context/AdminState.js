@@ -3,32 +3,17 @@ import { FirebaseContext } from "./FirebaseContext";
 import adminContext from "./adminContext";
 
 // Firebase Imports
-import {
-  collection,
-  addDoc,
-  getDocs,
-  updateDoc,
-  doc,
-  deleteDoc,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-// API Imports
+// Fake Data Imports
 import { allProductsData } from "../api/allProducts";
-import { latestOrdersData, allOrdersData, userData } from "../api/apiHandler";
+import { latestOrdersData, userData, allOrdersData } from "../api/apiHandler";
 
 const AdminState = ({ children }) => {
-  const { auth, firestore, storage } = useContext(FirebaseContext);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [notificationData, setNotificationData] = useState({
-    flag: false,
-    type: "",
-    text: "",
-  });
+  const { auth, firestore, storage, handleNotification } =
+    useContext(FirebaseContext);
   const [adminProfile, setAdminProfile] = useState();
-  const [allProducts, setAllProducts] = useState([]);
   const [topSellingProducts, setTopSellingProducts] = useState([]);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState([]);
@@ -43,20 +28,9 @@ const AdminState = ({ children }) => {
     active: 0,
     suspended: 0,
   });
-  const [productFilter, setProductFilter] = useState({
-    category: "",
-    available: "",
-    brand: "",
-    origin: "",
-  });
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [userFilter, setUserFilter] = useState({ phone: "", isBlocked: "" });
   const [deliveryFilter, setDeliveryFilter] = useState({ name: "", phone: "" });
-  const [isAddModal, setIsAddModal] = useState(false);
-  const [isUpdateModal, setIsUpdateModal] = useState(false);
-  const [productToUpdate, setProductToUpdate] = useState(null);
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
   const [isOrderModal, setIsOrderModal] = useState(false);
   const [orderToUpdate, setOrderToUpdate] = useState(null);
   const [isUserModal, setIsUserModal] = useState(false);
@@ -72,16 +46,7 @@ const AdminState = ({ children }) => {
     setAllOrders(allOrdersData);
   }, []);
 
-  // Handle Notification Popup
-  const handleNotification = (getFlag, getType, getText) => {
-    setNotificationData({
-      flag: getFlag,
-      type: getType,
-      text: getText,
-    });
-  };
-
-  // Products Image Upload
+  // Image Upload
   const uploadImageToStorage = async (imageFile, pathToAdd) => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
 
@@ -92,120 +57,6 @@ const AdminState = ({ children }) => {
     await uploadBytes(storageRef, imageFile);
     const downloadURL = await getDownloadURL(storageRef);
     return downloadURL;
-  };
-
-  // Handle Product Add
-  const addProduct = async (productToAdd) => {
-    const isValid =
-      productToAdd?.imageUrl &&
-      productToAdd?.name &&
-      productToAdd?.description &&
-      productToAdd?.category &&
-      productToAdd?.price !== undefined &&
-      productToAdd?.discount !== undefined &&
-      productToAdd?.brand &&
-      productToAdd?.weight !== undefined &&
-      productToAdd?.unit &&
-      productToAdd?.storageTemperature &&
-      productToAdd?.origin &&
-      productToAdd?.available;
-
-    if (isValid) {
-      const imageUrlToUpoad = await uploadImageToStorage(
-        productToAdd?.imageUrl,
-        "products"
-      );
-
-      await addDoc(collection(firestore, "products"), {
-        imageUrl: imageUrlToUpoad,
-        name: productToAdd?.name,
-        category: productToAdd?.category,
-        price: productToAdd?.price,
-        description: productToAdd?.description,
-        available: productToAdd?.available,
-        discount: productToAdd?.discount,
-        brand: productToAdd?.brand,
-        weight: productToAdd?.weight,
-        unit: productToAdd?.unit,
-        storageTemperature: productToAdd?.storageTemperature,
-        origin: productToAdd?.origin,
-        rating: productToAdd?.rating,
-        numReviews: productToAdd?.numReviews,
-        expiryDate: productToAdd?.expiryDate,
-        isHalal: productToAdd?.isHalal,
-      });
-      setAllProducts((prevProducts) => [...prevProducts, productToAdd]);
-      handleNotification(true, "green", "Product added successfully.");
-      setIsAddModal(false);
-    } else {
-      handleNotification(true, "red", "Please fill all the details.");
-    }
-  };
-
-  // Handle Get Products
-  const getProducts = async () => {
-    const productsCollectionRef = collection(firestore, "products");
-    const querySnapshot = await getDocs(productsCollectionRef);
-    const productsList = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setAllProducts(productsList);
-  };
-
-  // Handle Update Modal
-  const handleUpdateModal = (getId) => {
-    const dataById = allProducts?.find((product) => product?.id === getId);
-    setProductToUpdate(dataById);
-    setIsUpdateModal(true);
-  };
-
-  // Handle Product Update
-  const updateProduct = async (updatedProduct) => {
-    const isValid =
-      updatedProduct?.imageUrl &&
-      updatedProduct?.name &&
-      updatedProduct?.description &&
-      updatedProduct?.category &&
-      updatedProduct?.price !== undefined &&
-      updatedProduct?.discount !== undefined &&
-      updatedProduct?.brand &&
-      updatedProduct?.weight !== undefined &&
-      updatedProduct?.unit &&
-      updatedProduct?.storageTemperature &&
-      updatedProduct?.origin &&
-      updatedProduct?.available;
-
-    if (isValid) {
-      const docRef = doc(firestore, "products", updatedProduct?.id);
-      await updateDoc(docRef, updatedProduct);
-      setAllProducts((prevProducts) =>
-        prevProducts?.map((product) =>
-          product?.id === updatedProduct?.id ? updatedProduct : product
-        )
-      );
-      handleNotification(true, "green", "Product updated successfully.");
-      setIsUpdateModal(false);
-    } else {
-      handleNotification(true, "red", "Please fill all the details.");
-    }
-  };
-
-  // Handle Delete Modal
-  const handleDeleteModal = (getId) => {
-    setProductToDelete(getId);
-    setIsDeleteModal(true);
-  };
-
-  // Handle Product Delete
-  const deleteProductById = async () => {
-    const docRef = doc(firestore, "products", productToDelete);
-    await deleteDoc(docRef);
-    setAllProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== productToDelete)
-    );
-    handleNotification(true, "red", "Product deleted successfully.");
-    setIsDeleteModal(false);
   };
 
   // Handle Order Modal
@@ -424,30 +275,10 @@ const AdminState = ({ children }) => {
         auth,
         firestore,
         storage,
-        isDarkMode,
-        setIsDarkMode,
-        handleNotification,
-        notificationData,
         uploadImageToStorage,
         adminProfile,
         setAdminProfile,
-        getProducts,
-        allProducts,
         topSellingProducts,
-        productFilter,
-        setProductFilter,
-        handleUpdateModal,
-        isUpdateModal,
-        setIsUpdateModal,
-        updateProduct,
-        productToUpdate,
-        handleDeleteModal,
-        isDeleteModal,
-        setIsDeleteModal,
-        deleteProductById,
-        isAddModal,
-        setIsAddModal,
-        addProduct,
         allOrders,
         latestOrders,
         orderFilter,

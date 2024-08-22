@@ -1,10 +1,8 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import adminContext from "../context/adminContext";
+import { FirebaseContext } from "../context/FirebaseContext";
+import { ProductsContext } from "../context/ProductsContext";
 import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
-
-// Firebase Imports
-import { onAuthStateChanged, updateProfile } from "firebase/auth";
 
 // React Icons
 import { MdEdit } from "../utils/Icons";
@@ -14,8 +12,10 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 
 const Profile = () => {
-  const { auth, isDarkMode, handleNotification, uploadImageToStorage } =
-    useContext(adminContext);
+  const { auth, onAuthStateChanged, updateProfile } =
+    useContext(FirebaseContext);
+  const { isDarkMode, handleNotification, uploadImageToStorage } =
+    useContext(ProductsContext);
   const [isProfileUpdate, setProfileUpdate] = useState(false);
   const [adminProfileUpdate, setAdminProfileUpdate] = useState({
     img: null,

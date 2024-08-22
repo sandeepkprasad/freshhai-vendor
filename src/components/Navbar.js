@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import { MdKeyboardArrowDown } from "../utils/Icons";
+import { FirebaseContext } from "../context/FirebaseContext";
+import { ProductsContext } from "../context/ProductsContext";
 import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 import { getFirstName } from "../utils/OtherUtils";
@@ -15,8 +17,11 @@ import { MdOutlineWbSunny, LuSunMoon } from "../utils/Icons";
 import { getCurrentDate } from "../utils/DateUtils";
 
 const Navbar = () => {
-  const { auth, adminProfile, isDarkMode, setIsDarkMode, handleNotification } =
-    useContext(adminContext);
+  const { auth } = useContext(FirebaseContext);
+  const { isDarkMode, setIsDarkMode, handleNotification } =
+    useContext(ProductsContext);
+  const { adminProfile } = useContext(adminContext);
+
   const [isLogoutPopup, setIsLogoutPopup] = useState(false);
   const navigate = useNavigate();
 

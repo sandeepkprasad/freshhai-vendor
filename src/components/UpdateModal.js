@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import adminContext from "../context/adminContext";
+import { ProductsContext } from "../context/ProductsContext";
 
 // Components Imports
 import ModalWrapper from "./ModalWrapper";
@@ -17,7 +17,7 @@ import {
 
 const UpdateModal = () => {
   const { isDarkMode, productToUpdate, setIsUpdateModal, updateProduct } =
-    useContext(adminContext);
+    useContext(ProductsContext);
   const [updatedProduct, setUpdatedProduct] = useState(productToUpdate);
 
   const handleProductImgChange = (e) => {

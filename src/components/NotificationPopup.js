@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import adminContext from "../context/adminContext";
+import { ProductsContext } from "../context/ProductsContext";
 
 const NotificationPopup = () => {
-  const { notificationData, handleNotification } = useContext(adminContext);
+  const { notificationData, handleNotification } = useContext(ProductsContext);
 
   useEffect(() => {
     if (notificationData?.flag) {

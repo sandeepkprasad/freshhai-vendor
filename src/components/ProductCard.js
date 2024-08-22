@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import adminContext from "../context/adminContext";
 import { defaultImageAssets } from "../utils/LocalData";
+import { ProductsContext } from "../context/ProductsContext";
 
 const ProductCard = ({ data }) => {
   const { isDarkMode, handleUpdateModal, handleDeleteModal } =
-    useContext(adminContext);
+    useContext(ProductsContext);
 
   return (
     <div

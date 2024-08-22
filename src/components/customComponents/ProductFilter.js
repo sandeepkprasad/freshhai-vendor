@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import "../../App.css";
 import { productFilterData } from "../../utils/LocalData";
-import adminContext from "../../context/adminContext";
+import { ProductsContext } from "../../context/ProductsContext";
 
 const ProductFilter = () => {
   const { isDarkMode, productFilter, setProductFilter } =
-    useContext(adminContext);
+    useContext(ProductsContext);
 
   // Handle Product Filter
   const handleFilterChange = (e) => {

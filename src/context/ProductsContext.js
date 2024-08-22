@@ -29,20 +29,18 @@ const ProductsProvider = ({ children }) => {
   const [productToUpdate, setProductToUpdate] = useState(null);
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [notificationData, setNotificationData] = useState({
     flag: false,
     type: "",
     text: "",
   });
-
-  // Handle Notification Popup
-  const handleNotification = (getFlag, getType, getText) => {
-    setNotificationData({
-      flag: getFlag,
-      type: getType,
-      text: getText,
-    });
-  };
+  const [productFilter, setProductFilter] = useState({
+    category: "",
+    available: "",
+    brand: "",
+    origin: "",
+  });
 
   // Upload image to Firebase Storage
   const uploadImageToStorage = async (imageFile, pathToAdd) => {
@@ -54,6 +52,15 @@ const ProductsProvider = ({ children }) => {
     await uploadBytes(storageRef, imageFile);
     const downloadURL = await getDownloadURL(storageRef);
     return downloadURL;
+  };
+
+  // Handle Notification Popup
+  const handleNotification = (getFlag, getType, getText) => {
+    setNotificationData({
+      flag: getFlag,
+      type: getType,
+      text: getText,
+    });
   };
 
   // Fetch all products
@@ -123,48 +130,85 @@ const ProductsProvider = ({ children }) => {
     }
   };
 
-  // Update product
-  const updateProduct = async (updatedProduct) => {
-    const docRef = doc(firestore, "products", updatedProduct.id);
-    await updateDoc(docRef, updatedProduct);
-    setAllProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === updatedProduct.id ? updatedProduct : product
-      )
-    );
-    setIsUpdateModal(false);
+  // Product Update Modal
+  const handleUpdateModal = (getId) => {
+    const dataById = allProducts?.find((product) => product?.id === getId);
+    setProductToUpdate(dataById);
+    setIsUpdateModal(true);
   };
 
-  // Delete product
-  const deleteProduct = async () => {
+  // Product Update
+  const updateProduct = async (updatedProduct) => {
+    const isValid =
+      updatedProduct?.imageUrl &&
+      updatedProduct?.name &&
+      updatedProduct?.description &&
+      updatedProduct?.category &&
+      updatedProduct?.price !== undefined &&
+      updatedProduct?.discount !== undefined &&
+      updatedProduct?.brand &&
+      updatedProduct?.weight !== undefined &&
+      updatedProduct?.unit &&
+      updatedProduct?.storageTemperature &&
+      updatedProduct?.origin &&
+      updatedProduct?.available;
+
+    if (isValid) {
+      const docRef = doc(firestore, "products", updatedProduct?.id);
+      await updateDoc(docRef, updatedProduct);
+      setAllProducts((prevProducts) =>
+        prevProducts?.map((product) =>
+          product?.id === updatedProduct?.id ? updatedProduct : product
+        )
+      );
+      handleNotification(true, "green", "Product updated successfully.");
+      setIsUpdateModal(false);
+    } else {
+      handleNotification(true, "red", "Please fill all the details.");
+    }
+  };
+
+  // Product Delete Modal
+  const handleDeleteModal = (getId) => {
+    setProductToDelete(getId);
+    setIsDeleteModal(true);
+  };
+
+  // Product Delete
+  const deleteProductById = async () => {
     const docRef = doc(firestore, "products", productToDelete);
     await deleteDoc(docRef);
     setAllProducts((prevProducts) =>
       prevProducts.filter((product) => product.id !== productToDelete)
     );
+    handleNotification(true, "red", "Product deleted successfully.");
     setIsDeleteModal(false);
   };
 
   return (
     <ProductsContext.Provider
       value={{
+        isDarkMode,
+        setIsDarkMode,
+        handleNotification,
+        notificationData,
+        uploadImageToStorage,
         allProducts,
-        setAllProducts,
         isAddModal,
         setIsAddModal,
         isUpdateModal,
         setIsUpdateModal,
         productToUpdate,
-        setProductToUpdate,
         isDeleteModal,
         setIsDeleteModal,
-        productToDelete,
-        setProductToDelete,
         addProduct,
+        handleUpdateModal,
         updateProduct,
-        deleteProduct,
+        handleDeleteModal,
+        deleteProductById,
         getProducts,
-        notificationData,
+        productFilter,
+        setProductFilter,
       }}
     >
       {children}

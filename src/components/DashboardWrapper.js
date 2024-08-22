@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import adminContext from "../context/adminContext";
+import { ProductsContext } from "../context/ProductsContext";
 
 // Components Imports
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 const DashboardWrapper = ({ children }) => {
-  const { isDarkMode } = useContext(adminContext);
+  const { isDarkMode } = useContext(ProductsContext);
   return (
     <div
       className={`w-screen h-screen ${

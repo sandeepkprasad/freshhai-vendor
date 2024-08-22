@@ -3,7 +3,12 @@ import React, { createContext, useMemo } from "react";
 
 // Firebase Services
 import { app } from "../firebaseConfig";
-import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -15,7 +20,16 @@ const FirebaseProvider = ({ children }) => {
   const storage = useMemo(() => getStorage(app), []);
 
   return (
-    <FirebaseContext.Provider value={{ auth, firestore, storage }}>
+    <FirebaseContext.Provider
+      value={{
+        auth,
+        createUserWithEmailAndPassword,
+        onAuthStateChanged,
+        updateProfile,
+        firestore,
+        storage,
+      }}
+    >
       {children}
     </FirebaseContext.Provider>
   );

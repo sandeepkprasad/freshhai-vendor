@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import adminContext from "../context/adminContext";
+import { ProductsContext } from "../context/ProductsContext";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -27,7 +27,7 @@ const sidebarItems = [
 ];
 
 const Sidebar = () => {
-  const { isDarkMode } = useContext(adminContext);
+  const { isDarkMode } = useContext(ProductsContext);
   const location = useLocation();
 
   return (

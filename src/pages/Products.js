@@ -1,7 +1,6 @@
 import React, { useContext, Suspense, lazy } from "react";
 import "../App.css";
 import { ProductsContext } from "../context/ProductsContext";
-import adminContext from "../context/adminContext";
 
 // Components Imports
 import DashboardWrapper from "../components/DashboardWrapper";
@@ -15,13 +14,13 @@ const ProductCard = lazy(() => import("../components/ProductCard"));
 
 const Products = () => {
   const {
-    productFilter,
+    allProducts,
     isAddModal,
-    setIsAddModal,
     isUpdateModal,
     isDeleteModal,
-  } = useContext(adminContext);
-  const { allProducts } = useContext(ProductsContext);
+    setIsAddModal,
+    productFilter,
+  } = useContext(ProductsContext);
 
   // Filtering logic
   const filteredProducts = allProducts?.filter((product) => {
