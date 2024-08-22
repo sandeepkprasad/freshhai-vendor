@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
+import { FirebaseContext } from "./FirebaseContext";
 import adminContext from "./adminContext";
 
 // Firebase Imports
-import { app } from "../firebase";
-import { getAuth } from "firebase/auth";
 import {
-  getFirestore,
   collection,
   addDoc,
   getDocs,
@@ -15,13 +13,14 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // API Imports
 import { allProductsData } from "../api/allProducts";
 import { latestOrdersData, allOrdersData, userData } from "../api/apiHandler";
 
 const AdminState = ({ children }) => {
+  const { auth, firestore, storage } = useContext(FirebaseContext);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [notificationData, setNotificationData] = useState({
     flag: false,
@@ -66,11 +65,6 @@ const AdminState = ({ children }) => {
   const [viewDeliveryPartner, setViewDeliveryPartner] = useState(null);
   const [isViewDeliveryPartnerModal, setIsViewDeliveryPartnerModal] =
     useState(false);
-
-  // Firebase services
-  const auth = useMemo(() => getAuth(app), []);
-  const firestore = useMemo(() => getFirestore(app), []);
-  const storage = useMemo(() => getStorage(app), []);
 
   // Updating topSellingProducts & allOrders data
   useEffect(() => {
@@ -427,7 +421,6 @@ const AdminState = ({ children }) => {
   return (
     <adminContext.Provider
       value={{
-        app,
         auth,
         firestore,
         storage,

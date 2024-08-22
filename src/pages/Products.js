@@ -1,5 +1,6 @@
-import React, { useContext, Suspense, lazy, useEffect } from "react";
+import React, { useContext, Suspense, lazy } from "react";
 import "../App.css";
+import { ProductsContext } from "../context/ProductsContext";
 import adminContext from "../context/adminContext";
 
 // Components Imports
@@ -14,19 +15,13 @@ const ProductCard = lazy(() => import("../components/ProductCard"));
 
 const Products = () => {
   const {
-    getProducts,
-    allProducts,
     productFilter,
     isAddModal,
     setIsAddModal,
     isUpdateModal,
     isDeleteModal,
   } = useContext(adminContext);
-
-  // Fetching all products
-  useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+  const { allProducts } = useContext(ProductsContext);
 
   // Filtering logic
   const filteredProducts = allProducts?.filter((product) => {
@@ -66,7 +61,7 @@ const Products = () => {
                 fallback={
                   <div className="w-full h-[95%] flex justify-center items-center">
                     <p className="font-semibold text-xl text-neutral-gray-medium">
-                      Loading All Products...
+                      Loading all products...
                     </p>
                   </div>
                 }
@@ -79,7 +74,7 @@ const Products = () => {
           ) : (
             <div className="w-full h-[95%] flex justify-center items-center">
               <p className="font-semibold text-xl text-neutral-gray-medium">
-                No Product Available
+                No product available
               </p>
             </div>
           )}
