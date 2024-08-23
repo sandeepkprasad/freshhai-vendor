@@ -189,7 +189,7 @@ const Orders = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
-                title="Click for Recent Orders"
+                title="Click for Latest Orders"
                 onClick={handleLatestOrders}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
@@ -213,7 +213,7 @@ const Orders = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
-                title="Click for Month's Orders"
+                title="Click for Last Month Orders"
                 onClick={handleTodayOrders}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
