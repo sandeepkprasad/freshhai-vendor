@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import adminContext from "../../context/adminContext";
+import { ProductsContext } from "../../context/ProductsContext";
 
 const RowText = ({ text }) => {
-  const { isDarkMode } = useContext(adminContext);
+  const { isDarkMode } = useContext(ProductsContext);
 
   return (
     <span

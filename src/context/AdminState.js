@@ -8,14 +8,12 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Fake Data Imports
 import { allProductsData } from "../api/allProducts";
-import { latestOrdersData, userData, allOrdersData } from "../api/apiHandler";
+import { userData } from "../api/apiHandler";
 
 const AdminState = ({ children }) => {
   const { auth, firestore, storage, handleNotification } =
     useContext(FirebaseContext);
   const [topSellingProducts, setTopSellingProducts] = useState([]);
-  const [latestOrders, setLatestOrders] = useState(latestOrdersData);
-  const [allOrders, setAllOrders] = useState([]);
   const [totalUsers, setTotalUsers] = useState(userData);
   const [deliveryPartners, setDeliveryPartners] = useState([]);
   const [activeDeliveryPartners, setActiveDeliveryPartners] = useState([]);
@@ -27,11 +25,8 @@ const AdminState = ({ children }) => {
     active: 0,
     suspended: 0,
   });
-  const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [userFilter, setUserFilter] = useState({ phone: "", isBlocked: "" });
   const [deliveryFilter, setDeliveryFilter] = useState({ name: "", phone: "" });
-  const [isOrderModal, setIsOrderModal] = useState(false);
-  const [orderToUpdate, setOrderToUpdate] = useState(null);
   const [isUserModal, setIsUserModal] = useState(false);
   const [userToUpdate, setUserToUpdate] = useState(null);
   const [isDeliveryAgentModal, setIsDeliveryAgentModal] = useState(false);
@@ -42,7 +37,6 @@ const AdminState = ({ children }) => {
   // Updating topSellingProducts & allOrders data
   useEffect(() => {
     setTopSellingProducts(allProductsData);
-    setAllOrders(allOrdersData);
   }, []);
 
   // Image Upload
@@ -56,40 +50,6 @@ const AdminState = ({ children }) => {
     await uploadBytes(storageRef, imageFile);
     const downloadURL = await getDownloadURL(storageRef);
     return downloadURL;
-  };
-
-  // Handle Order Modal
-  const handleOrderModal = (getOrderId) => {
-    const dataById = latestOrders?.find(
-      (order) => order?.orderId === getOrderId
-    );
-    setOrderToUpdate(dataById);
-    setIsOrderModal(true);
-  };
-
-  // Update Order
-  const updateOrder = (updatedOrder) => {
-    if (updatedOrder) {
-      setLatestOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order.orderId === updatedOrder.orderId ? updatedOrder : order
-        )
-      );
-      handleNotification(true, "green", "Order updated successfully.");
-      setIsOrderModal(false);
-    } else {
-      handleNotification(true, "red", "Order couldn't update.");
-    }
-  };
-
-  // Handle Print Order
-  const handlePrintOrder = (orderToPrint) => {
-    if (orderToPrint) {
-      console.log("Order to print : ", orderToPrint);
-      handleNotification(true, "green", "Order printing successfully.");
-    } else {
-      handleNotification(true, "red", "Order couldn't print.");
-    }
   };
 
   // Handle User Modal
@@ -276,16 +236,6 @@ const AdminState = ({ children }) => {
         storage,
         uploadImageToStorage,
         topSellingProducts,
-        allOrders,
-        latestOrders,
-        orderFilter,
-        setOrderFilter,
-        handleOrderModal,
-        isOrderModal,
-        setIsOrderModal,
-        orderToUpdate,
-        updateOrder,
-        handlePrintOrder,
         totalUsers,
         handleUserModal,
         isUserModal,

@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import adminContext from "../../context/adminContext";
+import { ProductsContext } from "../../context/ProductsContext";
 
 const HeadRow = ({ rowData }) => {
-  const { isDarkMode } = useContext(adminContext);
+  const { isDarkMode } = useContext(ProductsContext);
 
   return (
     <div className="w-full h-fit flex justify-between items-center border-b pb-[1%]">
