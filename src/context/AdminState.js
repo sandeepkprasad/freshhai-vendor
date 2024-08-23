@@ -13,7 +13,6 @@ import { latestOrdersData, userData, allOrdersData } from "../api/apiHandler";
 const AdminState = ({ children }) => {
   const { auth, firestore, storage, handleNotification } =
     useContext(FirebaseContext);
-  const [adminProfile, setAdminProfile] = useState();
   const [topSellingProducts, setTopSellingProducts] = useState([]);
   const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState([]);
@@ -276,8 +275,6 @@ const AdminState = ({ children }) => {
         firestore,
         storage,
         uploadImageToStorage,
-        adminProfile,
-        setAdminProfile,
         topSellingProducts,
         allOrders,
         latestOrders,

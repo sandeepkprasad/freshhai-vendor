@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { MdKeyboardArrowDown } from "../utils/Icons";
 import { FirebaseContext } from "../context/FirebaseContext";
 import { ProductsContext } from "../context/ProductsContext";
-import adminContext from "../context/adminContext";
 import { useNavigate } from "react-router-dom";
 import { getFirstName } from "../utils/OtherUtils";
 import { defaultImageAssets } from "../utils/LocalData";
@@ -17,10 +16,9 @@ import { MdOutlineWbSunny, LuSunMoon } from "../utils/Icons";
 import { getCurrentDate } from "../utils/DateUtils";
 
 const Navbar = () => {
-  const { auth } = useContext(FirebaseContext);
+  const { auth, adminProfile } = useContext(FirebaseContext);
   const { isDarkMode, setIsDarkMode, handleNotification } =
     useContext(ProductsContext);
-  const { adminProfile } = useContext(adminContext);
 
   const [isLogoutPopup, setIsLogoutPopup] = useState(false);
   const navigate = useNavigate();
@@ -85,9 +83,9 @@ const Navbar = () => {
             title="Logout"
             onClick={handleProfileClick}
           >
-            {adminProfile?.photoURL ? (
+            {adminProfile?.imgUrl ? (
               <img
-                src={adminProfile?.photoURL}
+                src={adminProfile?.imgUrl}
                 alt="profile_img"
                 onError={(e) => (e.target.src = "/assets/default_profile.png")}
                 className="w-10 bg-neutral-gray-light rounded-full object-contain"
@@ -100,7 +98,7 @@ const Navbar = () => {
                 className="w-10 bg-neutral-gray-light rounded-full object-contain"
               />
             )}
-            {adminProfile?.displayName ? (
+            {adminProfile?.name ? (
               <span
                 className={`font-semibold text-sm ${
                   isDarkMode
@@ -108,7 +106,7 @@ const Navbar = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {getFirstName(adminProfile?.displayName)}
+                {getFirstName(adminProfile?.name)}
               </span>
             ) : (
               <span

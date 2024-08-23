@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import adminContext from "../context/adminContext";
 import { FirebaseContext } from "../context/FirebaseContext";
+import { ProductsContext } from "../context/ProductsContext";
 import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
 
@@ -8,9 +8,13 @@ import { defaultImageAssets } from "../utils/LocalData";
 import { ImEye, ImEyeBlocked } from "../utils/Icons";
 
 const SignupCard = () => {
-  const { auth, createUserWithEmailAndPassword, updateProfile } =
-    useContext(FirebaseContext);
-  const { handleNotification, setAdminProfile } = useContext(adminContext);
+  const {
+    auth,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    setAdminProfile,
+  } = useContext(FirebaseContext);
+  const { handleNotification } = useContext(ProductsContext);
   const [signupCred, setSignupCred] = useState({ email: "", password: "" });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -52,7 +56,12 @@ const SignupCard = () => {
             displayName: "Admin",
           })
             .then(() => {
-              setAdminProfile(userCredential?.user);
+              setAdminProfile((prevData) => ({
+                ...prevData,
+                imgUrl: userCredential?.user?.photoURL,
+                name: userCredential?.user?.displayName,
+                email: userCredential?.user?.email,
+              }));
               handleNotification(true, "green", "Signed up successfully.");
               setTimeout(() => {
                 navigate("/");

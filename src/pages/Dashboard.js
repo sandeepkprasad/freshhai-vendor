@@ -1,4 +1,6 @@
 import React, { useEffect, useContext, Suspense, lazy } from "react";
+import { FirebaseContext } from "../context/FirebaseContext";
+import { ProductsContext } from "../context/ProductsContext";
 import adminContext from "../context/adminContext";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -18,20 +20,21 @@ const LatestOrderRow = lazy(() =>
 );
 
 const Dashboard = () => {
-  const {
-    auth,
-    setAdminProfile,
-    isDarkMode,
-    latestOrders,
-    topSellingProducts,
-  } = useContext(adminContext);
+  const { auth, setAdminProfile } = useContext(FirebaseContext);
+  const { isDarkMode } = useContext(ProductsContext);
+  const { latestOrders, topSellingProducts } = useContext(adminContext);
   const navigate = useNavigate();
 
   // Handling Admin Login State
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAdminProfile(user);
+        setAdminProfile((prevData) => ({
+          ...prevData,
+          imgUrl: user?.photoURL,
+          name: user?.displayName,
+          email: user?.email,
+        }));
         navigate("/");
       } else {
         navigate("/login");

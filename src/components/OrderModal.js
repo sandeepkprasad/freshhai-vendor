@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import adminContext from "../context/adminContext";
+import { ProductsContext } from "../context/ProductsContext";
+import { OrdersContext } from "../context/OrdersContext";
 import { orderFilterData } from "../utils/LocalData";
 
 // React Icons
@@ -13,13 +14,10 @@ import OrderText from "./customComponents/OrderText";
 import { extractDateTime } from "../utils/DateUtils";
 
 const OrderModal = () => {
-  const {
-    isDarkMode,
-    setIsOrderModal,
-    orderToUpdate,
-    updateOrder,
-    handlePrintOrder,
-  } = useContext(adminContext);
+  const { isDarkMode } = useContext(ProductsContext);
+  const { setIsOrderModal, orderToUpdate, updateOrder, handlePrintOrder } =
+    useContext(OrdersContext);
+
   const [updatedOrder, setUpdatedOrder] = useState(orderToUpdate);
 
   const handleOrderChange = (e) => {

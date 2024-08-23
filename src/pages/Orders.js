@@ -1,6 +1,7 @@
 import React, { useContext, useState, Suspense, lazy } from "react";
 import "../App.css";
-import adminContext from "../context/adminContext";
+import { ProductsContext } from "../context/ProductsContext";
+import { OrdersContext } from "../context/OrdersContext";
 
 // Components Imports
 import DashboardWrapper from "../components/DashboardWrapper";
@@ -12,28 +13,20 @@ import OrderModal from "../components/OrderModal";
 const OrderRow = lazy(() => import("../components/customComponents/OrderRow"));
 
 const Orders = () => {
-  const {
-    isDarkMode,
-    handleNotification,
-    latestOrders,
-    allOrders,
-    isOrderModal,
-  } = useContext(adminContext);
+  const { isDarkMode } = useContext(ProductsContext);
+  const { latestOrders, allOrders, isOrderModal } = useContext(OrdersContext);
   const [selectedOrderData, setSelectedOrderData] = useState(0);
 
   const handleLatestOrders = () => {
     setSelectedOrderData(0);
-    handleNotification(true, "green", "Latest Orders Selected");
   };
 
   const handleTodayOrders = () => {
     setSelectedOrderData(1);
-    handleNotification(true, "green", "Last Month Orders Selected");
   };
 
   const handleTotalOrders = () => {
     setSelectedOrderData(2);
-    handleNotification(true, "green", "Total Orders Selected");
   };
 
   // Getting Today's Orders
@@ -95,7 +88,7 @@ const Orders = () => {
                         fallback={
                           <div className="w-full h-[95%] flex justify-center items-center">
                             <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading All Orders...
+                              Loading latest orders...
                             </p>
                           </div>
                         }
@@ -112,7 +105,7 @@ const Orders = () => {
                   ) : (
                     <div className="w-full h-[95%] flex justify-center items-center">
                       <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Order Available
+                        No order available
                       </p>
                     </div>
                   )}
@@ -126,7 +119,7 @@ const Orders = () => {
                         fallback={
                           <div className="w-full h-[95%] flex justify-center items-center">
                             <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading All Orders...
+                              Loading last month orders...
                             </p>
                           </div>
                         }
@@ -143,7 +136,7 @@ const Orders = () => {
                   ) : (
                     <div className="w-full h-[95%] flex justify-center items-center">
                       <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Order Available
+                        No order available
                       </p>
                     </div>
                   )}
@@ -157,7 +150,7 @@ const Orders = () => {
                         fallback={
                           <div className="w-full h-[95%] flex justify-center items-center">
                             <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading All Orders...
+                              Loading all orders...
                             </p>
                           </div>
                         }
@@ -174,7 +167,7 @@ const Orders = () => {
                   ) : (
                     <div className="w-full h-[95%] flex justify-center items-center">
                       <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Order Available
+                        No order available
                       </p>
                     </div>
                   )}
@@ -189,7 +182,7 @@ const Orders = () => {
               <Heading heading={"Overview"} />
             </div>
             <div className="w-full h-[90%] bg-transparent flex flex-col justify-between items-center space-y-[8%]">
-              {/** Recent Orders */}
+              {/** Latest Orders */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -209,11 +202,11 @@ const Orders = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {latestOrders?.length} Orders
+                  {latestOrders?.length}
                 </p>
               </div>
 
-              {/** Today Orders */}
+              {/** Last Month Orders */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -233,7 +226,7 @@ const Orders = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {todayOrders?.length} Orders
+                  {todayOrders?.length}
                 </p>
               </div>
 
@@ -257,7 +250,7 @@ const Orders = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allOrders?.length} Orders
+                  {allOrders?.length}
                 </p>
               </div>
             </div>

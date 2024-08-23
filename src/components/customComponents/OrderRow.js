@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import adminContext from "../../context/adminContext";
+import { OrdersContext } from "../../context/OrdersContext";
 import { extractDeliveryTimeDate } from "../../utils/DateUtils";
 
 // Components Imports
@@ -7,7 +7,7 @@ import RowText from "./RowText";
 import RowTextStatus from "./RowTextStatus";
 
 const OrderRow = ({ data, isClickable = false }) => {
-  const { handleOrderModal } = useContext(adminContext);
+  const { handleOrderModal } = useContext(OrdersContext);
 
   const orderDeliveryTimeDate = extractDeliveryTimeDate(data.deliveryDate);
 

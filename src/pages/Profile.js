@@ -12,17 +12,16 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 
 const Profile = () => {
-  const { auth, onAuthStateChanged, updateProfile } =
-    useContext(FirebaseContext);
+  const {
+    auth,
+    onAuthStateChanged,
+    updateProfile,
+    adminProfile,
+    setAdminProfile,
+  } = useContext(FirebaseContext);
   const { isDarkMode, handleNotification, uploadImageToStorage } =
     useContext(ProductsContext);
   const [isProfileUpdate, setProfileUpdate] = useState(false);
-  const [adminProfileUpdate, setAdminProfileUpdate] = useState({
-    img: null,
-    imgUrl: "",
-    name: "",
-    email: "",
-  });
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
   const getCurrentUser = auth.currentUser;
@@ -31,7 +30,7 @@ const Profile = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAdminProfileUpdate((prevData) => ({
+        setAdminProfile((prevData) => ({
           ...prevData,
           imgUrl: user?.photoURL,
           name: user?.displayName,
@@ -42,7 +41,8 @@ const Profile = () => {
         navigate("/login");
       }
     });
-  }, [auth, navigate, setAdminProfileUpdate]);
+    console.log("Getting admin profile from Profile.");
+  }, [auth, navigate, setAdminProfile, onAuthStateChanged]);
 
   const handleImageUpload = () => {
     if (fileInputRef.current) {
@@ -52,7 +52,7 @@ const Profile = () => {
 
   const handleImageChange = (e) => {
     const fileData = e.target.files[0];
-    setAdminProfileUpdate((prevState) => ({
+    setAdminProfile((prevState) => ({
       ...prevState,
       img: fileData,
     }));
@@ -60,7 +60,7 @@ const Profile = () => {
 
   const handleProfileChange = (e) => {
     const { value } = e.target;
-    setAdminProfileUpdate((prevData) => ({
+    setAdminProfile((prevData) => ({
       ...prevData,
       name: value,
     }));
@@ -73,14 +73,14 @@ const Profile = () => {
 
   // Function to handle profile save
   const handleProfileSave = async () => {
-    if (getCurrentUser && adminProfileUpdate?.img && adminProfileUpdate?.name) {
+    if (getCurrentUser && adminProfile?.img && adminProfile?.name) {
       const imageUrlToUpoad = await uploadImageToStorage(
-        adminProfileUpdate?.img,
+        adminProfile?.img,
         "admin-profile"
       );
 
       updateProfile(getCurrentUser, {
-        displayName: adminProfileUpdate?.name || getCurrentUser.displayName,
+        displayName: adminProfile?.name || getCurrentUser.displayName,
         photoURL: imageUrlToUpoad,
       })
         .then(() => {
@@ -88,7 +88,6 @@ const Profile = () => {
           setProfileUpdate((prev) => !prev);
         })
         .catch((error) => {
-          console.error("Error updating profile:", error);
           handleNotification(true, "red", "Error while updating profile");
         });
     } else {
@@ -140,9 +139,9 @@ const Profile = () => {
                 <div className="w-[25%] h-fit flex justify-center items-center mb-[1%] relative">
                   <img
                     src={
-                      adminProfileUpdate?.img
-                        ? adminProfileUpdate?.img
-                        : adminProfileUpdate?.imgUrl
+                      adminProfile?.img
+                        ? adminProfile?.img
+                        : adminProfile?.imgUrl
                     }
                     alt="admin_profile_img"
                     onError={(e) =>
@@ -167,7 +166,7 @@ const Profile = () => {
                 </div>
               ) : (
                 <img
-                  src={adminProfileUpdate?.imgUrl}
+                  src={adminProfile?.imgUrl}
                   alt="admin_profile_img"
                   onError={(e) =>
                     (e.target.src = defaultImageAssets?.defaultProfileImageUrl)
@@ -181,7 +180,7 @@ const Profile = () => {
                   type="text"
                   placeholder="Full Name"
                   name="name"
-                  value={adminProfileUpdate?.name}
+                  value={adminProfile?.name}
                   onChange={handleProfileChange}
                   maxLength={25}
                   className={`w-[33%] ${
@@ -196,7 +195,7 @@ const Profile = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {adminProfileUpdate?.name}
+                  {adminProfile?.name}
                 </p>
               )}
               <p
@@ -206,7 +205,7 @@ const Profile = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {adminProfileUpdate?.email}
+                {adminProfile?.email}
               </p>
             </div>
           </div>

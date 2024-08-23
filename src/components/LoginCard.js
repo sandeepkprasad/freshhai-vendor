@@ -1,16 +1,15 @@
 import React, { useContext, useState } from "react";
-import adminContext from "../context/adminContext";
+import { FirebaseContext } from "../context/FirebaseContext";
+import { ProductsContext } from "../context/ProductsContext";
 import { useNavigate } from "react-router-dom";
-
-// Firebase Imports
-import { signInWithEmailAndPassword } from "firebase/auth";
 
 // Reacr Icons
 import { ImEye, ImEyeBlocked } from "../utils/Icons";
 
 const LoginCard = () => {
-  const { auth, handleNotification, setAdminProfile } =
-    useContext(adminContext);
+  const { auth, signInWithEmailAndPassword, setAdminProfile } =
+    useContext(FirebaseContext);
+  const { handleNotification } = useContext(ProductsContext);
   const [loginCred, setLoginCred] = useState({ email: "", password: "" });
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const navigate = useNavigate();
@@ -33,7 +32,12 @@ const LoginCard = () => {
     if (loginCred?.email && loginCred?.password) {
       signInWithEmailAndPassword(auth, loginCred?.email, loginCred?.password)
         .then((userCredential) => {
-          setAdminProfile(userCredential?.user);
+          setAdminProfile((prevData) => ({
+            ...prevData,
+            imgUrl: userCredential?.user?.photoURL,
+            name: userCredential?.user?.displayName,
+            email: userCredential?.user?.email,
+          }));
           handleNotification(true, "green", "Logged in successfully.");
           setTimeout(() => {
             navigate("/");

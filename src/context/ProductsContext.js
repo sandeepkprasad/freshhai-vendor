@@ -80,6 +80,7 @@ const ProductsProvider = ({ children }) => {
 
   useEffect(() => {
     getProducts();
+    console.log("Getting all products.");
   }, [getProducts]);
 
   // Add new product
@@ -122,7 +123,8 @@ const ProductsProvider = ({ children }) => {
         expiryDate: productToAdd?.expiryDate,
         isHalal: productToAdd?.isHalal,
       });
-      setAllProducts((prevProducts) => [...prevProducts, productToAdd]);
+      getProducts();
+      console.log("New product added to database.");
       handleNotification(true, "green", "Product added successfully.");
       setIsAddModal(false);
     } else {
@@ -156,11 +158,8 @@ const ProductsProvider = ({ children }) => {
     if (isValid) {
       const docRef = doc(firestore, "products", updatedProduct?.id);
       await updateDoc(docRef, updatedProduct);
-      setAllProducts((prevProducts) =>
-        prevProducts?.map((product) =>
-          product?.id === updatedProduct?.id ? updatedProduct : product
-        )
-      );
+      getProducts();
+      console.log("Product updated to database.");
       handleNotification(true, "green", "Product updated successfully.");
       setIsUpdateModal(false);
     } else {
@@ -178,9 +177,8 @@ const ProductsProvider = ({ children }) => {
   const deleteProductById = async () => {
     const docRef = doc(firestore, "products", productToDelete);
     await deleteDoc(docRef);
-    setAllProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== productToDelete)
-    );
+    getProducts();
+    console.log("Product deleted from database.");
     handleNotification(true, "red", "Product deleted successfully.");
     setIsDeleteModal(false);
   };
