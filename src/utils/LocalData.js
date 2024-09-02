@@ -9,12 +9,44 @@ export const newProductSchema = {
   brand: "",
   weight: "",
   unit: "",
+  storageTemperature: "",
+  isHalal: true,
+  origin: "",
+};
+
+export const productSchema = {
+  imageUrl: null,
+  name: "",
+  shortDescription: "",
+  description: "",
+  category: { main: "", sub: "" },
+  price: {
+    regular: null,
+    sale: null,
+  },
+  discount: {
+    value: null,
+    type: "percentage",
+  },
+  isAvailable: true,
+  inventory: null,
+  brand: "",
+  weight: {
+    value: "",
+    unit: "",
+  },
   rating: null,
   numReviews: null,
+  reviewIds: [],
   expiryDate: "",
   storageTemperature: "",
   isHalal: true,
   origin: "",
+  productCode: "",
+  tags: [],
+  deliveryOptions: "",
+  minOrderQuantity: null,
+  loyaltyPoints: null,
 };
 
 export const newDeliveryPartnersSchema = {

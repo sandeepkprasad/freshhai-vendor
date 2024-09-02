@@ -140,7 +140,7 @@ const Profile = () => {
                   <img
                     src={
                       adminProfile?.img
-                        ? adminProfile?.img
+                        ? URL.createObjectURL(adminProfile?.img)
                         : adminProfile?.imgUrl
                     }
                     alt="admin_profile_img"

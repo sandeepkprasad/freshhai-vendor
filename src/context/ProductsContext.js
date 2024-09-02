@@ -1,4 +1,3 @@
-// ProductContext.js
 import React, {
   createContext,
   useState,
@@ -118,9 +117,6 @@ const ProductsProvider = ({ children }) => {
         unit: productToAdd?.unit,
         storageTemperature: productToAdd?.storageTemperature,
         origin: productToAdd?.origin,
-        rating: productToAdd?.rating,
-        numReviews: productToAdd?.numReviews,
-        expiryDate: productToAdd?.expiryDate,
         isHalal: productToAdd?.isHalal,
       });
       getProducts();

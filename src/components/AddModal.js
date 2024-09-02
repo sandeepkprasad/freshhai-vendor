@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 
 // Components Imports
@@ -7,6 +7,7 @@ import Toggle from "./customComponents/Toggle";
 
 import {
   newProductSchema,
+  productSchema,
   productWeight,
   productUnit,
   productCategory,
@@ -18,7 +19,8 @@ import {
 
 const AddModal = () => {
   const { isDarkMode, setIsAddModal, addProduct } = useContext(ProductsContext);
-  const [productToAdd, setProductToAdd] = useState(newProductSchema);
+  const [productToAdd, setProductToAdd] = useState(productSchema);
+  const imgRef = useRef();
 
   const handleProductImgChange = (e) => {
     const fileData = e.target.files[0];
@@ -48,18 +50,36 @@ const AddModal = () => {
       <div className="w-full h-full flex flex-col justify-between items-center">
         <div className="w-full h-[90%] flex flex-col justify-start space-y-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
           <p
-            className={`font-semibold text-lg ${
+            className={`font-semibold text-sm ${
               isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
             }`}
           >
             Add a Product
           </p>
-          <div className="w-full h-fit flex justify-start items-center">
+          <hr />
+          <div className="w-full h-fit flex justify-between items-center">
             <input
               type="file"
               accept="image/*"
               onChange={handleProductImgChange}
+              ref={imgRef}
+              className="hidden"
             />
+            <button
+            className="bg-primary-blue-light font-normal text-xs text-neutral-white rounded px-[1%] py-[0.5%] active:scale-95 duration-300"
+              onClick={() => {
+                imgRef.current.click();
+              }}
+            >
+              Click to upload image
+            </button>
+            {productToAdd.imageUrl && (
+              <img
+                src={URL.createObjectURL(productToAdd.imageUrl)}
+                alt="product_img"
+                className="w-[4%] rounded object-contain"
+              />
+            )}
           </div>
           <div className="w-full h-fit flex justify-start items-center">
             <input
@@ -68,8 +88,8 @@ const AddModal = () => {
               name="name"
               value={productToAdd.name}
               onChange={handleProductChange}
-              maxLength={25}
-              className={`w-[79%] ${
+              maxLength={50}
+              className={`w-full ${
                 isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
             />
@@ -85,7 +105,7 @@ const AddModal = () => {
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -97,7 +117,7 @@ const AddModal = () => {
                 <option
                   value={category}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -117,7 +137,7 @@ const AddModal = () => {
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -129,7 +149,7 @@ const AddModal = () => {
                 <option
                   value={brand}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -161,7 +181,7 @@ const AddModal = () => {
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -172,7 +192,7 @@ const AddModal = () => {
               {productWeight?.map((weight, index) => (
                 <option
                   value={weight}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -193,7 +213,7 @@ const AddModal = () => {
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -204,7 +224,7 @@ const AddModal = () => {
               {productUnit?.map((unit, index) => (
                 <option
                   value={unit}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -227,7 +247,7 @@ const AddModal = () => {
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -239,7 +259,7 @@ const AddModal = () => {
                 <option
                   value={origin}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -259,7 +279,7 @@ const AddModal = () => {
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -271,7 +291,7 @@ const AddModal = () => {
                 <option
                   value={temp}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -303,7 +323,7 @@ const AddModal = () => {
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -315,7 +335,7 @@ const AddModal = () => {
                 <option
                   value={available}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -327,7 +347,7 @@ const AddModal = () => {
             </select>
             <div className="w-[25%] h-fit flex justify-start items-center space-x-[2%]">
               <span
-                className={`font-semibold text-base ${
+                className={`font-semibold text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"

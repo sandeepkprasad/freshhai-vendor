@@ -11,11 +11,11 @@ body {
 }
 
 .selectClassLight {
-  @apply h-8 bg-neutral-white border rounded-lg shadow font-normal text-base text-neutral-black-dark px-[2%] focus:outline-none
+  @apply h-7 bg-neutral-white border rounded font-normal text-xs text-neutral-black-dark px-[1%] focus:outline-none
 }
 
 .selectClassDark {
-  @apply h-8 bg-neutral-black-dark border rounded-lg shadow font-normal text-base text-neutral-gray-light px-[2%] focus:outline-none
+  @apply h-7 bg-neutral-black-dark border rounded font-normal text-xs text-neutral-gray-light px-[1%] focus:outline-none
 }
 
 .buttonClass {
@@ -23,19 +23,19 @@ body {
 }
 
 .inputClassLight {
-  @apply h-8 bg-neutral-gray-light rounded-lg font-normal text-base text-neutral-black-dark px-[2%] focus:outline-none
+  @apply h-7 bg-neutral-gray-light rounded font-normal text-xs text-neutral-black-dark px-[1%] focus:outline-none
 }
 
 .inputClassDark {
-  @apply h-8 bg-neutral-black-light rounded-lg font-normal text-base text-neutral-gray-light px-[2%] focus:outline-none
+  @apply h-7 bg-neutral-black-light rounded font-normal text-xs text-neutral-gray-light px-[1%] focus:outline-none
 }
 
 .textareaClassLight {
-  @apply bg-neutral-gray-light rounded-lg font-normal text-sm text-neutral-black-dark px-[2%] py-[1%] focus:outline-none resize-none
+  @apply bg-neutral-gray-light rounded font-normal text-xs text-neutral-black-dark p-[1%] focus:outline-none resize-none
 }
 
 .textareaClassDark {
-  @apply bg-neutral-black-light rounded-lg font-normal text-sm text-neutral-gray-light px-[2%] py-[1%] focus:outline-none resize-none
+  @apply bg-neutral-black-light rounded font-normal text-xs text-neutral-gray-light p-[1%] focus:outline-none resize-none
 }
 
 .filterApplyBtn {

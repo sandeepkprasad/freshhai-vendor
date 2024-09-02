@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import FirebaseProvider from "./context/FirebaseContext";
 import ProductsProvider from "./context/ProductsContext";
+import UsersProvider from "./context/UsersContext";
 import OrdersProvider from "./context/OrdersContext";
 import AdminState from "./context/AdminState";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -24,26 +25,28 @@ const App = () => {
   return (
     <FirebaseProvider>
       <ProductsProvider>
-        <OrdersProvider>
-          <AdminState>
-            <Router>
-              <NotificationPopup />
-              <Routes>
-                <Route exact path="/" element={<Dashboard />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/customers" element={<Customers />} />
-                <Route path="/delivery" element={<Delivery />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Router>
-          </AdminState>
-        </OrdersProvider>
+        <UsersProvider>
+          <OrdersProvider>
+            <AdminState>
+              <Router>
+                <NotificationPopup />
+                <Routes>
+                  <Route exact path="/" element={<Dashboard />} />
+                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/customers" element={<Customers />} />
+                  <Route path="/delivery" element={<Delivery />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Router>
+            </AdminState>
+          </OrdersProvider>
+        </UsersProvider>
       </ProductsProvider>
     </FirebaseProvider>
   );
