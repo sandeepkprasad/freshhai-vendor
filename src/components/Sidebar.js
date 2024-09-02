@@ -39,9 +39,9 @@ const Sidebar = () => {
               to={item.route}
               className={`w-full h-[8%] ${
                 item.route === location?.pathname
-                  ? "bg-neutral-black-dark shadow-md"
+                  ? "bg-neutral-black-dark shadow"
                   : "bg-transparent"
-              } flex justify-start items-center pl-[15%] space-x-[7%] rounded-3xl active:scale-95 duration-300`}
+              } flex justify-start items-center pl-[15%] space-x-[7%] rounded-lg active:scale-95 duration-300`}
               key={index}
             >
               <span
@@ -72,9 +72,9 @@ const Sidebar = () => {
               to={item.route}
               className={`w-full h-[8%] ${
                 item.route === location?.pathname
-                  ? "bg-neutral-white shadow-md"
+                  ? "bg-neutral-white shadow"
                   : "bg-transparent"
-              } flex justify-start items-center pl-[15%] space-x-[7%] rounded-3xl active:scale-95 duration-300`}
+              } flex justify-start items-center pl-[15%] space-x-[7%] rounded-lg active:scale-95 duration-300`}
               key={index}
             >
               <span

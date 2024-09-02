@@ -12,7 +12,7 @@ const ModalWrapper = ({ children, closeModal }) => {
       <div
         className={`w-[50%] h-[75%] ${
           isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-        } rounded-3xl shadow-md p-[0.5%] animate-slideTopToBottom`}
+        } rounded-lg shadow p-[0.5%] animate-slideTopToBottom`}
       >
         <div className="w-full h-[5%] flex justify-end items-center">
           <button

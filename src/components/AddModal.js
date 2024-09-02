@@ -37,12 +37,26 @@ const AddModal = () => {
     }));
   };
 
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target;
+
+    setProductToAdd((prevProduct) => ({
+      ...prevProduct,
+      price: {
+        ...prevProduct.price,
+        [name]: value,
+      },
+    }));
+  };
+
   const toggleHalal = () => {
     setProductToAdd((prevState) => ({
       ...prevState,
       isHalal: !prevState.isHalal,
     }));
   };
+
+  console.log("Product to be added : ", productToAdd);
 
   return (
     <ModalWrapper closeModal={setIsAddModal}>
@@ -51,7 +65,7 @@ const AddModal = () => {
           <p
             className={`font-semibold text-sm ${
               isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            }`}
+            } text-center`}
           >
             Add a Product
           </p>
@@ -89,6 +103,38 @@ const AddModal = () => {
               onChange={handleProductChange}
               maxLength={50}
               className={`w-full ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
+          </div>
+          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
+            <input
+              type="number"
+              placeholder="Regular Price (₹)"
+              name="regular"
+              value={productToAdd.price.regular || ""}
+              onChange={handlePriceChange}
+              className={`w-[33%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
+            <input
+              type="number"
+              placeholder="Sale Price (₹)"
+              name="sale"
+              value={productToAdd.price.sale || ""}
+              onChange={handlePriceChange}
+              className={`w-[33%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
+            <input
+              type="number"
+              placeholder="Discount (%)"
+              name="discount"
+              value={productToAdd.discount || ""}
+              onChange={handleProductChange}
+              className={`w-[33%] ${
                 isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
             />
@@ -160,16 +206,6 @@ const AddModal = () => {
             </select>
           </div>
           <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
-            <input
-              type="number"
-              placeholder="Product Price (₹)"
-              name="price"
-              value={productToAdd.price || ""}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "inputClassDark" : "inputClassLight"
-              }`}
-            />
             <select
               name="weight"
               value={productToAdd.weight}
@@ -300,16 +336,6 @@ const AddModal = () => {
                 </option>
               ))}
             </select>
-            <input
-              type="number"
-              placeholder="Discount (%)"
-              name="discount"
-              value={productToAdd.discount || ""}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "inputClassDark" : "inputClassLight"
-              }`}
-            />
           </div>
           <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
             <select
@@ -362,8 +388,8 @@ const AddModal = () => {
             name="description"
             value={productToAdd.description}
             onChange={handleProductChange}
-            maxLength={100}
-            className={`w-[79%] h-[33%] ${
+            maxLength={200}
+            className={`w-full h-[25%] ${
               isDarkMode ? "textareaClassDark" : "textareaClassLight"
             }`}
           ></textarea>

@@ -46,7 +46,7 @@ const Navbar = () => {
       <div
         className={`w-full h-full ${
           isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-        } flex justify-between items-center rounded-3xl shadow-md px-[2%] duration-300`}
+        } flex justify-between items-center rounded-lg shadow px-[2%] duration-300`}
       >
         <img
           src={defaultImageAssets?.brandLogo}

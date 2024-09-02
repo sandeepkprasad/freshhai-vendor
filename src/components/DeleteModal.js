@@ -10,7 +10,7 @@ const DeleteModal = () => {
       <div
         className={`w-[25%] h-[20%] ${
           isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-        } rounded-3xl shadow-md p-[0.5%] animate-slideTopToBottom`}
+        } rounded-lg shadow p-[0.5%] animate-slideTopToBottom`}
       >
         <div className="w-full h-full flex flex-col justify-between items-center">
           <div className="w-full h-[70%] flex justify-center items-center">
