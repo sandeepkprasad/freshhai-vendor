@@ -94,10 +94,10 @@ export const productCategory = [
   "Crab",
   "Seafood",
   "Poultry",
-  "Meat",
+  "Mutton",
 ];
 
-export const productBrand = ["Fresh Water", "Local Catch"];
+export const productBrand = ["FreshHai"];
 
 export const productOrigin = [
   "Andhra Pradesh",

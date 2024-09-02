@@ -6,7 +6,6 @@ import ModalWrapper from "./ModalWrapper";
 import Toggle from "./customComponents/Toggle";
 
 import {
-  newProductSchema,
   productSchema,
   productWeight,
   productUnit,
@@ -48,7 +47,7 @@ const AddModal = () => {
   return (
     <ModalWrapper closeModal={setIsAddModal}>
       <div className="w-full h-full flex flex-col justify-between items-center">
-        <div className="w-full h-[90%] flex flex-col justify-start space-y-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+        <div className="w-full h-[90%] flex flex-col justify-start space-y-[1%] overflow-x-hidden overflow-y-scroll customScrollbar">
           <p
             className={`font-semibold text-sm ${
               isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
@@ -66,7 +65,7 @@ const AddModal = () => {
               className="hidden"
             />
             <button
-            className="bg-primary-blue-light font-normal text-xs text-neutral-white rounded px-[1%] py-[0.5%] active:scale-95 duration-300"
+              className="bg-primary-blue-light font-normal text-xs text-neutral-white rounded px-[1%] py-[0.5%] active:scale-95 duration-300"
               onClick={() => {
                 imgRef.current.click();
               }}
@@ -77,7 +76,7 @@ const AddModal = () => {
               <img
                 src={URL.createObjectURL(productToAdd.imageUrl)}
                 alt="product_img"
-                className="w-[4%] rounded object-contain"
+                className="w-[3%] rounded object-contain"
               />
             )}
           </div>
@@ -143,7 +142,7 @@ const AddModal = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                Select Type
+                Select Brand
               </option>
               {productBrand?.map((brand, index) => (
                 <option
