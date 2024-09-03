@@ -36,6 +36,8 @@ const Products = () => {
     );
   });
 
+  console.log("All products fetched : ", allProducts);
+
   return (
     <>
       <DashboardWrapper>

@@ -7,12 +7,10 @@ import Toggle from "./customComponents/Toggle";
 
 import {
   productSchema,
-  productWeight,
   productUnit,
   productCategory,
   productAvailability,
   productBrand,
-  productOrigin,
   productTemperature,
 } from "../utils/LocalData";
 
@@ -49,6 +47,42 @@ const AddModal = () => {
     }));
   };
 
+  const handleDiscountChange = (e) => {
+    const { name, value } = e.target;
+
+    setProductToAdd((prevProduct) => ({
+      ...prevProduct,
+      discount: {
+        ...prevProduct.discount,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleWeightChange = (e) => {
+    const { name, value } = e.target;
+
+    setProductToAdd((prevProduct) => ({
+      ...prevProduct,
+      weight: {
+        ...prevProduct.weight,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleCategoryChange = (e) => {
+    const { name, value } = e.target;
+
+    setProductToAdd((prevProduct) => ({
+      ...prevProduct,
+      category: {
+        ...prevProduct.category,
+        [name]: value,
+      },
+    }));
+  };
+
   const toggleHalal = () => {
     setProductToAdd((prevState) => ({
       ...prevState,
@@ -79,7 +113,7 @@ const AddModal = () => {
               className="hidden"
             />
             <button
-              className="bg-primary-blue-light font-normal text-xs text-neutral-white rounded px-[1%] py-[0.5%] active:scale-95 duration-300"
+              className="bg-primary-blue-light font-normal text-xs text-neutral-white rounded px-[1%] py-[0.8%] active:scale-95 duration-300"
               onClick={() => {
                 imgRef.current.click();
               }}
@@ -90,7 +124,7 @@ const AddModal = () => {
               <img
                 src={URL.createObjectURL(productToAdd.imageUrl)}
                 alt="product_img"
-                className="w-[3%] rounded object-contain"
+                className="w-[4%] rounded object-contain"
               />
             )}
           </div>
@@ -131,118 +165,30 @@ const AddModal = () => {
             <input
               type="number"
               placeholder="Discount (%)"
-              name="discount"
-              value={productToAdd.discount || ""}
-              onChange={handleProductChange}
+              name="value"
+              value={productToAdd.discount.value || ""}
+              onChange={handleDiscountChange}
               className={`w-[33%] ${
                 isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
             />
           </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
-            <select
-              name="category"
-              value={productToAdd.category}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "selectClassDark" : "selectClassLight"
+          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
+            <input
+              type="number"
+              placeholder="Product Weight"
+              name="value"
+              value={productToAdd.weight.value || ""}
+              onChange={handleWeightChange}
+              className={`w-[33%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
-            >
-              <option
-                value=""
-                className={`font-normal text-xs ${
-                  isDarkMode
-                    ? "text-neutral-gray-light"
-                    : "text-neutral-black-dark"
-                }`}
-              >
-                Select Category
-              </option>
-              {productCategory?.map((category, index) => (
-                <option
-                  value={category}
-                  key={index}
-                  className={`font-normal text-xs ${
-                    isDarkMode
-                      ? "text-neutral-gray-light"
-                      : "text-neutral-black-dark"
-                  }`}
-                >
-                  {category}
-                </option>
-              ))}
-            </select>
-            <select
-              name="brand"
-              value={productToAdd.brand}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "selectClassDark" : "selectClassLight"
-              }`}
-            >
-              <option
-                value=""
-                className={`font-normal text-xs ${
-                  isDarkMode
-                    ? "text-neutral-gray-light"
-                    : "text-neutral-black-dark"
-                }`}
-              >
-                Select Brand
-              </option>
-              {productBrand?.map((brand, index) => (
-                <option
-                  value={brand}
-                  key={index}
-                  className={`font-normal text-xs ${
-                    isDarkMode
-                      ? "text-neutral-gray-light"
-                      : "text-neutral-black-dark"
-                  }`}
-                >
-                  {brand}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
-            <select
-              name="weight"
-              value={productToAdd.weight}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "selectClassDark" : "selectClassLight"
-              }`}
-            >
-              <option
-                value=""
-                className={`font-normal text-xs ${
-                  isDarkMode
-                    ? "text-neutral-gray-light"
-                    : "text-neutral-black-dark"
-                }`}
-              >
-                Select Weight
-              </option>
-              {productWeight?.map((weight, index) => (
-                <option
-                  value={weight}
-                  className={`font-normal text-xs ${
-                    isDarkMode
-                      ? "text-neutral-gray-light"
-                      : "text-neutral-black-dark"
-                  }`}
-                  key={index}
-                >
-                  {weight}
-                </option>
-              ))}
-            </select>
+            />
             <select
               name="unit"
-              value={productToAdd.unit}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
+              value={productToAdd.weight.unit}
+              onChange={handleWeightChange}
+              className={`w-[33%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
@@ -270,13 +216,11 @@ const AddModal = () => {
                 </option>
               ))}
             </select>
-          </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
             <select
-              name="origin"
-              value={productToAdd.origin}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
+              name="main"
+              value={productToAdd.category.main}
+              onChange={handleCategoryChange}
+              className={`w-[33%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
@@ -288,11 +232,11 @@ const AddModal = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                Select Origin
+                Select Category
               </option>
-              {productOrigin?.map((origin, index) => (
+              {productCategory?.map((category, index) => (
                 <option
-                  value={origin}
+                  value={category}
                   key={index}
                   className={`font-normal text-xs ${
                     isDarkMode
@@ -300,15 +244,59 @@ const AddModal = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {origin}
+                  {category}
                 </option>
               ))}
             </select>
+          </div>
+          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
+            <select
+              name="brand"
+              value={productToAdd.brand}
+              onChange={handleProductChange}
+              className={`w-[33%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
+            >
+              <option
+                value=""
+                className={`font-normal text-xs ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                Select Brand
+              </option>
+              {productBrand?.map((brand, index) => (
+                <option
+                  value={brand}
+                  key={index}
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  {brand}
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              placeholder="Product Origin"
+              name="origin"
+              value={productToAdd.origin || ""}
+              onChange={handleProductChange}
+              className={`w-[33%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
             <select
               name="storageTemperature"
               value={productToAdd.storageTemperature}
               onChange={handleProductChange}
-              className={`w-[25%] ${
+              className={`w-[33%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
@@ -337,12 +325,12 @@ const AddModal = () => {
               ))}
             </select>
           </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
+          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
             <select
-              name="available"
-              value={productToAdd.available}
+              name="isAvailable"
+              value={productToAdd.isAvailable}
               onChange={handleProductChange}
-              className={`w-[25%] ${
+              className={`w-[33%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
@@ -370,7 +358,7 @@ const AddModal = () => {
                 </option>
               ))}
             </select>
-            <div className="w-[25%] h-fit flex justify-start items-center space-x-[2%]">
+            <div className="w-[33%] h-fit flex justify-start items-center space-x-[2%]">
               <span
                 className={`font-semibold text-xs ${
                   isDarkMode
@@ -382,6 +370,7 @@ const AddModal = () => {
               </span>
               <Toggle data={productToAdd.isHalal} toggleClick={toggleHalal} />
             </div>
+            <div className="w-[33%] h-fit flex justify-start items-center space-x-[2%] invisible"></div>
           </div>
           <textarea
             placeholder="Enter product description here..."

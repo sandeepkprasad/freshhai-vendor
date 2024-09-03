@@ -50,7 +50,7 @@ const ProductFilter = () => {
         onChange={handleFilterChange}
         className={`${isDarkMode ? "dropdownClassDark" : "dropdownClass"}`}
       >
-        <option value="">Type</option>
+        <option value="">Brand</option>
         {productFilterData?.brand?.map((brand, index) => (
           <option value={brand} key={index}>
             {brand}

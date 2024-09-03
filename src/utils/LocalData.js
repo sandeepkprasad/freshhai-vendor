@@ -28,7 +28,7 @@ export const productSchema = {
     value: null,
     type: "percentage",
   },
-  isAvailable: true,
+  isAvailable: "",
   inventory: null,
   brand: "",
   weight: {

@@ -88,15 +88,16 @@ const ProductsProvider = ({ children }) => {
       productToAdd?.imageUrl &&
       productToAdd?.name &&
       productToAdd?.description &&
-      productToAdd?.category &&
-      productToAdd?.price !== undefined &&
-      productToAdd?.discount !== undefined &&
+      productToAdd?.category?.main &&
+      productToAdd?.price?.regular !== undefined &&
+      productToAdd?.price?.sale !== undefined &&
+      productToAdd?.discount?.value !== undefined &&
       productToAdd?.brand &&
-      productToAdd?.weight !== undefined &&
-      productToAdd?.unit &&
+      productToAdd?.weight?.value !== undefined &&
+      productToAdd?.weight?.unit &&
       productToAdd?.storageTemperature &&
       productToAdd?.origin &&
-      productToAdd?.available;
+      productToAdd?.isAvailable;
 
     if (isValid) {
       const imageUrlToUpoad = await uploadImageToStorage(
@@ -107,14 +108,25 @@ const ProductsProvider = ({ children }) => {
       await addDoc(collection(firestore, "products"), {
         imageUrl: imageUrlToUpoad,
         name: productToAdd?.name,
-        category: productToAdd?.category,
-        price: productToAdd?.price,
+        category: {
+          main: productToAdd?.category?.main,
+          sub: productToAdd?.category?.sub,
+        },
+        price: {
+          regular: productToAdd?.price?.regular,
+          sale: productToAdd?.price?.sale,
+        },
         description: productToAdd?.description,
-        available: productToAdd?.available,
-        discount: productToAdd?.discount,
+        isAvailable: productToAdd?.isAvailable,
+        discount: {
+          value: productToAdd?.discount?.value,
+          type: productToAdd?.discount?.type,
+        },
         brand: productToAdd?.brand,
-        weight: productToAdd?.weight,
-        unit: productToAdd?.unit,
+        weight: {
+          value: productToAdd?.weight?.value,
+          unit: productToAdd?.weight?.unit,
+        },
         storageTemperature: productToAdd?.storageTemperature,
         origin: productToAdd?.origin,
         isHalal: productToAdd?.isHalal,

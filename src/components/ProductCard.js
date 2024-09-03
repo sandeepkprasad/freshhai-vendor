@@ -42,7 +42,7 @@ const ProductCard = ({ data }) => {
                   : "text-neutral-black-light"
               }`}
             >
-              {data?.category}
+              {data?.category?.main}
             </p>
             <p
               className={`font-normal text-sm ${
@@ -55,10 +55,10 @@ const ProductCard = ({ data }) => {
             </p>
             <div className="w-full h-fit flex justify-between items-center">
               <span className="bg-primary-green-dark font-semibold text-sm text-neutral-white rounded px-2 py-0.5">
-                ₹ {data?.price} / {data?.weight}
-                {data?.unit}
+                ₹ {data?.price.sale} / {data?.weight?.value}
+                {data?.weight?.unit}
               </span>
-              {data?.available === "Available" ? (
+              {data?.isAvailable === "Available" ? (
                 <span className="font-semibold text-sm text-primary-green-dark rounded px-2 py-0.5">
                   Available
                 </span>
@@ -99,7 +99,7 @@ const ProductCard = ({ data }) => {
                   : "text-neutral-black-light"
               }`}
             >
-              Discount : {data?.discount}%
+              Discount : {data?.discount?.value} {data?.discount?.type}
             </p>
             <p
               className={`font-normal text-sm ${
