@@ -17,7 +17,6 @@ const Customers = () => {
   const { isDarkMode } = useContext(ProductsContext);
   const { allUsers, isUserModal, addUser } = useContext(UsersContext);
 
-  console.log("All users data : ", allUsers);
   return (
     <>
       <DashboardWrapper>

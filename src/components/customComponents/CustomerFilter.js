@@ -4,7 +4,7 @@ import { UsersContext } from "../../context/UsersContext";
 
 const CustomerFilter = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { allUsers, userFilter, setUserFilter, handleUserFilter } =
+  const { userFilter, setUserFilter, handleUserFilter } =
     useContext(UsersContext);
 
   // Handle Product Filter
