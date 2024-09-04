@@ -3,11 +3,11 @@ body {
 }
 
 .dropdownClass {
-    @apply w-fit h-fit bg-neutral-white border border-neutral-white rounded shadow px-[1%] py-[0.5%] font-normal text-xs text-neutral-gray-dark focus:outline-none active:scale-95 duration-300
+    @apply w-fit h-fit bg-neutral-white border border-neutral-white rounded shadow px-[1%] py-[0.3%] font-normal text-xs text-neutral-gray-dark focus:outline-none
 }
 
 .dropdownClassDark {
-  @apply w-fit h-fit bg-neutral-black-dark border border-neutral-black-dark rounded shadow px-[1%] py-[0.5%] font-normal text-xs text-neutral-gray-light focus:outline-none active:scale-95 duration-300
+  @apply w-fit h-fit bg-neutral-black-dark border border-neutral-black-dark rounded shadow px-[1%] py-[0.3%] font-normal text-xs text-neutral-gray-light focus:outline-none
 }
 
 .selectClassLight {
@@ -19,7 +19,7 @@ body {
 }
 
 .buttonClass {
-  @apply font-semibold text-base text-neutral-white rounded shadow px-2 py-0.5 active:scale-95 duration-300
+  @apply font-semibold text-sm text-neutral-white rounded shadow px-2 py-0.5 active:scale-95 duration-300
 }
 
 .inputClassLight {

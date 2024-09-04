@@ -25,7 +25,6 @@ const AdminState = ({ children }) => {
     active: 0,
     suspended: 0,
   });
-  const [userFilter, setUserFilter] = useState({ phone: "", isBlocked: "" });
   const [deliveryFilter, setDeliveryFilter] = useState({ name: "", phone: "" });
   const [isUserModal, setIsUserModal] = useState(false);
   const [userToUpdate, setUserToUpdate] = useState(null);
@@ -242,8 +241,6 @@ const AdminState = ({ children }) => {
         setIsUserModal,
         userToUpdate,
         updateUser,
-        userFilter,
-        setUserFilter,
         getActiveDeliveryPartners,
         getAllDeliveryPartners,
         getSuspendedDeliveryPartners,

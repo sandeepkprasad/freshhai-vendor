@@ -26,13 +26,13 @@ const Products = () => {
   const filteredProducts = allProducts?.filter((product) => {
     return (
       (productFilter?.category === "" ||
-        product?.category === productFilter?.category) &&
+        product?.category?.main === productFilter?.category) &&
       (productFilter?.brand === "" ||
         product?.brand === productFilter?.brand) &&
       (productFilter?.origin === "" ||
         product?.origin === productFilter?.origin) &&
       (productFilter?.available === "" ||
-        product?.available === productFilter?.available)
+        product?.isAvailable === productFilter?.available)
     );
   });
 
@@ -57,7 +57,7 @@ const Products = () => {
             </div>
           </div>
           {filteredProducts?.length > 0 ? (
-            <div className="w-full h-[90%] grid grid-cols-3 gap-4 pb-[1%] overflow-x-hidden overflow-y-scroll customScrollbar">
+            <div className="w-full h-[90%] grid grid-cols-5 pb-[1%] overflow-x-hidden overflow-y-scroll customScrollbar">
               <Suspense
                 fallback={
                   <div className="w-full h-[95%] flex justify-center items-center">

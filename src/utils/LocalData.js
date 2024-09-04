@@ -1,19 +1,3 @@
-export const newProductSchema = {
-  imageUrl: null,
-  name: "",
-  description: "",
-  category: "",
-  price: null,
-  discount: null,
-  available: "",
-  brand: "",
-  weight: "",
-  unit: "",
-  storageTemperature: "",
-  isHalal: true,
-  origin: "",
-};
-
 export const productSchema = {
   imageUrl: null,
   name: "",
@@ -47,6 +31,99 @@ export const productSchema = {
   deliveryOptions: "",
   minOrderQuantity: null,
   loyaltyPoints: null,
+};
+
+export const userSchema = {
+  basicInfo: {
+    fullName: "John Doe",
+    email: "john.doe@example.com",
+    mobileNumber: "+919876543210",
+    dateOfBirth: "1990-05-15",
+    profilePictureUrl: "https://example.com/profile-pictures/john-doe.jpg",
+  },
+  addresses: [
+    {
+      type: "Home",
+      addressLine1: "123 Main Street",
+      addressLine2: "Apartment 4B",
+      city: "Bangalore",
+      state: "Karnataka",
+      pincode: "560001",
+      landmark: "Near MG Road",
+      location: {
+        latitude: 12.9715987,
+        longitude: 77.594566,
+      },
+      isDefault: true,
+    },
+    {
+      type: "Office",
+      addressLine1: "456 Corporate Blvd",
+      addressLine2: "Suite 200",
+      city: "Bangalore",
+      state: "Karnataka",
+      pincode: "560002",
+      landmark: "Near UB City",
+      location: {
+        latitude: 12.9715987,
+        longitude: 77.594566,
+      },
+      isDefault: false,
+    },
+  ],
+  paymentPreferences: {
+    savedPaymentMethods: [
+      {
+        type: "Credit Card",
+        cardNumber: "**** **** **** 1234",
+        expiryDate: "12/25",
+        cardholderName: "John Doe",
+        isDefault: true,
+      },
+      {
+        type: "UPI",
+        upiId: "john.doe@upi",
+        isDefault: false,
+      },
+    ],
+  },
+  wallet: {
+    balance: 500.0,
+    currency: "INR",
+    transactions: [
+      {
+        transactionId: "txn_1",
+        type: "Credit",
+        amount: 200.0,
+        description: "Added via UPI",
+        timestamp: "2024-09-01T10:30:00Z",
+      },
+      {
+        transactionId: "txn_2",
+        type: "Debit",
+        amount: 100.0,
+        description: "Order Payment",
+        timestamp: "2024-09-02T15:45:00Z",
+      },
+    ],
+  },
+  notificationPreferences: {
+    orderNotifications: {
+      sms: true,
+      email: true,
+      inApp: true,
+    },
+    promotionalNotifications: {
+      sms: false,
+      email: true,
+      inApp: true,
+    },
+  },
+  referral: {
+    referralCode: "REF12345",
+  },
+  orderReferences: ["order_1", "order_2", "order_3"],
+  userStatus: "active",
 };
 
 export const newDeliveryPartnersSchema = {

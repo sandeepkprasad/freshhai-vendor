@@ -1,61 +1,139 @@
-import React, { useContext, useState } from "react";
-import adminContext from "../context/adminContext";
+import React, { useContext } from "react";
+import { ProductsContext } from "../context/ProductsContext";
+import { UsersContext } from "../context/UsersContext";
 
 // Components Imports
-import Toggle from "./customComponents/Toggle";
+import ModalWrapper from "./ModalWrapper";
 
 const UserModal = () => {
-  const { isDarkMode, userToUpdate, updateUser, setIsUserModal } =
-    useContext(adminContext);
-  const [updatedUser, setUpdatedUser] = useState(userToUpdate);
+  const { isDarkMode } = useContext(ProductsContext);
+  const { userToView, setUserToView, setIsUserModal } =
+    useContext(UsersContext);
 
-  const handleUserBlock = () => {
-    setUpdatedUser((prevUser) => ({
-      ...prevUser,
-      isBlocked: !prevUser.isBlocked,
-    }));
+  const handleCloseUserModal = () => {
+    setUserToView(null);
+    setIsUserModal(false);
   };
 
+  console.log("Single user data : ", userToView);
   return (
-    <div className="w-screen h-screen bg-neutral-black-dark/50 flex justify-center items-center fixed left-0 top-0 right-0 bottom-0 z-50">
-      <div
-        className={`w-[25%] h-[20%] ${
-          isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-        } rounded-3xl shadow-md p-[0.5%] animate-slideTopToBottom`}
-      >
-        <div className="w-full h-full flex flex-col justify-between items-center">
-          <div className="w-full h-[70%] flex flex-col justify-center items-center space-y-[5%]">
-            <p
-              className={`font-semibold text-base ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-dark"
-              } text-center`}
-            >
-              Want to block this user?
-            </p>
-            <Toggle
-              data={updatedUser?.isBlocked}
-              toggleClick={handleUserBlock}
-            />
-          </div>
-          <div className="w-full h-fit flex justify-evenly items-center">
-            <button
-              className="buttonClass bg-secondary-red-dark"
-              onClick={() => updateUser(updatedUser)}
-            >
-              Done
-            </button>
-            <button
-              className="buttonClass bg-primary-blue-dark"
-              onClick={() => setIsUserModal(false)}
-            >
-              Cancel
-            </button>
+    <ModalWrapper closeModal={setIsUserModal}>
+      <div className="w-full h-full flex flex-col justify-between items-center">
+        <div className="w-full h-[90%] flex flex-col justify-start space-y-[1%]">
+          <p
+            className={`font-semibold text-sm ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            } text-center`}
+          >
+            {userToView?.basicInfo?.fullName}
+          </p>
+          <hr />
+          <div className="w-full h-full flex justify-center items-center">
+            <div className="w-[50%] h-full border-e space-y-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+              <div className="w-full h-fit">
+                <p
+                  className={`font-semibold text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  } mb-[1%]`}
+                >
+                  Basic Info :
+                </p>
+                <p
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  Name : {userToView?.basicInfo?.fullName}
+                </p>
+                <p
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  Contact : {userToView?.basicInfo?.mobileNumber}
+                </p>
+                <p
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  Email : {userToView?.basicInfo?.email}
+                </p>
+                <p
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  DOB : {userToView?.basicInfo?.dateOfBirth}
+                </p>
+              </div>
+              <div className="w-full h-fit">
+                <p
+                  className={`font-semibold text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  } mb-[1%]`}
+                >
+                  Addresses :
+                </p>
+                {userToView?.addresses?.map((address, index) => (
+                  <div className="w-full h-fit mb-[1%]" key={index}>
+                    <p
+                      className={`font-normal text-xs ${
+                        isDarkMode
+                          ? "text-neutral-gray-light"
+                          : "text-neutral-black-dark"
+                      }`}
+                    >
+                      Type : {address?.type}
+                    </p>
+                    <p
+                      className={`font-normal text-xs ${
+                        isDarkMode
+                          ? "text-neutral-gray-light"
+                          : "text-neutral-black-dark"
+                      }`}
+                    >
+                      Address: {address?.addressLine1}, {address?.addressLine2},{" "}
+                      {address?.city}, {address?.state}, {address?.pincode}
+                    </p>
+                    <p
+                      className={`font-normal text-xs ${
+                        isDarkMode
+                          ? "text-neutral-gray-light"
+                          : "text-neutral-black-dark"
+                      }`}
+                    >
+                      Landmark: {address?.landmark}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="w-[50%] h-full overflow-x-hidden overflow-y-scroll customScrollbar"></div>
           </div>
         </div>
+        <div className="w-full h-fit flex justify-center items-center">
+          <button
+            className="buttonClass bg-primary-blue-dark"
+            onClick={handleCloseUserModal}
+          >
+            Close
+          </button>
+        </div>
       </div>
-    </div>
+    </ModalWrapper>
   );
 };
 

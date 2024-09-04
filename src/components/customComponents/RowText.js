@@ -6,7 +6,7 @@ const RowText = ({ text }) => {
 
   return (
     <span
-      className={`flex-1 text-start font-normal text-sm ${
+      className={`flex-1 text-start font-normal text-xs ${
         isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
       } overflow-hidden`}
     >

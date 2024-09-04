@@ -153,15 +153,16 @@ const ProductsProvider = ({ children }) => {
       updatedProduct?.imageUrl &&
       updatedProduct?.name &&
       updatedProduct?.description &&
-      updatedProduct?.category &&
-      updatedProduct?.price !== undefined &&
-      updatedProduct?.discount !== undefined &&
+      updatedProduct?.category?.main &&
+      updatedProduct?.price?.regular !== undefined &&
+      updatedProduct?.price?.sale !== undefined &&
+      updatedProduct?.discount?.value !== undefined &&
       updatedProduct?.brand &&
-      updatedProduct?.weight !== undefined &&
-      updatedProduct?.unit &&
+      updatedProduct?.weight?.value !== undefined &&
+      updatedProduct?.weight?.unit &&
       updatedProduct?.storageTemperature &&
       updatedProduct?.origin &&
-      updatedProduct?.available;
+      updatedProduct?.isAvailable;
 
     if (isValid) {
       const docRef = doc(firestore, "products", updatedProduct?.id);

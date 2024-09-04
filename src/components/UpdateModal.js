@@ -6,12 +6,10 @@ import ModalWrapper from "./ModalWrapper";
 import Toggle from "./customComponents/Toggle";
 
 import {
-  productWeight,
   productUnit,
   productCategory,
   productAvailability,
   productBrand,
-  productOrigin,
   productTemperature,
 } from "../utils/LocalData";
 
@@ -43,6 +41,54 @@ const UpdateModal = () => {
     }));
   };
 
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target;
+
+    setUpdatedProduct((prevProduct) => ({
+      ...prevProduct,
+      price: {
+        ...prevProduct.price,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleDiscountChange = (e) => {
+    const { name, value } = e.target;
+
+    setUpdatedProduct((prevProduct) => ({
+      ...prevProduct,
+      discount: {
+        ...prevProduct.discount,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleWeightChange = (e) => {
+    const { name, value } = e.target;
+
+    setUpdatedProduct((prevProduct) => ({
+      ...prevProduct,
+      weight: {
+        ...prevProduct.weight,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleCategoryChange = (e) => {
+    const { name, value } = e.target;
+
+    setUpdatedProduct((prevProduct) => ({
+      ...prevProduct,
+      category: {
+        ...prevProduct.category,
+        [name]: value,
+      },
+    }));
+  };
+
   const toggleHalal = () => {
     setUpdatedProduct((prevState) => ({
       ...prevState,
@@ -53,49 +99,136 @@ const UpdateModal = () => {
   return (
     <ModalWrapper closeModal={setIsUpdateModal}>
       <div className="w-full h-full flex flex-col justify-between items-center">
-        <div className="w-full h-[90%] flex flex-col justify-start space-y-[2%]">
+        <div className="w-full h-[90%] flex flex-col justify-start space-y-[1%] overflow-x-hidden overflow-y-scroll customScrollbar">
           <p
-            className={`font-semibold text-lg ${
+            className={`font-semibold text-sm ${
               isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            }`}
+            } text-center`}
           >
             Update a Product
           </p>
+          <hr />
           <div className="w-full h-fit flex justify-between items-center">
-            <input type="file" onChange={handleProductImgChange} />
-            {updatedProduct.imageUrl.length > 0 && (
+            <input
+              id="productImg"
+              type="file"
+              accept="image/*"
+              onChange={handleProductImgChange}
+              className="hidden"
+            />
+            <label
+              htmlFor="productImg"
+              className="bg-primary-blue-light font-normal text-xs text-neutral-white rounded px-[1%] py-[0.8%] active:scale-95 duration-300"
+            >
+              Click to upload image
+            </label>
+            {updatedProduct.imageUrl && (
               <img
                 src={updatedProduct.imageUrl}
                 alt="product_img"
-                className="w-[4%] rounded object-contain"
+                className="w-[3%] rounded object-contain"
               />
             )}
           </div>
-          <div className="w-full h-full flex justify-start items-center">
+          <div className="w-full h-fit flex justify-start items-center">
             <input
               type="text"
               placeholder="Product Name"
               name="name"
               value={updatedProduct.name}
               onChange={handleProductChange}
-              maxLength={25}
-              className={`w-[79%] ${
+              maxLength={50}
+              className={`w-full ${
                 isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
             />
           </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
+          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
+            <input
+              type="number"
+              placeholder="Regular Price (₹)"
+              name="regular"
+              value={updatedProduct.price.regular || ""}
+              onChange={handlePriceChange}
+              className={`w-[33%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
+            <input
+              type="number"
+              placeholder="Sale Price (₹)"
+              name="sale"
+              value={updatedProduct.price.sale || ""}
+              onChange={handlePriceChange}
+              className={`w-[33%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
+            <input
+              type="number"
+              placeholder="Discount (%)"
+              name="value"
+              value={updatedProduct.discount.value || ""}
+              onChange={handleDiscountChange}
+              className={`w-[33%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
+          </div>
+          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
+            <input
+              type="number"
+              placeholder="Product Weight"
+              name="value"
+              value={updatedProduct.weight.value || ""}
+              onChange={handleWeightChange}
+              className={`w-[33%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
             <select
-              name="category"
-              value={updatedProduct.category}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
+              name="unit"
+              value={updatedProduct.weight.unit}
+              onChange={handleWeightChange}
+              className={`w-[33%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                Select Unit
+              </option>
+              {productUnit?.map((unit, index) => (
+                <option
+                  value={unit}
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                  key={index}
+                >
+                  {unit}
+                </option>
+              ))}
+            </select>
+            <select
+              name="main"
+              value={updatedProduct.category.main}
+              onChange={handleCategoryChange}
+              className={`w-[33%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
+              }`}
+            >
+              <option
+                value=""
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -107,7 +240,7 @@ const UpdateModal = () => {
                 <option
                   value={category}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -117,29 +250,31 @@ const UpdateModal = () => {
                 </option>
               ))}
             </select>
+          </div>
+          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
             <select
               name="brand"
               value={updatedProduct.brand}
               onChange={handleProductChange}
-              className={`w-[25%] ${
+              className={`w-[33%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
                 }`}
               >
-                Select Type
+                Select Brand
               </option>
               {productBrand?.map((brand, index) => (
                 <option
                   value={brand}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -149,127 +284,27 @@ const UpdateModal = () => {
                 </option>
               ))}
             </select>
-          </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
             <input
-              type="number"
-              placeholder="Product Price (₹)"
-              name="price"
-              value={updatedProduct.price || ""}
+              type="text"
+              placeholder="Product Origin"
+              name="origin"
+              value={updatedProduct.origin || ""}
               onChange={handleProductChange}
-              className={`w-[25%] ${
+              className={`w-[33%] ${
                 isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
             />
             <select
-              name="weight"
-              value={updatedProduct.weight}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "selectClassDark" : "selectClassLight"
-              }`}
-            >
-              <option
-                value=""
-                className={`font-normal text-sm ${
-                  isDarkMode
-                    ? "text-neutral-gray-light"
-                    : "text-neutral-black-dark"
-                }`}
-              >
-                Select Weight
-              </option>
-              {productWeight?.map((weight, index) => (
-                <option
-                  value={weight}
-                  className={`font-normal text-sm ${
-                    isDarkMode
-                      ? "text-neutral-gray-light"
-                      : "text-neutral-black-dark"
-                  }`}
-                  key={index}
-                >
-                  {weight}
-                </option>
-              ))}
-            </select>
-            <select
-              name="unit"
-              value={updatedProduct.unit}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "selectClassDark" : "selectClassLight"
-              }`}
-            >
-              <option
-                value=""
-                className={`font-normal text-sm ${
-                  isDarkMode
-                    ? "text-neutral-gray-light"
-                    : "text-neutral-black-dark"
-                }`}
-              >
-                Select Unit
-              </option>
-              {productUnit?.map((unit, index) => (
-                <option
-                  value={unit}
-                  className={`font-normal text-sm ${
-                    isDarkMode
-                      ? "text-neutral-gray-light"
-                      : "text-neutral-black-dark"
-                  }`}
-                  key={index}
-                >
-                  {unit}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
-            <select
-              name="origin"
-              value={updatedProduct.origin}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "selectClassDark" : "selectClassLight"
-              }`}
-            >
-              <option
-                value=""
-                className={`font-normal text-sm ${
-                  isDarkMode
-                    ? "text-neutral-gray-light"
-                    : "text-neutral-black-dark"
-                }`}
-              >
-                Select Origin
-              </option>
-              {productOrigin?.map((origin, index) => (
-                <option
-                  value={origin}
-                  key={index}
-                  className={`font-normal text-sm ${
-                    isDarkMode
-                      ? "text-neutral-gray-light"
-                      : "text-neutral-black-dark"
-                  }`}
-                >
-                  {origin}
-                </option>
-              ))}
-            </select>
-            <select
               name="storageTemperature"
               value={updatedProduct.storageTemperature}
               onChange={handleProductChange}
-              className={`w-[25%] ${
+              className={`w-[33%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -281,7 +316,7 @@ const UpdateModal = () => {
                 <option
                   value={temp}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -291,29 +326,19 @@ const UpdateModal = () => {
                 </option>
               ))}
             </select>
-            <input
-              type="number"
-              placeholder="Discount (%)"
-              name="discount"
-              value={updatedProduct.discount || ""}
-              onChange={handleProductChange}
-              className={`w-[25%] ${
-                isDarkMode ? "inputClassDark" : "inputClassLight"
-              }`}
-            />
           </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
+          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
             <select
-              name="available"
-              value={updatedProduct.available}
+              name="isAvailable"
+              value={updatedProduct.isAvailable}
               onChange={handleProductChange}
-              className={`w-[25%] ${
+              className={`w-[33%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
               <option
                 value=""
-                className={`font-normal text-sm ${
+                className={`font-normal text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -325,7 +350,7 @@ const UpdateModal = () => {
                 <option
                   value={available}
                   key={index}
-                  className={`font-normal text-sm ${
+                  className={`font-normal text-xs ${
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
@@ -335,9 +360,9 @@ const UpdateModal = () => {
                 </option>
               ))}
             </select>
-            <div className="w-[25%] h-fit flex justify-start items-center space-x-[2%]">
+            <div className="w-[33%] h-fit flex justify-start items-center space-x-[2%]">
               <span
-                className={`font-semibold text-base ${
+                className={`font-semibold text-xs ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
@@ -347,14 +372,15 @@ const UpdateModal = () => {
               </span>
               <Toggle data={updatedProduct.isHalal} toggleClick={toggleHalal} />
             </div>
+            <div className="w-[33%] h-fit flex justify-start items-center space-x-[2%] invisible"></div>
           </div>
           <textarea
             placeholder="Enter product description here..."
             name="description"
             value={updatedProduct.description}
             onChange={handleProductChange}
-            maxLength={100}
-            className={`w-[79%] h-[33%] ${
+            maxLength={200}
+            className={`w-full h-[25%] ${
               isDarkMode ? "textareaClassDark" : "textareaClassLight"
             }`}
           ></textarea>

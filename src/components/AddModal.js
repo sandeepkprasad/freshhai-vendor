@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 
 // Components Imports
@@ -17,7 +17,6 @@ import {
 const AddModal = () => {
   const { isDarkMode, setIsAddModal, addProduct } = useContext(ProductsContext);
   const [productToAdd, setProductToAdd] = useState(productSchema);
-  const imgRef = useRef();
 
   const handleProductImgChange = (e) => {
     const fileData = e.target.files[0];
@@ -106,25 +105,23 @@ const AddModal = () => {
           <hr />
           <div className="w-full h-fit flex justify-between items-center">
             <input
+              id="productImg"
               type="file"
               accept="image/*"
               onChange={handleProductImgChange}
-              ref={imgRef}
               className="hidden"
             />
-            <button
+            <label
+              htmlFor="productImg"
               className="bg-primary-blue-light font-normal text-xs text-neutral-white rounded px-[1%] py-[0.8%] active:scale-95 duration-300"
-              onClick={() => {
-                imgRef.current.click();
-              }}
             >
               Click to upload image
-            </button>
+            </label>
             {productToAdd.imageUrl && (
               <img
                 src={URL.createObjectURL(productToAdd.imageUrl)}
                 alt="product_img"
-                className="w-[4%] rounded object-contain"
+                className="w-[3%] rounded object-contain"
               />
             )}
           </div>

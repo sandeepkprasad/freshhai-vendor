@@ -8,119 +8,68 @@ const ProductCard = ({ data }) => {
 
   return (
     <div
-      className={`w-[25vw] h-[50vh] ${
+      className={`w-[15vw] h-[50vh] ${
         isDarkMode
           ? "bg-neutral-black-dark border-neutral-black-dark"
           : "bg-neutral-white"
-      } flex flex-col justify-between border rounded-3xl shadow-md p-[2%]`}
+      } flex flex-col justify-between border rounded-lg shadow p-[2%] relative`}
     >
-      <div className="w-full h-[90%]">
-        <div className="w-full h-fit flex items-start space-x-[2%] mb-[2%]">
-          <img
-            src={data?.imageUrl}
-            onError={(e) =>
-              (e.target.src = defaultImageAssets?.imageNotFoundUrl)
-            }
-            loading="lazy"
-            alt="product_image"
-            className="w-[25%] bg-neutral-gray-light rounded-2xl object-contain"
-          />
-          <div className="w-[75%] h-fit">
-            <p
-              className={`font-semibold text-base ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-dark"
-              }`}
-            >
-              {data?.name}
-            </p>
-            <p
-              className={`font-normal text-sm ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-light"
-              }`}
-            >
-              {data?.category?.main}
-            </p>
-            <p
-              className={`font-normal text-sm ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-light"
-              }`}
-            >
-              {data?.brand}
-            </p>
-            <div className="w-full h-fit flex justify-between items-center">
-              <span className="bg-primary-green-dark font-semibold text-sm text-neutral-white rounded px-2 py-0.5">
-                ₹ {data?.price.sale} / {data?.weight?.value}
-                {data?.weight?.unit}
-              </span>
-              {data?.isAvailable === "Available" ? (
-                <span className="font-semibold text-sm text-primary-green-dark rounded px-2 py-0.5">
-                  Available
-                </span>
-              ) : (
-                <span className="font-semibold text-sm text-secondary-red-dark rounded px-2 py-0.5">
-                  Not Available
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="w-full h-fit space-y-[2%]">
-          <div className="w-full h-fit flex flex-wrap justify-between items-center">
-            <p
-              className={`font-normal text-sm ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-light"
-              }`}
-            >
-              Origin : {data?.origin}
-            </p>
-            <p
-              className={`font-normal text-sm ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-light"
-              }`}
-            >
-              Temp. : {data?.storageTemperature}°C
-            </p>
-          </div>
-          <div className="w-full h-fit flex flex-wrap justify-between items-center">
-            <p
-              className={`font-normal text-sm ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-light"
-              }`}
-            >
-              Discount : {data?.discount?.value} {data?.discount?.type}
-            </p>
-            <p
-              className={`font-normal text-sm ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-light"
-              }`}
-            >
-              {data?.isHalal ? "Halal" : "Not Halal"}
-            </p>
-          </div>
-          <p
-            className={`font-normal text-sm ${
-              isDarkMode
-                ? "text-neutral-gray-light"
-                : "text-neutral-black-light"
+      <div className="w-full h-fit flex justify-center items-center">
+        <img
+          src={data?.imageUrl}
+          onError={(e) => (e.target.src = defaultImageAssets?.imageNotFoundUrl)}
+          loading="lazy"
+          alt="product_image"
+          className="w-[50%] bg-neutral-gray-light rounded object-contain"
+        />
+      </div>
+      <div className="w-full h-fit flex flex-col justify-start items-start space-y-[3%]">
+        <p
+          className={`font-normal text-xs ${
+            isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-light"
+          }`}
+        >
+          {data?.category?.main} | {data?.storageTemperature} |{data?.origin} |{" "}
+          {data?.brand}
+        </p>
+        <p
+          className={`font-semibold text-xs ${
+            isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+          }`}
+        >
+          {data?.name}
+        </p>
+        <div className="w-full h-fit flex justify-start items-center space-x-[2%]">
+          <span
+            className={`font-normal text-xs ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            } line-through`}
+          >
+            ₹{data?.price.regular}
+          </span>
+          <span
+            className={`font-normal text-xs ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
             }`}
           >
-            {data?.description}
-          </p>
+            ₹{data?.price.sale}/{data?.weight?.value}
+            {data?.weight?.unit}
+          </span>
         </div>
+        <p
+          className={`font-normal text-xs ${
+            isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+          }`}
+        >
+          {data?.isAvailable}, {data?.isHalal ? "Halal" : "Not Halal"}
+        </p>
+        <p
+          className={`font-normal text-xs ${
+            isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-light"
+          }`}
+        >
+          {data?.description}
+        </p>
       </div>
       <div className="w-full h-fit flex justify-evenly items-center">
         <button
@@ -136,6 +85,11 @@ const ProductCard = ({ data }) => {
           Delete
         </button>
       </div>
+      <span
+        className={`bg-primary-green-dark font-semibold text-neutral-white text-sm rounded-tr-lg rounded-bl-lg px-2 absolute top-0 right-0`}
+      >
+        {data?.discount?.value}%
+      </span>
     </div>
   );
 };

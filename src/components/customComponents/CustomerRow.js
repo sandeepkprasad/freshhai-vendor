@@ -1,32 +1,32 @@
 import React, { useContext } from "react";
-import adminContext from "../../context/adminContext";
+import { UsersContext } from "../../context/UsersContext";
 
 // Components Imports
 import RowText from "./RowText";
 
 const CustomerRow = ({ data, isClickable = false }) => {
-  const { handleUserModal } = useContext(adminContext);
+  const { handleUserModal } = useContext(UsersContext);
 
   return (
     <>
       {isClickable && (
         <div
           className="w-full h-fit flex justify-between items-center border-b py-[0.5%] cursor-pointer active:scale-95 duration-300"
-          onClick={() => handleUserModal(data?.userId)}
+          onClick={() => handleUserModal(data?.id)}
         >
-          <RowText text={data?.name} />
-          <RowText text={data?.phone} />
-          <RowText text={data?.email} />
-          <RowText text={data?.addresses[0]?.postalCode} />
+          <RowText text={data?.basicInfo?.fullName} />
+          <RowText text={data?.basicInfo?.mobileNumber} />
+          <RowText text={data?.basicInfo?.email} />
+          <RowText text={data?.addresses[0]?.pincode} />
         </div>
       )}
 
       {!isClickable && (
         <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%]">
-          <RowText text={data?.name} />
-          <RowText text={data?.phone} />
-          <RowText text={data?.email} />
-          <RowText text={data?.addresses[0]?.postalCode} />
+          <RowText text={data?.basicInfo?.fullName} />
+          <RowText text={data?.basicInfo?.mobileNumber} />
+          <RowText text={data?.basicInfo?.email} />
+          <RowText text={data?.addresses[0]?.pincode} />
         </div>
       )}
     </>

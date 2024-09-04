@@ -8,7 +8,7 @@ const HeadRow = ({ rowData }) => {
     <div className="w-full h-fit flex justify-between items-center border-b pb-[1%]">
       {rowData?.map((text, index) => (
         <span
-          className={`flex-1 text-start font-semibold text-base ${
+          className={`flex-1 text-start font-semibold text-xs ${
             isDarkMode ? "text-neutral-gray-light" : "neutral-black-dark"
           }`}
           key={index}
