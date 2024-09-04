@@ -28,7 +28,7 @@ const UserModal = () => {
             {userToView?.basicInfo?.fullName}
           </p>
           <hr />
-          <div className="w-full h-full flex justify-center items-center">
+          <div className="w-full h-[95%] flex justify-center items-center space-x-[1%]">
             <div className="w-[50%] h-full border-e space-y-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
               <div className="w-full h-fit">
                 <p
@@ -105,8 +105,8 @@ const UserModal = () => {
                           : "text-neutral-black-dark"
                       }`}
                     >
-                      Address: {address?.addressLine1}, {address?.addressLine2},{" "}
-                      {address?.city}, {address?.state}, {address?.pincode}
+                      Address : {address?.addressLine1}, {address?.addressLine2}
+                      , {address?.city}, {address?.state}, {address?.pincode}
                     </p>
                     <p
                       className={`font-normal text-xs ${
@@ -115,13 +115,98 @@ const UserModal = () => {
                           : "text-neutral-black-dark"
                       }`}
                     >
-                      Landmark: {address?.landmark}
+                      Landmark : {address?.landmark}
                     </p>
                   </div>
                 ))}
               </div>
+              <div className="w-full h-fit">
+                <p
+                  className={`font-semibold text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  } mb-[1%]`}
+                >
+                  Wallet :
+                </p>
+                <p
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  Balance : ₹{userToView?.wallet?.balance}{" "}
+                  {userToView?.wallet?.currency}
+                </p>
+              </div>
+              <div className="w-full h-fit">
+                <p
+                  className={`font-semibold text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  } mb-[1%]`}
+                >
+                  Status :
+                </p>
+                <p
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  {userToView?.userStatus}
+                </p>
+              </div>
             </div>
-            <div className="w-[50%] h-full overflow-x-hidden overflow-y-scroll customScrollbar"></div>
+            <div className="w-[50%] h-full space-y-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+              <div className="w-full h-fit">
+                <p
+                  className={`font-semibold text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  } mb-[1%]`}
+                >
+                  Total Orders :
+                </p>
+                <p
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  {userToView?.orderReferences?.length}
+                </p>
+              </div>
+              <div className="w-full h-fit">
+                <p
+                  className={`font-semibold text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  } mb-[1%]`}
+                >
+                  Orders :
+                </p>
+                {userToView?.orderReferences?.map((order, index) => (
+                  <p
+                    className={`font-normal text-xs ${
+                      isDarkMode
+                        ? "text-neutral-gray-light"
+                        : "text-neutral-black-dark"
+                    }`}
+                    key={index}
+                  >
+                    {order}
+                  </p>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <div className="w-full h-fit flex justify-center items-center">
