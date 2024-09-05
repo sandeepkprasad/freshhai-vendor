@@ -1,37 +1,62 @@
 import React, { useContext } from "react";
-import adminContext from "../../context/adminContext";
+import { ProductsContext } from "../../context/ProductsContext";
+import { DeliveryContext } from "../../context/DeliveryContext";
 
 // Components Imports
 import RowText from "./RowText";
-import RowTextStatus from "./RowTextStatus";
 
 const CustomerRow = ({ data, isClickable = false }) => {
-  const { handleDeliveryPartnerModal } = useContext(adminContext);
+  const { isDarkMode } = useContext(ProductsContext);
+  const { handleDeliveryPartnerModal } = useContext(DeliveryContext);
 
   return (
     <>
       {isClickable && (
         <div
           className="w-full h-fit flex justify-between items-center border-b py-[0.5%] cursor-pointer active:scale-95 duration-300"
-          onClick={() => handleDeliveryPartnerModal(data)}
+          onClick={() => handleDeliveryPartnerModal(data?.id)}
         >
           <RowText text={data?.name} />
-          <RowText text={data?.contact?.phone} />
-          <RowText text={data?.vehicle} />
-          <RowText text={data?.licenseNumber} />
-          <RowText text={data?.status} />
-          <RowTextStatus text={data?.availability} />
+          <RowText text={data?.phone_number} />
+          <RowText text={data?.vehicle_details?.vehicle_number} />
+          <RowText text={data?.vehicle_details?.license_number} />
+          <span
+            className={`flex-1 text-start font-normal text-xs ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            } overflow-hidden`}
+          >
+            {data?.status?.active ? "Active" : "In-Active"}
+          </span>
+          <span
+            className={`flex-1 text-start font-normal text-xs ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            } overflow-hidden`}
+          >
+            {data?.availability ? "Available" : "Not Available"}
+          </span>
         </div>
       )}
 
       {!isClickable && (
         <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%]">
           <RowText text={data?.name} />
-          <RowText text={data?.contact?.phone} />
-          <RowText text={data?.vehicle} />
-          <RowText text={data?.licenseNumber} />
-          <RowText text={data?.status} />
-          <RowTextStatus text={data?.availability} />
+          <RowText text={data?.phone_number} />
+          <RowText text={data?.vehicle_details?.vehicle_number} />
+          <RowText text={data?.vehicle_details?.license_number} />
+          <span
+            className={`flex-1 text-start font-normal text-xs ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            } overflow-hidden`}
+          >
+            {data?.status?.active ? "Active" : "In-Active"}
+          </span>
+          <span
+            className={`flex-1 text-start font-normal text-xs ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            } overflow-hidden`}
+          >
+            {data?.availability ? "Available" : "Not Available"}
+          </span>
         </div>
       )}
     </>

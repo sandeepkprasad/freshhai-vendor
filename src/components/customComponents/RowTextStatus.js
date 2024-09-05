@@ -3,7 +3,7 @@ import React from "react";
 const RowTextStatus = ({ text }) => {
   return (
     <span
-      className={`flex-1 text-start font-medium text-sm ${
+      className={`flex-1 text-start font-medium text-xs ${
         text === "Pending"
           ? "text-secondary-orange-dark"
           : text === "Processing"

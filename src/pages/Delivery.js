@@ -1,12 +1,12 @@
-import React, { useContext, useState, Suspense, lazy, useEffect } from "react";
-import adminContext from "../context/adminContext";
+import React, { useContext, Suspense, lazy } from "react";
+import { ProductsContext } from "../context/ProductsContext";
+import { DeliveryContext } from "../context/DeliveryContext";
 
 // Components Imports
 import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 import DeliveryFilter from "../components/customComponents/DeliveryFilter";
 import HeadRow from "../components/customComponents/HeadRow";
-import AgentModal from "../components/AgentModal";
 import ViewDeliveryPartnerModal from "../components/ViewDeliveryPartnerModal";
 
 const DeliveryRow = lazy(() =>
@@ -14,46 +14,9 @@ const DeliveryRow = lazy(() =>
 );
 
 const Delivery = () => {
-  const {
-    isDarkMode,
-    getActiveDeliveryPartners,
-    getAllDeliveryPartners,
-    getSuspendedDeliveryPartners,
-    deliveryPartners,
-    activeDeliveryPartners,
-    suspendedDeliveryPartners,
-    getDeliveryPartnersCount,
-    deliveryPartnersCount,
-    isDeliveryAgentModal,
-    setIsDeliveryAgentModal,
-    isViewDeliveryPartnerModal,
-  } = useContext(adminContext);
-  const [selectedAgentData, setSelectedAgentData] = useState(0);
-
-  // Fetching all delivery partners
-  useEffect(() => {
-    getActiveDeliveryPartners();
-  }, [getActiveDeliveryPartners]);
-
-  // Get delivery partners count
-  useEffect(() => {
-    getDeliveryPartnersCount();
-  }, [getDeliveryPartnersCount]);
-
-  const handleActiveAgents = () => {
-    getActiveDeliveryPartners();
-    setSelectedAgentData(0);
-  };
-
-  const handleTotalAgents = () => {
-    getAllDeliveryPartners();
-    setSelectedAgentData(1);
-  };
-
-  const handleSuspendedAgents = () => {
-    getSuspendedDeliveryPartners();
-    setSelectedAgentData(2);
-  };
+  const { isDarkMode } = useContext(ProductsContext);
+  const { allDeliveryPartners, addDeliveryPartners, isPartnerModal } =
+    useContext(DeliveryContext);
 
   return (
     <>
@@ -61,31 +24,17 @@ const Delivery = () => {
         <div className="w-full h-full flex justify-between items-center pb-[0.5%] space-x-[2%] overflow-hidden">
           {/** Left Side Part */}
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
-            {selectedAgentData === 0 && (
-              <div className="w-full h-fit flex justify-between items-center">
-                <Heading heading="Active Agents" />
-                <DeliveryFilter dataType={"active"} />
-              </div>
-            )}
-            {selectedAgentData === 1 && (
-              <div className="w-full h-fit flex justify-between items-center">
-                <Heading heading="Total Agents" />
-                <DeliveryFilter dataType={"total"} />
-              </div>
-            )}
-            {selectedAgentData === 2 && (
-              <div className="w-full h-fit flex justify-between items-center">
-                <Heading heading="Suspended Agents" />
-                <DeliveryFilter dataType={"suspended"} />
-              </div>
-            )}
+            <div className="w-full h-fit flex justify-between items-center">
+              <Heading heading="Active Agents" />
+              <DeliveryFilter />
+            </div>
 
             <div
               className={`w-full h-[90%] ${
                 isDarkMode
                   ? "bg-neutral-black-dark border border-neutral-black-dark"
                   : "bg-neutral-white border"
-              } flex flex-col justify-between items-center rounded-3xl shadow-md p-[1%]`}
+              } flex flex-col justify-between items-center rounded-lg shadow p-[1%]`}
             >
               <HeadRow
                 rowData={[
@@ -97,98 +46,32 @@ const Delivery = () => {
                   "Availability",
                 ]}
               />
-              {selectedAgentData === 0 && (
-                <>
-                  {activeDeliveryPartners?.length > 0 ? (
-                    <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
-                      <Suspense
-                        fallback={
-                          <div className="w-full h-[95%] flex justify-center items-center">
-                            <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading Active Agents...
-                            </p>
-                          </div>
-                        }
-                      >
-                        {activeDeliveryPartners?.map((user, index) => (
-                          <DeliveryRow
-                            data={user}
-                            isClickable={false}
-                            key={index}
-                          />
-                        ))}
-                      </Suspense>
-                    </div>
-                  ) : (
-                    <div className="w-full h-[95%] flex justify-center items-center">
-                      <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Agent Available
-                      </p>
-                    </div>
-                  )}
-                </>
-              )}
-              {selectedAgentData === 1 && (
-                <>
-                  {deliveryPartners?.length > 0 ? (
-                    <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
-                      <Suspense
-                        fallback={
-                          <div className="w-full h-[95%] flex justify-center items-center">
-                            <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading Total Agents...
-                            </p>
-                          </div>
-                        }
-                      >
-                        {deliveryPartners?.map((user, index) => (
-                          <DeliveryRow
-                            data={user}
-                            isClickable={true}
-                            key={index}
-                          />
-                        ))}
-                      </Suspense>
-                    </div>
-                  ) : (
-                    <div className="w-full h-[95%] flex justify-center items-center">
-                      <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Agent Available
-                      </p>
-                    </div>
-                  )}
-                </>
-              )}
-              {selectedAgentData === 2 && (
-                <>
-                  {suspendedDeliveryPartners?.length > 0 ? (
-                    <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
-                      <Suspense
-                        fallback={
-                          <div className="w-full h-[95%] flex justify-center items-center">
-                            <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading Suspended Agent...
-                            </p>
-                          </div>
-                        }
-                      >
-                        {suspendedDeliveryPartners?.map((user, index) => (
-                          <DeliveryRow
-                            data={user}
-                            isClickable={false}
-                            key={index}
-                          />
-                        ))}
-                      </Suspense>
-                    </div>
-                  ) : (
-                    <div className="w-full h-[95%] flex justify-center items-center">
-                      <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No Agent Available
-                      </p>
-                    </div>
-                  )}
-                </>
+              {allDeliveryPartners?.length > 0 ? (
+                <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-[95%] flex justify-center items-center">
+                        <p className="font-semibold text-xl text-neutral-gray-medium">
+                          Loading all delivery agents...
+                        </p>
+                      </div>
+                    }
+                  >
+                    {allDeliveryPartners?.map((delivery, index) => (
+                      <DeliveryRow
+                        data={delivery}
+                        isClickable={true}
+                        key={index}
+                      />
+                    ))}
+                  </Suspense>
+                </div>
+              ) : (
+                <div className="w-full h-[95%] flex justify-center items-center">
+                  <p className="font-semibold text-xl text-neutral-gray-medium">
+                    No delivery agent available
+                  </p>
+                </div>
               )}
             </div>
           </div>
@@ -196,11 +79,12 @@ const Delivery = () => {
           {/** Right Side Part */}
           <div className="w-[20%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-end items-center">
+              <Heading heading={"Overview"} />
               <button
-                className="buttonClass bg-primary-blue-dark"
-                onClick={() => setIsDeliveryAgentModal(true)}
+                className="font-normal text-xs"
+                onClick={addDeliveryPartners}
               >
-                Add Delivery Agent
+                Add Partner
               </button>
             </div>
             <div className="w-full h-[90%] bg-transparent flex flex-col justify-between items-center space-y-[8%]">
@@ -210,9 +94,8 @@ const Delivery = () => {
                   isDarkMode
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
-                } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
+                } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
                 title="Click for Active Agents"
-                onClick={handleActiveAgents}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Active Partners
@@ -224,7 +107,7 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {deliveryPartnersCount?.active} Active
+                  {allDeliveryPartners?.length}
                 </p>
               </div>
 
@@ -234,9 +117,8 @@ const Delivery = () => {
                   isDarkMode
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
-                } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
+                } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
                 title="Click for Inactive Agents"
-                onClick={handleTotalAgents}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Total Partners
@@ -248,7 +130,7 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {deliveryPartnersCount?.total} Total
+                  {allDeliveryPartners?.length}
                 </p>
               </div>
 
@@ -258,9 +140,8 @@ const Delivery = () => {
                   isDarkMode
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
-                } flex flex-col justify-center items-start rounded-3xl shadow-md pl-[15%] pr-[1%] cursor-pointer active:scale-95 duration-300`}
+                } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
                 title="Click for Suspended Agents"
-                onClick={handleSuspendedAgents}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Suspended Partners
@@ -272,7 +153,7 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {deliveryPartnersCount?.suspended} Suspended
+                  {allDeliveryPartners?.length}
                 </p>
               </div>
             </div>
@@ -280,8 +161,7 @@ const Delivery = () => {
         </div>
       </DashboardWrapper>
 
-      {isDeliveryAgentModal && <AgentModal />}
-      {isViewDeliveryPartnerModal && <ViewDeliveryPartnerModal />}
+      {isPartnerModal && <ViewDeliveryPartnerModal />}
     </>
   );
 };

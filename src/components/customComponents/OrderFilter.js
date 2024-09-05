@@ -3,7 +3,7 @@ import { ProductsContext } from "../../context/ProductsContext";
 import { OrdersContext } from "../../context/OrdersContext";
 import { orderFilterData } from "../../utils/LocalData";
 
-const OrderFilter = ({ dataType = "" }) => {
+const OrderFilter = () => {
   const { isDarkMode } = useContext(ProductsContext);
   const { orderFilter, setOrderFilter } = useContext(OrdersContext);
 
@@ -24,7 +24,6 @@ const OrderFilter = ({ dataType = "" }) => {
   // Handle Clear Filter
   const handleClearFilters = () => {
     setOrderFilter({ id: "", status: "" });
-    alert("Product Filter Cleared");
   };
 
   return (
@@ -39,7 +38,7 @@ const OrderFilter = ({ dataType = "" }) => {
           isDarkMode
             ? "bg-neutral-black-dark text-neutral-gray-light"
             : "bg-neutral-white text-neutral-black-dark"
-        } w-[33%] rounded-3xl shadow-md font-normal text-base px-[2%] py-[0.25%] focus:outline-none placeholder:text-xs`}
+        } w-[33%] rounded shadow font-normal text-base px-[2%] focus:outline-none placeholder:text-xs`}
       />
       <select
         name="status"

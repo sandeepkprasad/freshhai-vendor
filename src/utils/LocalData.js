@@ -126,23 +126,126 @@ export const userSchema = {
   userStatus: "active",
 };
 
-export const newDeliveryPartnersSchema = {
-  imageUrl: null,
-  name: "",
-  contact: {
-    phone: "",
-    email: "",
+export const deliveryPartnerSchema = {
+  name: "John Doe",
+  phone_number: "+91XXXXXXXXXX",
+  email: "john.doe@example.com",
+  profile_picture_url: "https://firebasestorage.googleapis.com/...",
+  vehicle_details: {
+    vehicle_type: "bike",
+    vehicle_number: "KA-01-1234",
+    license_number: "DL1234567890",
   },
-  address: {
-    street: "",
-    city: "",
-    state: "",
-    zip: "",
+  status: {
+    active: true,
+    online_status: true,
   },
-  vehicle: "",
-  licenseNumber: "",
-  status: "Active",
-  availability: "Available",
+  current_location: {
+    latitude: 12.9715987,
+    longitude: 77.5945627,
+  },
+  total_deliveries: 150,
+  rating: 4.8,
+  earnings: {
+    total_earnings: 50000,
+    earnings_details: [
+      {
+        order_id: "order123",
+        amount: 300,
+        date: "2024-09-05T12:00:00Z",
+      },
+      {
+        order_id: "order124",
+        amount: 200,
+        date: "2024-09-05T14:00:00Z",
+      },
+    ],
+  },
+  assigned_orders: ["order123", "order124"],
+  order_history: ["order101", "order102", "order103"],
+  availability: true,
+};
+
+export const orderSchema = {
+  user_id: "user123",
+  order_status: "placed", // Status of the order (e.g., placed, confirmed, dispatched, delivered, cancelled)
+  payment_status: "paid",
+  payment_method: "credit_card",
+  total_amount: 1200,
+  discount: 100,
+  net_amount: 1100,
+  order_items: [
+    {
+      item_id: "item123",
+      name: "Fresh Fish",
+      quantity: 2,
+      price: 600,
+      discount: 50,
+      final_price: 550,
+      weight: "1kg",
+      category: "Fish",
+      image_url: "https://firebasestorage.googleapis.com/...",
+    },
+    {
+      item_id: "item124",
+      name: "Chicken",
+      quantity: 1,
+      price: 500,
+      discount: 50,
+      final_price: 450,
+      weight: "1kg",
+      category: "Poultry",
+      image_url: "https://firebasestorage.googleapis.com/...",
+    },
+  ],
+  delivery_address: {
+    name: "Jane Doe",
+    address_line_1: "123 Main Street",
+    address_line_2: "Apartment 4B",
+    city: "Bangalore",
+    state: "Karnataka",
+    pincode: "560001",
+    phone_number: "+91XXXXXXXXXX",
+    location: {
+      latitude: 12.9715987,
+      longitude: 77.5945627,
+    },
+  },
+  delivery_charges: 29,
+  delivery_instructions: "Leave at the front door",
+  delivery_partner_id: "partner123",
+  estimated_delivery_time: "2024-09-05T12:30:00Z",
+  actual_delivery_time: "2024-09-05T12:45:00Z",
+  order_placed_at: "2024-09-05T10:00:00Z",
+  order_confirmed_at: "2024-09-05T10:15:00Z",
+  order_dispatched_at: "2024-09-05T11:00:00Z",
+  order_delivered_at: "2024-09-05T12:45:00Z",
+  order_cancelled_at: null,
+  order_rating: null,
+  promo_code_applied: "FRESH10",
+  order_notes: "Please deliver fresh items",
+  order_tracking: [
+    {
+      status: "Order Placed",
+      timestamp: "2024-09-05T10:00:00Z",
+    },
+    {
+      status: "Order Confirmed",
+      timestamp: "2024-09-05T10:15:00Z",
+    },
+    {
+      status: "Order Dispatched",
+      timestamp: "2024-09-05T11:00:00Z",
+    },
+    {
+      status: "Out for Delivery",
+      timestamp: "2024-09-05T12:00:00Z",
+    },
+    {
+      status: "Delivered",
+      timestamp: "2024-09-05T12:45:00Z",
+    },
+  ],
 };
 
 export const productFilterData = {

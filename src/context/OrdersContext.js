@@ -1,14 +1,14 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { ProductsContext } from "./ProductsContext";
 
-// Fake Data Imports
-import { latestOrdersData, allOrdersData } from "../api/apiHandler";
+// Fake data imports
+import { allOrdersData } from "../api/apiHandler";
+//import { orderSchema } from "../utils/LocalData";
 
 export const OrdersContext = createContext();
 
 const OrdersProvider = ({ children }) => {
   const { handleNotification } = useContext(ProductsContext);
-  const [latestOrders, setLatestOrders] = useState(latestOrdersData);
   const [allOrders, setAllOrders] = useState([]);
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [isOrderModal, setIsOrderModal] = useState(false);
@@ -21,9 +21,7 @@ const OrdersProvider = ({ children }) => {
 
   // Order Update Modal
   const handleOrderModal = (getOrderId) => {
-    const dataById = latestOrders?.find(
-      (order) => order?.orderId === getOrderId
-    );
+    const dataById = allOrders?.find((order) => order?.orderId === getOrderId);
     setOrderToUpdate(dataById);
     setIsOrderModal(true);
   };
@@ -31,7 +29,7 @@ const OrdersProvider = ({ children }) => {
   // Update Order
   const updateOrder = (updatedOrder) => {
     if (updatedOrder) {
-      setLatestOrders((prevOrders) =>
+      setAllOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.orderId === updatedOrder.orderId ? updatedOrder : order
         )
@@ -56,7 +54,6 @@ const OrdersProvider = ({ children }) => {
   return (
     <OrdersContext.Provider
       value={{
-        latestOrders,
         allOrders,
         orderFilter,
         setOrderFilter,
