@@ -9,40 +9,56 @@ import RowTextStatus from "./RowTextStatus";
 const OrderRow = ({ data, isClickable = false }) => {
   const { handleOrderModal } = useContext(OrdersContext);
 
-  const orderDeliveryTimeDate = extractDeliveryTimeDate(data.deliveryDate);
+  const orderDeliveryTimeDate = extractDeliveryTimeDate(
+    data.actual_delivery_time
+  );
 
   return (
     <>
       {isClickable && (
         <div
           className="w-full h-fit flex justify-between items-center border-b py-[0.5%] cursor-pointer active:scale-95 duration-300"
-          onClick={() => handleOrderModal(data.orderId)}
+          onClick={() => handleOrderModal(data.id)}
         >
-          <RowText text={data.orderId} />
-          <RowText text={data?.items[0]?.name + " + " + data?.items?.length} />
-          <RowText text={"₹ " + data.totalPrice} />
-          <RowText text={data.paymentMethod} />
+          <RowText text={data?.delivery_address?.name} />
+          <RowText
+            text={
+              data?.order_items[0]?.name +
+              " & " +
+              (data?.order_items?.length - 1) +
+              " more"
+            }
+          />
+          <RowText text={"₹" + data.net_amount} />
+          <RowText text={data.payment_status} />
           <RowText
             text={
               orderDeliveryTimeDate.time + ", " + orderDeliveryTimeDate.date
             }
           />
-          <RowTextStatus text={data?.status} />
+          <RowTextStatus text={data?.order_status} />
         </div>
       )}
 
       {!isClickable && (
         <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%]">
-          <RowText text={data.orderId} />
-          <RowText text={data?.items[0]?.name + " + " + data?.items?.length} />
-          <RowText text={"₹ " + data.totalPrice} />
-          <RowText text={data.paymentMethod} />
+          <RowText text={data?.delivery_address?.name} />
+          <RowText
+            text={
+              data?.order_items[0]?.name +
+              " & " +
+              (data?.order_items?.length - 1) +
+              " more"
+            }
+          />
+          <RowText text={"₹" + data.net_amount} />
+          <RowText text={data.payment_status} />
           <RowText
             text={
               orderDeliveryTimeDate.time + ", " + orderDeliveryTimeDate.date
             }
           />
-          <RowTextStatus text={data?.status} />
+          <RowTextStatus text={data?.order_status} />
         </div>
       )}
     </>

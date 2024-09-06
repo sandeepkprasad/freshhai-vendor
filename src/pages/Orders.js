@@ -14,7 +14,7 @@ const OrderRow = lazy(() => import("../components/customComponents/OrderRow"));
 
 const Orders = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { allOrders, isOrderModal } = useContext(OrdersContext);
+  const { allOrders, addOrder, isOrderModal } = useContext(OrdersContext);
 
   return (
     <>
@@ -35,9 +35,9 @@ const Orders = () => {
             >
               <HeadRow
                 rowData={[
-                  "Order Id",
-                  "Product",
-                  "Price",
+                  "Name",
+                  "Items",
+                  "Amount",
                   "Payment",
                   "Delivery",
                   "Status",
@@ -73,6 +73,9 @@ const Orders = () => {
           <div className="w-[20%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-end items-center">
               <Heading heading={"Overview"} />
+              <button className="font-normal text-xs" onClick={addOrder}>
+                Add Order
+              </button>
             </div>
             <div className="w-full h-[90%] bg-transparent flex flex-col justify-between items-center space-y-[8%]">
               {/** Latest Orders */}
