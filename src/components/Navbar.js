@@ -42,24 +42,24 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full h-[10%] flex px-[2%] py-0 mt-[1%] fixed left-0 top-0 right-0 bottom-0 z-40">
+    <div className="w-full h-[7%] md:h-[10%] flex px-[2%] py-0 mt-[1%] fixed left-0 top-0 right-0 bottom-0 z-40">
       <div
         className={`w-full h-full ${
           isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-        } flex justify-between items-center rounded-lg shadow px-[2%] duration-300`}
+        } flex justify-between items-center rounded-lg shadow px-[3%] md:px-[2%] duration-300`}
       >
         <img
           src={defaultImageAssets?.brandLogo}
           alt="freshhai_logo"
-          className="w-[9%]"
+          className="w-[25%] md:w-[9%]"
         />
-        <div className="w-[50%] h-fit flex justify-end items-center space-x-[2%]">
+        <div className="w-[50%] h-fit flex justify-end items-center space-x-[5%] md:space-x-[2%]">
           <span
             className={`font-normal text-xs ${
               isDarkMode
                 ? "text-neutral-gray-light"
                 : "text-neutral-gray-medium"
-            }`}
+            } hidden md:block`}
           >
             {getCurrentDate()}
           </span>
@@ -104,7 +104,7 @@ const Navbar = () => {
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
-                }`}
+                } hidden md:block`}
               >
                 {getFirstName(adminProfile?.name)}
               </span>
@@ -114,7 +114,7 @@ const Navbar = () => {
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
-                }`}
+                } hidden md:block`}
               >
                 Admin
               </span>
@@ -124,7 +124,7 @@ const Navbar = () => {
                 isDarkMode
                   ? "text-neutral-gray-light"
                   : "text-neutral-black-dark"
-              } ${isLogoutPopup && "rotate-180"} duration-300`}
+              } ${isLogoutPopup && "rotate-180"} duration-300 hidden md:block`}
             >
               <MdKeyboardArrowDown />
             </span>

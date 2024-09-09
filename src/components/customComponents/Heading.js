@@ -6,7 +6,7 @@ const Heading = ({ heading = "Heading" }) => {
 
   return (
     <span
-      className={`font-semibold text-xs ${
+      className={`font-semibold text-sm md:text-xs ${
         isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-light"
       }`}
     >

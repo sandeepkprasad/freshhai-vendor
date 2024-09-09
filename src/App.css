@@ -3,11 +3,11 @@ body {
 }
 
 .dropdownClass {
-    @apply w-fit h-fit bg-neutral-white border border-neutral-white rounded shadow px-[1%] py-[0.3%] font-normal text-xs text-neutral-gray-dark focus:outline-none
+    @apply w-fit h-fit bg-neutral-white border border-neutral-white rounded shadow px-[1%] py-[0.5%] md:py-[0.3%] font-normal text-sm md:text-xs text-neutral-gray-dark focus:outline-none
 }
 
 .dropdownClassDark {
-  @apply w-fit h-fit bg-neutral-black-dark border border-neutral-black-dark rounded shadow px-[1%] py-[0.3%] font-normal text-xs text-neutral-gray-light focus:outline-none
+  @apply w-fit h-fit bg-neutral-black-dark border border-neutral-black-dark rounded shadow px-[1%] py-[0.5%] md:py-[0.3%] font-normal text-sm md:text-xs text-neutral-gray-light focus:outline-none
 }
 
 .selectClassLight {
@@ -19,7 +19,7 @@ body {
 }
 
 .buttonClass {
-  @apply font-semibold text-sm text-neutral-white rounded shadow px-2 py-0.5 active:scale-95 duration-300
+  @apply font-semibold text-base md:text-xs text-neutral-white rounded shadow px-2 py-0.5 active:scale-95 duration-300
 }
 
 .inputClassLight {
@@ -39,7 +39,7 @@ body {
 }
 
 .filterApplyBtn {
-  @apply bg-primary-blue-dark font-medium text-xs text-neutral-white rounded shadow px-[2%] py-[0.75%] active:scale-95 duration-300
+  @apply bg-primary-blue-dark font-medium text-xs text-neutral-white rounded shadow px-[2%] py-[0.75%] md:py-[0.5%] active:scale-95 duration-300
 }
 
 .customScrollbar::-webkit-scrollbar {

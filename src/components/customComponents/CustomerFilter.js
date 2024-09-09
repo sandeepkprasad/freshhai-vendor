@@ -17,7 +17,7 @@ const CustomerFilter = () => {
   };
 
   return (
-    <div className="w-[50%] h-fit flex justify-end items-center space-x-[2%]">
+    <div className="w-full md:w-[50%] h-fit flex justify-start md:justify-end items-center space-x-[2%]">
       <input
         type="number"
         name="phone"

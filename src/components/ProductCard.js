@@ -8,11 +8,11 @@ const ProductCard = ({ data }) => {
 
   return (
     <div
-      className={`w-[15vw] h-[50vh] ${
+      className={`w-full md:w-[15vw] h-[40vh] md:h-[50vh] ${
         isDarkMode
           ? "bg-neutral-black-dark border-neutral-black-dark"
           : "bg-neutral-white"
-      } flex flex-col justify-between border rounded-lg shadow p-[2%] relative`}
+      } flex flex-col justify-between border rounded-lg shadow p-[5%] relative`}
     >
       <div className="w-full h-fit flex justify-center items-center">
         <img

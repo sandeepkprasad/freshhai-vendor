@@ -6,7 +6,7 @@ const OrderText = ({ text1 = "", text2 = "" }) => {
 
   return (
     <p
-      className={`font-normal text-sm ${
+      className={`font-normal text-xs ${
         isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
       }`}
     >

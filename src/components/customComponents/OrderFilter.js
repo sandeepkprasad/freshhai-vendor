@@ -27,7 +27,7 @@ const OrderFilter = () => {
   };
 
   return (
-    <div className="w-[75%] h-fit flex justify-end items-center space-x-[2%]">
+    <div className="w-full md:w-[75%] h-fit flex justify-start md:justify-end items-center space-x-[2%]">
       <input
         type="text"
         name="id"

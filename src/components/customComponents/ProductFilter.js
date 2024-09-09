@@ -27,12 +27,16 @@ const ProductFilter = () => {
   };
 
   return (
-    <div className="w-full h-fit flex justify-end items-center space-x-[1%]">
+    <div className="w-full h-fit flex flex-wrap justify-start md:justify-end items-center space-x-[2%] md:space-x-[1%]">
       <select
         name="category"
         value={productFilter?.category}
         onChange={handleFilterChange}
-        className={`${isDarkMode ? "dropdownClassDark" : "dropdownClass"}`}
+        className={`${
+          isDarkMode
+            ? "dropdownClassDark mb-[2%] md:mb-0"
+            : "dropdownClass mb-[2%] md:mb-0"
+        }`}
       >
         <option value="">Category</option>
         {productFilterData?.category?.map((category, index) => (
@@ -45,7 +49,7 @@ const ProductFilter = () => {
         name="brand"
         value={productFilter?.brand}
         onChange={handleFilterChange}
-        className={`${isDarkMode ? "dropdownClassDark" : "dropdownClass"}`}
+        className={`${isDarkMode ? "dropdownClassDark mb-[2%] md:mb-0" : "dropdownClass mb-[2%] md:mb-0"}`}
       >
         <option value="">Brand</option>
         {productFilterData?.brand?.map((brand, index) => (
@@ -58,7 +62,7 @@ const ProductFilter = () => {
         name="origin"
         value={productFilter?.origin}
         onChange={handleFilterChange}
-        className={`${isDarkMode ? "dropdownClassDark" : "dropdownClass"}`}
+        className={`${isDarkMode ? "dropdownClassDark mb-[2%] md:mb-0" : "dropdownClass mb-[2%] md:mb-0"}`}
       >
         <option value="">Origin</option>
         {productFilterData?.origin?.map((origin, index) => (
@@ -81,7 +85,7 @@ const ProductFilter = () => {
         ))}
       </select>
       <button
-        className={`font-normal text-xs ${
+        className={`font-normal text-sm md:text-xs ${
           isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-light"
         } active:scale-95 duration-300`}
         onClick={handleClearFilters}

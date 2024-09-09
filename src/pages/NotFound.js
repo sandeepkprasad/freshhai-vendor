@@ -8,11 +8,11 @@ const NotFound = () => {
       <img
         src={defaultImageAssets?.pageNotFoundImageUrl}
         alt="page_not_found"
-        className="w-[20%] rounded-xl"
+        className="w-[50%] md:w-[20%] rounded-lg"
       />
       <Link
         to="/"
-        className="font-semibold text-xl text-neutral-black-dark active:scale-95 duration-300"
+        className="font-semibold text-xl text-neutral-black-dark underline active:scale-95 duration-300"
       >
         Go to Home
       </Link>

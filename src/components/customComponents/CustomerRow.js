@@ -11,7 +11,7 @@ const CustomerRow = ({ data, isClickable = false }) => {
     <>
       {isClickable && (
         <div
-          className="w-full h-fit flex justify-between items-center border-b py-[0.5%] cursor-pointer active:scale-95 duration-300"
+          className="w-full h-fit flex justify-between items-center border-b py-[0.5%] space-x-[5%] md:space-x-0 cursor-pointer active:scale-95 duration-300"
           onClick={() => handleUserModal(data?.id)}
         >
           <RowText text={data?.basicInfo?.fullName} />
@@ -22,7 +22,7 @@ const CustomerRow = ({ data, isClickable = false }) => {
       )}
 
       {!isClickable && (
-        <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%]">
+        <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%] space-x-[5%] md:space-x-0">
           <RowText text={data?.basicInfo?.fullName} />
           <RowText text={data?.basicInfo?.mobileNumber} />
           <RowText text={data?.basicInfo?.email} />

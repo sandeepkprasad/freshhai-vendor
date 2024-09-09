@@ -55,7 +55,7 @@ const LoginCard = () => {
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center space-y-[5%]">
-      <p className="font-normal text-lg text-neutral-gray-dark">
+      <p className="font-normal text-lg text-neutral-gray-dark text-center">
         Please fill in your unique admin login details below.
       </p>
       <input
@@ -65,9 +65,9 @@ const LoginCard = () => {
         value={loginCred?.email}
         onChange={handleAdminLoginChange}
         required
-        className="w-[50%] h-[10%] bg-neutral-gray-light border rounded-xl px-[2%] focus:outline-none"
+        className="w-full md:w-[50%] h-[12.5%] md:h-[10%] bg-neutral-gray-light border rounded px-[2%] focus:outline-none"
       />
-      <div className="w-[50%] h-[10%] relative">
+      <div className="w-full md:w-[50%] h-[12.5%] md:h-[10%] relative">
         <input
           type={passwordVisibility ? "text" : "password"}
           placeholder="Enter Password"
@@ -75,7 +75,7 @@ const LoginCard = () => {
           value={loginCred?.password}
           onChange={handleAdminLoginChange}
           required
-          className="w-full h-full bg-neutral-gray-light border rounded-xl px-[4%] focus:outline-none"
+          className="w-full h-full bg-neutral-gray-light border rounded px-[4%] focus:outline-none"
         />
         {passwordVisibility ? (
           <button
@@ -94,7 +94,7 @@ const LoginCard = () => {
         )}
       </div>
       <button
-        className="w-[50%] h-[10%] bg-primary-blue-dark border rounded-xl shadow-md font-semibold text-lg text-neutral-white active:scale-95 duration-300"
+        className="w-full md:w-[50%] h-[12.5%] md:h-[10%] bg-primary-blue-dark border rounded shadow font-semibold text-lg text-neutral-white active:scale-95 duration-300"
         onClick={handleAdminLogin}
       >
         Login

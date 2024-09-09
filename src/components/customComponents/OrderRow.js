@@ -4,7 +4,6 @@ import { extractDeliveryTimeDate } from "../../utils/DateUtils";
 
 // Components Imports
 import RowText from "./RowText";
-import RowTextStatus from "./RowTextStatus";
 
 const OrderRow = ({ data, isClickable = false }) => {
   const { handleOrderModal } = useContext(OrdersContext);
@@ -17,7 +16,7 @@ const OrderRow = ({ data, isClickable = false }) => {
     <>
       {isClickable && (
         <div
-          className="w-full h-fit flex justify-between items-center border-b py-[0.5%] cursor-pointer active:scale-95 duration-300"
+          className="w-full h-fit flex justify-between items-center border-b py-[0.5%] space-x-[5%] md:space-x-0 cursor-pointer active:scale-95 duration-300"
           onClick={() => handleOrderModal(data.id)}
         >
           <RowText text={data?.delivery_address?.name} />
@@ -36,12 +35,12 @@ const OrderRow = ({ data, isClickable = false }) => {
               orderDeliveryTimeDate.time + ", " + orderDeliveryTimeDate.date
             }
           />
-          <RowTextStatus text={data?.order_status} />
+          <RowText text={data?.order_status} />
         </div>
       )}
 
       {!isClickable && (
-        <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%]">
+        <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%] space-x-[5%] md:space-x-0">
           <RowText text={data?.delivery_address?.name} />
           <RowText
             text={
@@ -58,7 +57,7 @@ const OrderRow = ({ data, isClickable = false }) => {
               orderDeliveryTimeDate.time + ", " + orderDeliveryTimeDate.date
             }
           />
-          <RowTextStatus text={data?.order_status} />
+          <RowText text={data?.order_status} />
         </div>
       )}
     </>

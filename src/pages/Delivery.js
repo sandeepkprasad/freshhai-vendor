@@ -21,11 +21,12 @@ const Delivery = () => {
   return (
     <>
       <DashboardWrapper>
-        <div className="w-full h-full flex justify-between items-center pb-[0.5%] space-x-[2%] overflow-hidden">
+        {/** Large Screens */}
+        <div className="w-full h-full hidden md:flex justify-between items-center pb-[0.5%] space-x-[2%] overflow-hidden">
           {/** Left Side Part */}
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-between items-center">
-              <Heading heading="Active Agents" />
+              <Heading heading="Delivery Agents" />
               <DeliveryFilter />
             </div>
 
@@ -41,7 +42,7 @@ const Delivery = () => {
                   "Name",
                   "Mobile",
                   "Vechile",
-                  "Vechile No.",
+                  "Licence",
                   "Status",
                   "Availability",
                 ]}
@@ -156,6 +157,126 @@ const Delivery = () => {
                   {allDeliveryPartners?.length}
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/** Mobile Screens */}
+        <div className="w-full h-full pb-[2%] md:hidden overflow-x-hidden overflow-y-scroll">
+          <div className="w-full h-fit grid grid-cols-3 gap-[2%] mb-[5%]">
+            {/** Active Agents */}
+            <div
+              className={`w-full h-[10vh] ${
+                isDarkMode
+                  ? "bg-neutral-black-dark border border-neutral-black-dark"
+                  : "bg-neutral-white border"
+              } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
+            >
+              <p className="font-semibold text-[3.5vw] text-neutral-black-light">
+                Active Partners
+              </p>
+              <p
+                className={`font-semibold text-[5vw] ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                {allDeliveryPartners?.length}
+              </p>
+            </div>
+
+            {/** Total Users */}
+            <div
+              className={`w-full h-10vh ${
+                isDarkMode
+                  ? "bg-neutral-black-dark border border-neutral-black-dark"
+                  : "bg-neutral-white border"
+              } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
+            >
+              <p className="font-semibold text-[3.5vw] text-neutral-black-light">
+                Total Partners
+              </p>
+              <p
+                className={`font-semibold text-[5vw] ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                {allDeliveryPartners?.length}
+              </p>
+            </div>
+
+            {/** Blocked Users */}
+            <div
+              className={`w-full h-[10vh] ${
+                isDarkMode
+                  ? "bg-neutral-black-dark border border-neutral-black-dark"
+                  : "bg-neutral-white border"
+              } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
+            >
+              <p className="font-semibold text-[3.5vw] text-neutral-black-light">
+                Suspended Partners
+              </p>
+              <p
+                className={`font-semibold text-[5vw] ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                {allDeliveryPartners?.length}
+              </p>
+            </div>
+          </div>
+          <div className="w-full h-fit flex flex-col justify-start items-start space-y-[2%]">
+            <Heading heading="Delivery Agents" />
+            <DeliveryFilter />
+            <div
+              className={`w-full h-[60vh] ${
+                isDarkMode
+                  ? "bg-neutral-black-dark border border-neutral-black-dark"
+                  : "bg-neutral-white border"
+              } flex flex-col justify-between items-center rounded-lg shadow p-[1%]`}
+            >
+              <HeadRow
+                rowData={[
+                  "Name",
+                  "Mobile",
+                  "Vechile",
+                  "Licence",
+                  "Status",
+                  "Availability",
+                ]}
+              />
+              {allDeliveryPartners?.length > 0 ? (
+                <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-[95%] flex justify-center items-center">
+                        <p className="font-semibold text-xl text-neutral-gray-medium">
+                          Loading all delivery agents...
+                        </p>
+                      </div>
+                    }
+                  >
+                    {allDeliveryPartners?.map((delivery, index) => (
+                      <DeliveryRow
+                        data={delivery}
+                        isClickable={true}
+                        key={index}
+                      />
+                    ))}
+                  </Suspense>
+                </div>
+              ) : (
+                <div className="w-full h-[95%] flex justify-center items-center">
+                  <p className="font-semibold text-xl text-neutral-gray-medium">
+                    No delivery agent available
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
