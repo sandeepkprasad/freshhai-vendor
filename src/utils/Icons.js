@@ -11,6 +11,8 @@ import {
   MdOutlineDeliveryDining,
   MdPrint,
   MdEdit,
+  MdDone,
+  MdClose,
 } from "react-icons/md";
 
 import { LuSunMoon } from "react-icons/lu";
@@ -43,4 +45,6 @@ export {
   MdEdit,
   FaArrowLeft,
   BiSupport,
+  MdDone,
+  MdClose,
 };
