@@ -5,6 +5,7 @@ import { ProductsContext } from "../context/ProductsContext";
 import { useNavigate } from "react-router-dom";
 import { getFirstName } from "../utils/OtherUtils";
 import { defaultImageAssets } from "../utils/LocalData";
+import { Link } from "react-router-dom";
 
 // Firebase Imports
 import { signOut } from "firebase/auth";
@@ -129,14 +130,28 @@ const Navbar = () => {
               <MdKeyboardArrowDown />
             </span>
             {isLogoutPopup && (
-              <button
-                className={`${
+              <div
+                className={`w-fit h-fit ${
                   isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-                } border rounded-lg font-semibold text-base text-secondary-red-dark px-2 py-0.5 absolute top-10 right-0`}
-                onClick={handleLogout}
+                } flex flex-col justify-center items-center border rounded-lg px-3 py-0.5 absolute top-10 right-0`}
               >
-                Logout
-              </button>
+                <Link
+                  to="/profile"
+                  className={`font-semibold text-base ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  Profile
+                </Link>
+                <button
+                  className="font-semibold text-base text-secondary-red-dark"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </div>
             )}
           </div>
         </div>

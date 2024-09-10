@@ -15,7 +15,7 @@ import {
   //MdOutlineSettings,
 } from "../utils/Icons";
 
-const sidebarItems = [
+const sidebarItemsLarge = [
   { icon: <MdOutlineDashboard />, title: "Overview", route: "/" },
   { icon: <MdOutlineShoppingCart />, title: "Orders", route: "/orders" },
   { icon: <MdOutlineAllInbox />, title: "Products", route: "/products" },
@@ -23,6 +23,17 @@ const sidebarItems = [
   { icon: <MdPeopleOutline />, title: "Customers", route: "/customers" },
   { icon: <MdOutlineDeliveryDining />, title: "Delivery", route: "/delivery" },
   { icon: <MdOutlinePersonOutline />, title: "Profile", route: "/profile" },
+  //{ icon: <MdOutlineSettings />, title: "Settings", route: "/settings" },
+];
+
+const sidebarItemsSmall = [
+  { icon: <MdOutlineDashboard />, title: "Overview", route: "/" },
+  { icon: <MdOutlineShoppingCart />, title: "Orders", route: "/orders" },
+  { icon: <MdOutlineAllInbox />, title: "Products", route: "/products" },
+  //{ icon: <MdOutlineAnalytics />, title: "Analytics", route: "/analytics" },
+  { icon: <MdPeopleOutline />, title: "Customers", route: "/customers" },
+  { icon: <MdOutlineDeliveryDining />, title: "Delivery", route: "/delivery" },
+  //{ icon: <MdOutlinePersonOutline />, title: "Profile", route: "/profile" },
   //{ icon: <MdOutlineSettings />, title: "Settings", route: "/settings" },
 ];
 
@@ -36,7 +47,7 @@ const Sidebar = () => {
       <div className="w-[15%] h-full px-[2%] pt-[9%] pb-[1%] fixed left-0 top-0 bottom-0 z-40 hidden md:block">
         {isDarkMode ? (
           <div className="w-full h-full space-y-[12.5%]">
-            {sidebarItems?.map((item, index) => (
+            {sidebarItemsLarge?.map((item, index) => (
               <Link
                 to={item.route}
                 className={`w-full h-[8%] ${
@@ -69,7 +80,7 @@ const Sidebar = () => {
           </div>
         ) : (
           <div className="w-full h-full space-y-[12.5%]">
-            {sidebarItems?.map((item, index) => (
+            {sidebarItemsLarge?.map((item, index) => (
               <Link
                 to={item.route}
                 className={`w-full h-[8%] ${
@@ -105,7 +116,7 @@ const Sidebar = () => {
 
       {/** Mobile Screens */}
       <div className="w-full h-[10%] bg-primary-blue-dark flex justify-evenly items-center fixed left-0 bottom-0 right-0 md:hidden">
-        {sidebarItems?.map((item, index) => (
+        {sidebarItemsSmall?.map((item, index) => (
           <Link
             to={item.route}
             className="w-fit h-fit flex flex-col justify-center items-center active:scale-95 duration-300"
