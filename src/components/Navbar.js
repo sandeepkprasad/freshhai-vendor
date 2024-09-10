@@ -133,7 +133,7 @@ const Navbar = () => {
               <div
                 className={`w-fit h-fit ${
                   isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-                } flex flex-col justify-center items-center border rounded-lg px-3 py-0.5 absolute top-10 right-0`}
+                } flex flex-col justify-center items-start border rounded-lg px-3 py-0.5 absolute top-10 right-0`}
               >
                 <Link
                   to="/profile"
@@ -141,9 +141,19 @@ const Navbar = () => {
                     isDarkMode
                       ? "text-neutral-gray-light"
                       : "text-neutral-black-dark"
-                  }`}
+                  } md:hidden`}
                 >
                   Profile
+                </Link>
+                <Link
+                  to="/support"
+                  className={`font-semibold text-base ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  } md:hidden`}
+                >
+                  Support
                 </Link>
                 <button
                   className="font-semibold text-base text-secondary-red-dark"

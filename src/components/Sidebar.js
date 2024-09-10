@@ -13,6 +13,7 @@ import {
   MdOutlineDeliveryDining,
   MdOutlinePersonOutline,
   //MdOutlineSettings,
+  BiSupport,
 } from "../utils/Icons";
 
 const sidebarItemsLarge = [
@@ -24,6 +25,7 @@ const sidebarItemsLarge = [
   { icon: <MdOutlineDeliveryDining />, title: "Delivery", route: "/delivery" },
   { icon: <MdOutlinePersonOutline />, title: "Profile", route: "/profile" },
   //{ icon: <MdOutlineSettings />, title: "Settings", route: "/settings" },
+  { icon: <BiSupport />, title: "Support", route: "/support" },
 ];
 
 const sidebarItemsSmall = [

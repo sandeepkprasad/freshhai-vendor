@@ -21,6 +21,8 @@ import { VscChromeClose } from "react-icons/vsc";
 
 import { FaFishFins, FaArrowLeft } from "react-icons/fa6";
 
+import { BiSupport } from "react-icons/bi";
+
 export {
   MdOutlineDashboard,
   MdOutlineShoppingCart,
@@ -40,4 +42,5 @@ export {
   MdPrint,
   MdEdit,
   FaArrowLeft,
+  BiSupport,
 };

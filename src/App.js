@@ -17,6 +17,7 @@ import Customers from "./pages/Customers";
 import Delivery from "./pages/Delivery";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import Support from "./pages/Support";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
@@ -41,6 +42,7 @@ const App = () => {
                     <Route path="/delivery" element={<Delivery />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<Settings />} />
+                    <Route path="/support" element={<Support />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="*" element={<NotFound />} />
