@@ -19,7 +19,7 @@ import { ImEye, ImEyeBlocked } from "react-icons/im";
 
 import { VscChromeClose } from "react-icons/vsc";
 
-import { FaFishFins } from "react-icons/fa6";
+import { FaFishFins, FaArrowLeft } from "react-icons/fa6";
 
 export {
   MdOutlineDashboard,
@@ -39,4 +39,5 @@ export {
   FaFishFins,
   MdPrint,
   MdEdit,
+  FaArrowLeft,
 };
