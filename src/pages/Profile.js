@@ -1,7 +1,6 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { FirebaseContext } from "../context/FirebaseContext";
 import { ProductsContext } from "../context/ProductsContext";
-import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
 
 // React Icons
@@ -12,37 +11,13 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 
 const Profile = () => {
-  const {
-    auth,
-    onAuthStateChanged,
-    updateProfile,
-    adminProfile,
-    setAdminProfile,
-  } = useContext(FirebaseContext);
+  const { auth, updateProfile, adminProfile, setAdminProfile } =
+    useContext(FirebaseContext);
   const { isDarkMode, handleNotification, uploadImageToStorage } =
     useContext(ProductsContext);
   const [isProfileUpdate, setProfileUpdate] = useState(false);
   const fileInputRef = useRef(null);
-  const navigate = useNavigate();
   const getCurrentUser = auth.currentUser;
-
-  // Handling Admin Login State
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAdminProfile((prevData) => ({
-          ...prevData,
-          imgUrl: user?.photoURL,
-          name: user?.displayName,
-          email: user?.email,
-        }));
-        navigate("/profile");
-      } else {
-        navigate("/login");
-      }
-    });
-    console.log("Getting admin profile from Profile.");
-  }, [auth, navigate, setAdminProfile, onAuthStateChanged]);
 
   const handleImageUpload = () => {
     if (fileInputRef.current) {
