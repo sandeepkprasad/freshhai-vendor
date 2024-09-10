@@ -41,7 +41,7 @@ const Sidebar = () => {
                 to={item.route}
                 className={`w-full h-[8%] ${
                   item.route === location?.pathname
-                    ? "bg-neutral-black-dark shadow"
+                    ? "bg-primary-blue-dark shadow"
                     : "bg-transparent"
                 } flex justify-start items-center pl-[15%] space-x-[7%] rounded-lg active:scale-95 duration-300`}
                 key={index}
@@ -49,7 +49,7 @@ const Sidebar = () => {
                 <span
                   className={`text-2xl ${
                     item.route === location?.pathname
-                      ? "text-neutral-gray-light"
+                      ? "text-neutral-white"
                       : "text-neutral-gray-medium"
                   } `}
                 >
@@ -58,7 +58,7 @@ const Sidebar = () => {
                 <span
                   className={`${
                     item.route === location?.pathname
-                      ? "font-semibold text-neutral-gray-light"
+                      ? "font-semibold text-neutral-white"
                       : "font-normal text-neutral-gray-medium"
                   } text-base`}
                 >
@@ -74,7 +74,7 @@ const Sidebar = () => {
                 to={item.route}
                 className={`w-full h-[8%] ${
                   item.route === location?.pathname
-                    ? "bg-neutral-white shadow"
+                    ? "bg-primary-blue-dark shadow"
                     : "bg-transparent"
                 } flex justify-start items-center pl-[15%] space-x-[7%] rounded-lg active:scale-95 duration-300`}
                 key={index}
@@ -82,7 +82,7 @@ const Sidebar = () => {
                 <span
                   className={`text-2xl ${
                     item.route === location?.pathname
-                      ? "text-neutral-black-dark"
+                      ? "text-neutral-white"
                       : "text-neutral-gray-dark"
                   } `}
                 >
@@ -91,7 +91,7 @@ const Sidebar = () => {
                 <span
                   className={`${
                     item.route === location?.pathname
-                      ? "font-semibold text-neutral-black-dark"
+                      ? "font-semibold text-neutral-white"
                       : "font-normal text-neutral-gray-dark"
                   } text-base`}
                 >
@@ -104,70 +104,33 @@ const Sidebar = () => {
       </div>
 
       {/** Mobile Screens */}
-      <div
-        className={`w-full h-[10%] ${
-          isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-        } flex justify-evenly items-center border-t fixed left-0 bottom-0 right-0 md:hidden`}
-      >
-        {isDarkMode ? (
-          <>
-            {sidebarItems?.map((item, index) => (
-              <Link
-                to={item.route}
-                className="w-fit h-fit flex flex-col justify-center items-center active:scale-95 duration-300"
-                key={index}
-              >
-                <span
-                  className={`text-2xl ${
-                    item.route === location?.pathname
-                      ? "text-neutral-gray-light"
-                      : "text-neutral-gray-medium"
-                  } `}
-                >
-                  {item.icon}
-                </span>
-                <span
-                  className={`${
-                    item.route === location?.pathname
-                      ? "font-semibold text-neutral-gray-light"
-                      : "font-normal text-neutral-gray-medium"
-                  } text-xs`}
-                >
-                  {item.title}
-                </span>
-              </Link>
-            ))}
-          </>
-        ) : (
-          <>
-            {sidebarItems?.map((item, index) => (
-              <Link
-                to={item.route}
-                className="w-fit h-fit flex flex-col justify-center items-center active:scale-95 duration-300"
-                key={index}
-              >
-                <span
-                  className={`text-2xl ${
-                    item.route === location?.pathname
-                      ? "text-neutral-black-dark"
-                      : "text-neutral-gray-dark"
-                  } `}
-                >
-                  {item.icon}
-                </span>
-                <span
-                  className={`${
-                    item.route === location?.pathname
-                      ? "font-semibold text-neutral-black-dark"
-                      : "font-normal text-neutral-gray-dark"
-                  } text-xs`}
-                >
-                  {item.title}
-                </span>
-              </Link>
-            ))}
-          </>
-        )}
+      <div className="w-full h-[10%] bg-primary-blue-dark flex justify-evenly items-center fixed left-0 bottom-0 right-0 md:hidden">
+        {sidebarItems?.map((item, index) => (
+          <Link
+            to={item.route}
+            className="w-fit h-fit flex flex-col justify-center items-center active:scale-95 duration-300"
+            key={index}
+          >
+            <span
+              className={`text-2xl ${
+                item.route === location?.pathname
+                  ? "text-neutral-white"
+                  : "text-neutral-gray-medium"
+              } `}
+            >
+              {item.icon}
+            </span>
+            <span
+              className={`${
+                item.route === location?.pathname
+                  ? "font-semibold text-neutral-white"
+                  : "font-normal text-neutral-gray-medium"
+              } text-xs`}
+            >
+              {item.title}
+            </span>
+          </Link>
+        ))}
       </div>
     </>
   );
