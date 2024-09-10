@@ -12,29 +12,25 @@ const ModalWrapper = ({ children, closeModal }) => {
       <div
         className={`w-full md:w-[50%] h-full md:h-[75%] ${
           isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
-        } md:rounded-lg md:shadow p-[2%] md:p-[0.5%] animate-slideTopToBottom`}
+        } md:rounded-lg md:shadow animate-slideTopToBottom`}
       >
-        <div className="w-full h-[5%] hidden md:flex justify-end items-center">
+        <div className="w-full h-[5%] bg-primary-green-dark hidden md:flex justify-end items-center rounded-t-lg p-[0.5%]">
           <button
-            className={`text-xl ${
-              isDarkMode ? "text-neutral-gray-light" : "text-neutral-gray-dark"
-            }`}
+            className="text-xl text-neutral-gray-light"
             onClick={() => closeModal(false)}
           >
             <VscChromeClose />
           </button>
         </div>
-        <div className="w-full h-[5%] flex justify-start items-center md:hidden">
+        <div className="w-full h-[5%] bg-primary-green-dark flex justify-start items-center p-[2%] md:hidden">
           <button
-            className={`text-xl ${
-              isDarkMode ? "text-neutral-gray-light" : "text-neutral-gray-dark"
-            }`}
+            className="text-xl text-neutral-gray-light"
             onClick={() => closeModal(false)}
           >
             <FaArrowLeft />
           </button>
         </div>
-        <div className="w-full h-[95%]">{children}</div>
+        <div className="w-full h-[95%] p-[2%] md:p-[1%]">{children}</div>
       </div>
     </div>
   );
