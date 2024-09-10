@@ -1,11 +1,7 @@
-import React, { useEffect, useContext, Suspense, lazy } from "react";
-import { FirebaseContext } from "../context/FirebaseContext";
+import React, { useContext, Suspense, lazy } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 import adminContext from "../context/adminContext";
-import { Link, useNavigate } from "react-router-dom";
-
-// Firebase Imports
-import { onAuthStateChanged } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 // Components Imports
 import DashboardWrapper from "../components/DashboardWrapper";
@@ -20,27 +16,8 @@ const LatestOrderRow = lazy(() =>
 );
 
 const Dashboard = () => {
-  const { auth, setAdminProfile } = useContext(FirebaseContext);
   const { isDarkMode } = useContext(ProductsContext);
   const { latestOrders, topSellingProducts } = useContext(adminContext);
-  const navigate = useNavigate();
-
-  // Handling Admin Login State
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAdminProfile((prevData) => ({
-          ...prevData,
-          imgUrl: user?.photoURL,
-          name: user?.displayName,
-          email: user?.email,
-        }));
-        navigate("/");
-      } else {
-        navigate("/login");
-      }
-    });
-  }, [auth, navigate, setAdminProfile]);
 
   const overviewData = [
     { heading: "Total Value", data: `₹ ${7000}` },

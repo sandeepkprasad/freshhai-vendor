@@ -24,13 +24,13 @@ import NotificationPopup from "./components/NotificationPopup";
 
 const App = () => {
   return (
-    <FirebaseProvider>
-      <ProductsProvider>
-        <UsersProvider>
-          <DeliveryProvider>
-            <OrdersProvider>
-              <AdminState>
-                <Router>
+    <Router>
+      <FirebaseProvider>
+        <ProductsProvider>
+          <UsersProvider>
+            <DeliveryProvider>
+              <OrdersProvider>
+                <AdminState>
                   <NotificationPopup />
                   <Routes>
                     <Route exact path="/" element={<Dashboard />} />
@@ -45,13 +45,13 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
-                </Router>
-              </AdminState>
-            </OrdersProvider>
-          </DeliveryProvider>
-        </UsersProvider>
-      </ProductsProvider>
-    </FirebaseProvider>
+                </AdminState>
+              </OrdersProvider>
+            </DeliveryProvider>
+          </UsersProvider>
+        </ProductsProvider>
+      </FirebaseProvider>
+    </Router>
   );
 };
 

@@ -1,5 +1,6 @@
 // FirebaseContext.js
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // Firebase Services
 import { app } from "../firebaseConfig";
@@ -19,13 +20,32 @@ const FirebaseProvider = ({ children }) => {
   const auth = useMemo(() => getAuth(app), []);
   const firestore = useMemo(() => getFirestore(app), []);
   const storage = useMemo(() => getStorage(app), []);
-
   const [adminProfile, setAdminProfile] = useState({
     img: null,
     imgUrl: "",
     name: "",
     email: "",
   });
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Handling Admin Login State
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAdminProfile((prevData) => ({
+          ...prevData,
+          imgUrl: user?.photoURL,
+          name: user?.displayName,
+          email: user?.email,
+        }));
+      } else {
+        if (location.pathname !== "/signup") {
+          navigate("/login");
+        }
+      }
+    });
+  }, [auth, navigate, setAdminProfile, location.pathname]);
 
   return (
     <FirebaseContext.Provider
