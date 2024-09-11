@@ -106,7 +106,7 @@ const OrderModal = () => {
             </button>
           </div>
           {selectedOption === 0 && (
-            <div className="w-full h-[50%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+            <div className="w-full h-[66%] md:h-[50%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
               {orderToUpdate?.order_items.map((item, index) => (
                 <div
                   className="w-full h-fit flex justify-start items-start space-x-[2%]"
@@ -165,7 +165,7 @@ const OrderModal = () => {
             </div>
           )}
           {selectedOption === 1 && (
-            <div className="w-full h-[50%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+            <div className="w-full h-[66%] md:h-[50%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
               <div className="w-full h-fit space-y-[2%]">
                 <p
                   className={`font-normal text-xs ${
@@ -280,14 +280,16 @@ const OrderModal = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                Delivery Partner :
+                Delivery Partner Id :
               </span>
               <input
                 type="text"
                 value={orderToUpdate?.delivery_partner_id}
                 onChange={handleDeliveryPartnerChange}
-                className={`${
-                  isDarkMode ? "inputClassDark" : "inputClassLight"
+                className={`h-6 md:h-5 rounded font-normal text-xs px-[1%] focus:outline-none ${
+                  isDarkMode
+                    ? "bg-neutral-black-light text-neutral-gray-light"
+                    : "bg-neutral-gray-light text-neutral-black-dark"
                 }`}
               />
             </div>
