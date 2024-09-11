@@ -7,7 +7,7 @@ import { orderFilterData } from "../utils/LocalData";
 import { MdPrint, FaSave, MdPerson, MdPhone } from "../utils/Icons";
 
 // Components Imports
-import OrderModalWrapper from "./OrderModalWrapper";
+import ModalWrapper from "./ModalWrapper";
 
 // Utils Imports
 //import { extractDateTime } from "../utils/DateUtils";
@@ -48,7 +48,7 @@ const OrderModal = () => {
   console.log("Order Status : ", orderToUpdate);
 
   return (
-    <OrderModalWrapper
+    <ModalWrapper
       heading={"ODR" + orderToUpdate?.id.toUpperCase()}
       closeModal={setIsOrderModal}
     >
@@ -315,7 +315,7 @@ const OrderModal = () => {
           </button>
         </div>
       </div>
-    </OrderModalWrapper>
+    </ModalWrapper>
   );
 };
 
