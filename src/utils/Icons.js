@@ -13,6 +13,9 @@ import {
   MdEdit,
   MdDone,
   MdClose,
+  MdPerson,
+  MdEmail,
+  MdPhone,
 } from "react-icons/md";
 
 import { LuSunMoon } from "react-icons/lu";
@@ -24,6 +27,8 @@ import { VscChromeClose } from "react-icons/vsc";
 import { FaFishFins, FaArrowLeft } from "react-icons/fa6";
 
 import { BiSupport } from "react-icons/bi";
+
+import { FaSave } from "react-icons/fa";
 
 export {
   MdOutlineDashboard,
@@ -47,4 +52,8 @@ export {
   BiSupport,
   MdDone,
   MdClose,
+  FaSave,
+  MdPerson,
+  MdEmail,
+  MdPhone,
 };

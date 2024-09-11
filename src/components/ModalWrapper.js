@@ -14,7 +14,7 @@ const ModalWrapper = ({ children, closeModal }) => {
           isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
         } md:rounded-lg md:shadow animate-slideTopToBottom`}
       >
-        <div className="w-full h-[5%] bg-primary-green-dark hidden md:flex justify-end items-center rounded-t-lg p-[0.5%]">
+        <div className="w-full h-[5%] bg-primary-blue-dark hidden md:flex justify-end items-center rounded-t-lg p-[0.5%]">
           <button
             className="text-xl text-neutral-gray-light"
             onClick={() => closeModal(false)}
@@ -22,7 +22,7 @@ const ModalWrapper = ({ children, closeModal }) => {
             <VscChromeClose />
           </button>
         </div>
-        <div className="w-full h-[5%] bg-primary-green-dark flex justify-start items-center p-[2%] md:hidden">
+        <div className="w-full h-[5%] bg-primary-blue-dark flex justify-start items-center p-[2%] md:hidden">
           <button
             className="text-xl text-neutral-gray-light"
             onClick={() => closeModal(false)}

@@ -168,8 +168,8 @@ export const deliveryPartnerSchema = {
 
 export const orderSchema = {
   user_id: "user123",
-  order_status: "placed", // Status of the order (e.g., placed, confirmed, dispatched, delivered, cancelled)
-  payment_status: "paid",
+  order_status: "Placed", // Status of the order (e.g., placed, confirmed, dispatched, delivered, cancelled)
+  payment_status: "Paid",
   payment_method: "credit_card",
   total_amount: 1200,
   discount: 100,
@@ -258,6 +258,7 @@ export const productFilterData = {
 export const orderFilterData = {
   status: [
     "Pending",
+    "Placed",
     "Processing",
     "Shipped",
     "Out for Delivery",
@@ -265,6 +266,8 @@ export const orderFilterData = {
     "Completed",
     "Cancelled",
     "Returned",
+    "Failed",
+    "Refunded",
   ],
 };
 
