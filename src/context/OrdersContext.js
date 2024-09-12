@@ -5,6 +5,7 @@ import React, {
   useContext,
   useCallback,
 } from "react";
+import { startOfMonth, endOfMonth, subMonths } from "date-fns";
 import { FirebaseContext } from "./FirebaseContext";
 import { ProductsContext } from "./ProductsContext";
 
@@ -15,6 +16,9 @@ import {
   addDoc,
   updateDoc,
   doc,
+  query,
+  where,
+  getCountFromServer,
 } from "firebase/firestore";
 
 // Fake data imports
@@ -29,6 +33,9 @@ const OrdersProvider = ({ children }) => {
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [isOrderModal, setIsOrderModal] = useState(false);
   const [orderToUpdate, setOrderToUpdate] = useState(null);
+  const [latestOrdersCount, setLatestOrdersCount] = useState(0);
+  const [lastMonthOrdersCount, setLastMonthOrdersCount] = useState(0);
+  const [totalOrdersCount, setTotalOrdersCount] = useState(0);
 
   // Fetch all users
   const getOrders = useCallback(async () => {
@@ -94,6 +101,81 @@ const OrdersProvider = ({ children }) => {
     }
   };
 
+  const getOrderCountForCurrentMonth = useCallback(async () => {
+    try {
+      const now = new Date();
+      const firstDayOfMonth = startOfMonth(now);
+      const lastDayOfMonth = endOfMonth(now);
+
+      const latestOrderCountCollectionRef = collection(firestore, "orders");
+      const q = query(
+        latestOrderCountCollectionRef,
+        where("createdAt", ">=", firstDayOfMonth),
+        where("createdAt", "<=", lastDayOfMonth)
+      );
+
+      const countSnapshot = await getCountFromServer(q);
+      const latestOrderCount = countSnapshot.data().count;
+
+      setLatestOrdersCount(latestOrderCount);
+    } catch (error) {
+      console.error("Error fetching current month's order count: ", error);
+    }
+  }, [firestore]);
+
+  useEffect(() => {
+    getOrderCountForCurrentMonth();
+    console.log("Latest orders count.");
+  }, [getOrderCountForCurrentMonth]);
+
+  const getLastMonthOrderCount = useCallback(async () => {
+    try {
+      const now = new Date();
+
+      const firstDayOfLastMonth = startOfMonth(subMonths(now, 1));
+      const lastDayOfLastMonth = endOfMonth(subMonths(now, 1));
+
+      const lastMonthOrderCountCollectionRef = collection(firestore, "orders");
+      const q = query(
+        lastMonthOrderCountCollectionRef,
+        where("createdAt", ">=", firstDayOfLastMonth),
+        where("createdAt", "<=", lastDayOfLastMonth)
+      );
+
+      const countSnapshot = await getCountFromServer(q);
+      const lastMonthOrderCount = countSnapshot.data().count;
+
+      setLastMonthOrdersCount(lastMonthOrderCount);
+    } catch (error) {
+      console.error("Error fetching last month's order count: ", error);
+    }
+  }, [firestore]);
+
+  useEffect(() => {
+    getLastMonthOrderCount();
+    console.log("Last month orders count.");
+  }, [getLastMonthOrderCount]);
+
+  const getTotalOrderCount = useCallback(async () => {
+    try {
+      const totalOrderCountCollectionRef = collection(firestore, "orders");
+
+      const q = query(totalOrderCountCollectionRef);
+
+      const countSnapshot = await getCountFromServer(q);
+      const totalOrderCount = countSnapshot.data().count;
+
+      setTotalOrdersCount(totalOrderCount);
+    } catch (error) {
+      console.error("Error fetching total order count: ", error);
+    }
+  }, [firestore]);
+
+  useEffect(() => {
+    getTotalOrderCount();
+    console.log("Total orders count.");
+  }, [getTotalOrderCount]);
+
   return (
     <OrdersContext.Provider
       value={{
@@ -108,6 +190,9 @@ const OrdersProvider = ({ children }) => {
         setOrderToUpdate,
         updateOrder,
         handlePrintOrder,
+        latestOrdersCount,
+        lastMonthOrdersCount,
+        totalOrdersCount,
       }}
     >
       {children}

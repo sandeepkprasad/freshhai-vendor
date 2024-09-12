@@ -15,7 +15,14 @@ const CustomerRow = lazy(() =>
 
 const Customers = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { allUsers, isUserModal, addUser } = useContext(UsersContext);
+  const {
+    allUsers,
+    activeUsersCount,
+    totalUsersCount,
+    blockedUsersCount,
+    isUserModal,
+    addUser,
+  } = useContext(UsersContext);
 
   return (
     <>
@@ -81,7 +88,7 @@ const Customers = () => {
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Active Users
+                  Active
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -90,11 +97,11 @@ const Customers = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allUsers?.length}
+                  {activeUsersCount}
                 </p>
               </div>
 
-              {/** Total Users */}
+              {/** Total users count */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -103,7 +110,7 @@ const Customers = () => {
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Total Users
+                  Total
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -112,11 +119,11 @@ const Customers = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allUsers?.length}
+                  {totalUsersCount}
                 </p>
               </div>
 
-              {/** Blocked Users */}
+              {/** Blocked users count */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -125,7 +132,7 @@ const Customers = () => {
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Blocked Users
+                  Blocked
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -134,7 +141,7 @@ const Customers = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allUsers?.length}
+                  {blockedUsersCount}
                 </p>
               </div>
             </div>
@@ -153,7 +160,7 @@ const Customers = () => {
               } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
-                Active Users
+                Active
               </p>
               <p
                 className={`font-semibold text-[5vw] ${
@@ -162,11 +169,11 @@ const Customers = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allUsers?.length}
+                {activeUsersCount}
               </p>
             </div>
 
-            {/** Total Users */}
+            {/** Total users count */}
             <div
               className={`w-full h-[10vh] ${
                 isDarkMode
@@ -184,11 +191,11 @@ const Customers = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allUsers?.length}
+                {totalUsersCount}
               </p>
             </div>
 
-            {/** Blocked Users */}
+            {/** Blocked users count */}
             <div
               className={`w-full h-[10vh] ${
                 isDarkMode
@@ -197,7 +204,7 @@ const Customers = () => {
               } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
-                Blocked Users
+                Blocked
               </p>
               <p
                 className={`font-semibold text-[5vw] ${
@@ -206,7 +213,7 @@ const Customers = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allUsers?.length}
+                {blockedUsersCount}
               </p>
             </div>
           </div>

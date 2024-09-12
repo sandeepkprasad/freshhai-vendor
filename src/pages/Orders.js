@@ -14,7 +14,14 @@ const OrderRow = lazy(() => import("../components/customComponents/OrderRow"));
 
 const Orders = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { allOrders, addOrder, isOrderModal } = useContext(OrdersContext);
+  const {
+    allOrders,
+    latestOrdersCount,
+    lastMonthOrdersCount,
+    totalOrdersCount,
+    addOrder,
+    isOrderModal,
+  } = useContext(OrdersContext);
 
   return (
     <>
@@ -74,12 +81,12 @@ const Orders = () => {
           <div className="w-[20%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-end items-center">
               <Heading heading={"Overview"} />
-              <button className="font-normal text-xs" onClick={addOrder}>
+              <button className="font-normal text-xs hidden" onClick={addOrder}>
                 Add Order
               </button>
             </div>
             <div className="w-full h-[90%] bg-transparent flex flex-col justify-between items-center space-y-[8%]">
-              {/** Latest Orders */}
+              {/** Current month's orders count */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -89,7 +96,7 @@ const Orders = () => {
                 title="Click for Latest Orders"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Latest Orders
+                  Latest
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -98,11 +105,11 @@ const Orders = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allOrders?.length}
+                  {latestOrdersCount}
                 </p>
               </div>
 
-              {/** Last Month Orders */}
+              {/** Last month's orders count */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -112,7 +119,7 @@ const Orders = () => {
                 title="Click for Last Month Orders"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Last Month Orders
+                  Last Month
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -121,11 +128,11 @@ const Orders = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allOrders?.length}
+                  {lastMonthOrdersCount}
                 </p>
               </div>
 
-              {/** Total Orders */}
+              {/** Total orders count */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -135,7 +142,7 @@ const Orders = () => {
                 title="Click for Total Orders"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Total Orders
+                  Total
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -144,7 +151,7 @@ const Orders = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allOrders?.length}
+                  {totalOrdersCount}
                 </p>
               </div>
             </div>
@@ -154,7 +161,7 @@ const Orders = () => {
         {/** Mobile Screens */}
         <div className="w-full h-full pb-[2%] md:hidden overflow-x-hidden overflow-y-scroll">
           <div className="w-full h-fit grid grid-cols-3 gap-[2%] mb-[5%]">
-            {/** Latest Orders */}
+            {/** Current month's orders count */}
             <div
               className={`w-full h-[10vh] ${
                 isDarkMode
@@ -164,7 +171,7 @@ const Orders = () => {
               title="Click for Latest Orders"
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
-                Latest Orders
+                Latest
               </p>
               <p
                 className={`font-semibold text-[5vw] ${
@@ -173,11 +180,11 @@ const Orders = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allOrders?.length}
+                {latestOrdersCount}
               </p>
             </div>
 
-            {/** Last Month Orders */}
+            {/** Last month's orders count */}
             <div
               className={`w-full h-[10vh] ${
                 isDarkMode
@@ -187,7 +194,7 @@ const Orders = () => {
               title="Click for Last Month Orders"
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
-                Last Month Orders
+                Last Month
               </p>
               <p
                 className={`font-semibold text-[5vw] ${
@@ -196,11 +203,11 @@ const Orders = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allOrders?.length}
+                {lastMonthOrdersCount}
               </p>
             </div>
 
-            {/** Total Orders */}
+            {/** Total orders count */}
             <div
               className={`w-full h-[10vh] ${
                 isDarkMode
@@ -210,7 +217,7 @@ const Orders = () => {
               title="Click for Total Orders"
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
-                Total Orders
+                Total
               </p>
               <p
                 className={`font-semibold text-[5vw] ${
@@ -219,7 +226,7 @@ const Orders = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allOrders?.length}
+                {totalOrdersCount}
               </p>
             </div>
           </div>
