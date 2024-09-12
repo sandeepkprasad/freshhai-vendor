@@ -53,3 +53,16 @@ export const extractDeliveryTimeDate = (dateString) => {
     date: `${day.toString().padStart(2, "0")} ${month}`,
   };
 };
+
+// Extract DayMonthYear
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+
+  const options = {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  };
+
+  return date.toLocaleDateString("en-GB", options);
+};

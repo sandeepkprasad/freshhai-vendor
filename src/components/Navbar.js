@@ -43,7 +43,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full h-[7%] md:h-[10%] flex px-[2%] py-0 mt-[1%] fixed left-0 top-0 right-0 bottom-0 z-40">
+    <div className="w-full h-[7%] md:h-[10%] flex px-[2%] py-0 mt-[2%] md:mt-[1%] fixed left-0 top-0 right-0 bottom-0 z-40">
       <div
         className={`w-full h-full ${
           isDarkMode ? "bg-neutral-black-dark" : "bg-neutral-white"
