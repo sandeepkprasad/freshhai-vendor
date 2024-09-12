@@ -299,7 +299,7 @@ const OrderModal = () => {
           <button
             className={`font-semibold text-sm flex items-center space-x-1 ${
               isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            }`}
+            } active:scale-95 duration-300`}
             onClick={() => updateOrder(orderToUpdate)}
           >
             <FaSave /> <span>Update</span>
@@ -308,7 +308,7 @@ const OrderModal = () => {
           <button
             className={`font-semibold text-sm flex items-center space-x-1 ${
               isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            }`}
+            } active:scale-95 duration-300`}
             onClick={handlePrintOrder}
           >
             <MdPrint /> <span>Print</span>

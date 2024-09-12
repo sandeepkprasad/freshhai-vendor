@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 
+// React Icons
+import { FaSave, MdExitToApp } from "../utils/Icons";
+
 // Components Imports
 import ModalWrapper from "./ModalWrapper";
 import Toggle from "./customComponents/Toggle";
@@ -92,18 +95,17 @@ const AddModal = () => {
   console.log("Product to be added : ", productToAdd);
 
   return (
-    <ModalWrapper closeModal={setIsAddModal}>
+    <ModalWrapper heading="Add Product" closeModal={setIsAddModal}>
       <div className="w-full h-full flex flex-col justify-between items-center">
-        <div className="w-full h-[90%] flex flex-col justify-start space-y-[1%] overflow-x-hidden overflow-y-scroll customScrollbar">
-          <p
-            className={`font-semibold text-sm ${
-              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            } text-center`}
-          >
-            Add a Product
-          </p>
-          <hr />
-          <div className="w-full h-fit flex justify-between items-center">
+        <div className="w-full h-[95%] p-[5%] space-y-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+          <div className="w-full h-fit">
+            {productToAdd.imageUrl && (
+              <img
+                src={URL.createObjectURL(productToAdd.imageUrl)}
+                alt="product_img"
+                className="w-[25%] rounded object-contain"
+              />
+            )}
             <input
               id="productImg"
               type="file"
@@ -113,17 +115,10 @@ const AddModal = () => {
             />
             <label
               htmlFor="productImg"
-              className="bg-primary-blue-light font-normal text-xs text-neutral-white rounded px-[1%] py-[0.8%] active:scale-95 duration-300"
+              className="font-normal text-xs text-primary-blue-dark underline active:scale-95 duration-300"
             >
               Click to upload image
             </label>
-            {productToAdd.imageUrl && (
-              <img
-                src={URL.createObjectURL(productToAdd.imageUrl)}
-                alt="product_img"
-                className="w-[3%] rounded object-contain"
-              />
-            )}
           </div>
           <div className="w-full h-fit flex justify-start items-center">
             <input
@@ -138,14 +133,14 @@ const AddModal = () => {
               }`}
             />
           </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
+          <div className="w-full h-fit flex justify-start items-center space-x-[2.5%]">
             <input
               type="number"
               placeholder="Regular Price (₹)"
               name="regular"
               value={productToAdd.price.regular || ""}
               onChange={handlePriceChange}
-              className={`w-[33%] ${
+              className={`w-[50%] ${
                 isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
             />
@@ -155,29 +150,19 @@ const AddModal = () => {
               name="sale"
               value={productToAdd.price.sale || ""}
               onChange={handlePriceChange}
-              className={`w-[33%] ${
-                isDarkMode ? "inputClassDark" : "inputClassLight"
-              }`}
-            />
-            <input
-              type="number"
-              placeholder="Discount (%)"
-              name="value"
-              value={productToAdd.discount.value || ""}
-              onChange={handleDiscountChange}
-              className={`w-[33%] ${
+              className={`w-[50%] ${
                 isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
             />
           </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
+          <div className="w-full h-fit flex justify-start items-center space-x-[2.5%]">
             <input
               type="number"
               placeholder="Product Weight"
               name="value"
               value={productToAdd.weight.value || ""}
               onChange={handleWeightChange}
-              className={`w-[33%] ${
+              className={`w-[50%] ${
                 isDarkMode ? "inputClassDark" : "inputClassLight"
               }`}
             />
@@ -185,7 +170,7 @@ const AddModal = () => {
               name="unit"
               value={productToAdd.weight.unit}
               onChange={handleWeightChange}
-              className={`w-[33%] ${
+              className={`w-[50%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
@@ -213,11 +198,23 @@ const AddModal = () => {
                 </option>
               ))}
             </select>
+          </div>
+          <div className="w-full h-fit flex justify-start items-center space-x-[2.5%]">
+            <input
+              type="number"
+              placeholder="Discount (%)"
+              name="value"
+              value={productToAdd.discount.value || ""}
+              onChange={handleDiscountChange}
+              className={`w-[50%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
             <select
               name="main"
               value={productToAdd.category.main}
               onChange={handleCategoryChange}
-              className={`w-[33%] ${
+              className={`w-[50%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
@@ -246,12 +243,22 @@ const AddModal = () => {
               ))}
             </select>
           </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
+          <div className="w-full h-fit flex justify-start items-center space-x-[2.5%]">
+            <input
+              type="text"
+              placeholder="Product Origin"
+              name="origin"
+              value={productToAdd.origin || ""}
+              onChange={handleProductChange}
+              className={`w-[50%] ${
+                isDarkMode ? "inputClassDark" : "inputClassLight"
+              }`}
+            />
             <select
               name="brand"
               value={productToAdd.brand}
               onChange={handleProductChange}
-              className={`w-[33%] ${
+              className={`w-[50%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
@@ -279,21 +286,45 @@ const AddModal = () => {
                 </option>
               ))}
             </select>
-            <input
-              type="text"
-              placeholder="Product Origin"
-              name="origin"
-              value={productToAdd.origin || ""}
+          </div>
+          <div className="w-full h-fit flex justify-start items-center space-x-[2.5%]">
+            <select
+              name="isAvailable"
+              value={productToAdd.isAvailable}
               onChange={handleProductChange}
-              className={`w-[33%] ${
-                isDarkMode ? "inputClassDark" : "inputClassLight"
+              className={`w-[50%] ${
+                isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
-            />
+            >
+              <option
+                value=""
+                className={`font-normal text-xs ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                Stock
+              </option>
+              {productAvailability?.map((available, index) => (
+                <option
+                  value={available}
+                  key={index}
+                  className={`font-normal text-xs ${
+                    isDarkMode
+                      ? "text-neutral-gray-light"
+                      : "text-neutral-black-dark"
+                  }`}
+                >
+                  {available}
+                </option>
+              ))}
+            </select>
             <select
               name="storageTemperature"
               value={productToAdd.storageTemperature}
               onChange={handleProductChange}
-              className={`w-[33%] ${
+              className={`w-[50%] ${
                 isDarkMode ? "selectClassDark" : "selectClassLight"
               }`}
             >
@@ -322,52 +353,17 @@ const AddModal = () => {
               ))}
             </select>
           </div>
-          <div className="w-full h-fit flex justify-start items-center space-x-[1%]">
-            <select
-              name="isAvailable"
-              value={productToAdd.isAvailable}
-              onChange={handleProductChange}
-              className={`w-[33%] ${
-                isDarkMode ? "selectClassDark" : "selectClassLight"
+          <div className="w-[50%] h-fit flex justify-start items-center space-x-[2%]">
+            <span
+              className={`font-semibold text-xs ${
+                isDarkMode
+                  ? "text-neutral-gray-light"
+                  : "text-neutral-black-dark"
               }`}
             >
-              <option
-                value=""
-                className={`font-normal text-xs ${
-                  isDarkMode
-                    ? "text-neutral-gray-light"
-                    : "text-neutral-black-dark"
-                }`}
-              >
-                Stock
-              </option>
-              {productAvailability?.map((available, index) => (
-                <option
-                  value={available}
-                  key={index}
-                  className={`font-normal text-xs ${
-                    isDarkMode
-                      ? "text-neutral-gray-light"
-                      : "text-neutral-black-dark"
-                  }`}
-                >
-                  {available}
-                </option>
-              ))}
-            </select>
-            <div className="w-[33%] h-fit flex justify-start items-center space-x-[2%]">
-              <span
-                className={`font-semibold text-xs ${
-                  isDarkMode
-                    ? "text-neutral-gray-light"
-                    : "text-neutral-black-dark"
-                }`}
-              >
-                Halal :
-              </span>
-              <Toggle data={productToAdd.isHalal} toggleClick={toggleHalal} />
-            </div>
-            <div className="w-[33%] h-fit flex justify-start items-center space-x-[2%] invisible"></div>
+              Halal :
+            </span>
+            <Toggle data={productToAdd.isHalal} toggleClick={toggleHalal} />
           </div>
           <textarea
             placeholder="Enter product description here..."
@@ -380,12 +376,23 @@ const AddModal = () => {
             }`}
           ></textarea>
         </div>
-        <div className="w-full h-fit flex justify-center items-center">
+        <div className="w-full h-[5%] flex justify-evenly items-center border-t">
           <button
-            className="buttonClass bg-primary-blue-dark"
+            className={`font-semibold text-sm flex items-center space-x-1 ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            } active:scale-95 duration-300`}
             onClick={() => addProduct(productToAdd)}
           >
-            Save Product
+            <FaSave /> <span>Save</span>
+          </button>
+          <div className="h-full border"></div>
+          <button
+            className={`font-semibold text-sm flex items-center space-x-1 ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            } active:scale-95 duration-300`}
+            onClick={() => setIsAddModal(false)}
+          >
+            <MdExitToApp /> <span>Close</span>
           </button>
         </div>
       </div>

@@ -16,6 +16,7 @@ import {
   MdPerson,
   MdEmail,
   MdPhone,
+  MdExitToApp,
 } from "react-icons/md";
 
 import { LuSunMoon } from "react-icons/lu";
@@ -56,4 +57,5 @@ export {
   MdPerson,
   MdEmail,
   MdPhone,
+  MdExitToApp,
 };
