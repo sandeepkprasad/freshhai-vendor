@@ -3,9 +3,11 @@ import React from "react";
 const RowTextStatus = ({ text }) => {
   return (
     <span
-      className={`flex-1 text-start font-medium text-xs ${
+      className={`flex-1 text-start font-semibold text-xs ${
         text === "Pending"
           ? "text-secondary-orange-dark"
+          : text === "Placed"
+          ? "text-primary-blue-dark"
           : text === "Processing"
           ? "text-primary-blue-dark"
           : text === "Shipped"

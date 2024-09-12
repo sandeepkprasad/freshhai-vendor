@@ -21,8 +21,29 @@ const Support = () => {
               isDarkMode
                 ? "bg-neutral-black-dark border border-neutral-black-dark"
                 : "bg-neutral-white border"
-            } flex flex-col justify-between items-center rounded-lg shadow space-y-[1%] p-[1%]`}
-          ></div>
+            } flex flex-col justify-center items-center rounded-lg shadow space-y-[1%] p-[1%]`}
+          >
+            <p
+              className={`font-medium text-2xl ${
+                isDarkMode
+                  ? "text-neutral-gray-light"
+                  : "text-neutral-black-dark"
+              }`}
+            >
+              <span className="font-normal text-base">Contact Number :</span>{" "}
+              12345 67890
+            </p>
+            <p
+              className={`font-medium text-2xl ${
+                isDarkMode
+                  ? "text-neutral-gray-light"
+                  : "text-neutral-black-dark"
+              }`}
+            >
+              <span className="font-normal text-base">Email :</span>{" "}
+              support@freshhai.com
+            </p>
+          </div>
         </div>
         <div className="w-[20%] h-full flex flex-col justify-between items-center"></div>
       </div>
@@ -35,8 +56,25 @@ const Support = () => {
             isDarkMode
               ? "bg-neutral-black-dark border border-neutral-black-dark"
               : "bg-neutral-white border"
-          } flex flex-col justify-between items-center rounded-lg shadow space-y-[1%] p-[2%]`}
-        ></div>
+          } flex flex-col justify-center items-center rounded-lg shadow space-y-[1%] p-[2%]`}
+        >
+          <p
+            className={`font-medium text-2xl ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            }`}
+          >
+            <span className="font-normal text-base">Contact Number :</span>{" "}
+            12345 67890
+          </p>
+          <p
+            className={`font-medium text-2xl ${
+              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+            }`}
+          >
+            <span className="font-normal text-base">Email :</span>{" "}
+            support@freshhai.com
+          </p>
+        </div>
       </div>
     </DashboardWrapper>
   );

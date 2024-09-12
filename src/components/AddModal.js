@@ -92,8 +92,6 @@ const AddModal = () => {
     }));
   };
 
-  console.log("Product to be added : ", productToAdd);
-
   return (
     <ModalWrapper heading="Add Product" closeModal={setIsAddModal}>
       <div className="w-full h-full flex flex-col justify-between items-center">

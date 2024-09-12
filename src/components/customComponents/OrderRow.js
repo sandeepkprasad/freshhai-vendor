@@ -7,6 +7,7 @@ import { MdDone, MdClose } from "../../utils/Icons";
 
 // Components Imports
 import RowText from "./RowText";
+import RowTextStatus from "./RowTextStatus";
 
 const OrderRow = ({ data, isClickable = false }) => {
   const { handleOrderModal } = useContext(OrdersContext);
@@ -37,14 +38,14 @@ const OrderRow = ({ data, isClickable = false }) => {
         className={`flex flex-1 justify-start items-center space-x-[2%] font-semibold text-xs ${
           data?.payment_status === "Paid"
             ? "text-primary-green-dark"
-            : "text-secondary-red-dark"
+            : "text-secondary-orange-dark"
         } overflow-hidden`}
       >
         {data?.payment_status === "Paid" ? <MdDone /> : <MdClose />}
         <span>{data?.payment_status}</span>
       </div>
       <RowText text={`${time}, ${date}`} />
-      <RowText text={data?.order_status} />
+      <RowTextStatus text={data?.order_status} />
     </div>
   );
 };

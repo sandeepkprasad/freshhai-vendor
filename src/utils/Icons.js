@@ -18,6 +18,7 @@ import {
   MdPhone,
   MdExitToApp,
   MdDateRange,
+  MdContentCopy,
 } from "react-icons/md";
 
 import { LuSunMoon } from "react-icons/lu";
@@ -30,7 +31,7 @@ import { FaFishFins, FaArrowLeft } from "react-icons/fa6";
 
 import { BiSupport } from "react-icons/bi";
 
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaAddressCard } from "react-icons/fa";
 
 export {
   MdOutlineDashboard,
@@ -60,4 +61,6 @@ export {
   MdPhone,
   MdExitToApp,
   MdDateRange,
+  FaAddressCard,
+  MdContentCopy,
 };
