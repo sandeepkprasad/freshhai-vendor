@@ -4,7 +4,7 @@ import { UsersContext } from "../../context/UsersContext";
 
 const CustomerFilter = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { userFilter, setUserFilter, handleUserFilter } =
+  const { userFilter, getUserByPhone, setUserFilter } =
     useContext(UsersContext);
 
   // Handle Product Filter
@@ -14,6 +14,11 @@ const CustomerFilter = () => {
       ...prevFilter,
       [name]: value,
     }));
+  };
+
+  // Handle Clear Filter
+  const handleClearFilters = () => {
+    setUserFilter({ phone: "" });
   };
 
   return (
@@ -30,8 +35,16 @@ const CustomerFilter = () => {
             : "bg-neutral-white text-neutral-black-dark"
         } w-[50%] h-6 rounded shadow font-normal text-xs px-[2%] focus:outline-none placeholder:text-xs`}
       />
-      <button className="filterApplyBtn" onClick={handleUserFilter}>
+      <button className="filterApplyBtn" onClick={getUserByPhone}>
         Filter
+      </button>
+      <button
+        className={`font-normal text-sm md:text-xs ${
+          isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-light"
+        } active:scale-95 duration-300`}
+        onClick={handleClearFilters}
+      >
+        Clear Filter
       </button>
     </div>
   );

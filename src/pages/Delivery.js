@@ -88,7 +88,7 @@ const Delivery = () => {
             <div className="w-full h-fit flex justify-end items-center">
               <Heading heading={"Overview"} />
               <button
-                className="font-normal text-xs"
+                className="font-normal text-xs hidden"
                 onClick={addDeliveryPartners}
               >
                 Add Partner

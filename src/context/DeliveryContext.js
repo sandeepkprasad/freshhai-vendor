@@ -64,10 +64,6 @@ const DeliveryProvider = ({ children }) => {
     }
   };
 
-  const handleDeliveryPartnerFilter = () => {
-    console.log("Delivery partner filter clicked : ", deliveryFilter);
-  };
-
   // Handle user modal
   const handleDeliveryPartnerModal = (getDeliveryPartnerId) => {
     const dataById = allDeliveryPartners?.find(
@@ -76,6 +72,41 @@ const DeliveryProvider = ({ children }) => {
     setPartnerToView(dataById);
     setIsPartnerModal(true);
   };
+
+  // Get Delivery Agent By Phone
+  const getAgentByPhone = useCallback(async () => {
+    try {
+      const agentByPhoneCollectionRef = collection(
+        firestore,
+        "deliveryPartners"
+      );
+
+      const q = deliveryFilter?.phone
+        ? query(
+            agentByPhoneCollectionRef,
+            where("phone_number", "==", deliveryFilter.phone)
+          )
+        : agentByPhoneCollectionRef;
+
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
+        const deliveryAgentData = {
+          id: doc.id,
+          ...doc.data(),
+        };
+
+        setPartnerToView(deliveryAgentData);
+        setIsPartnerModal(true);
+      } else {
+        console.warn("No delivery agent found with the provided phone number.");
+        setPartnerToView(null);
+      }
+    } catch (error) {
+      console.error("Error fetching delivery agent by phone number: ", error);
+    }
+  }, [firestore, deliveryFilter.phone]);
 
   const getAvailablePartnerCount = useCallback(async () => {
     try {
@@ -164,10 +195,10 @@ const DeliveryProvider = ({ children }) => {
         setPartnerToView,
         deliveryFilter,
         setDeliveryFilter,
-        handleDeliveryPartnerFilter,
         availablePartnersCount,
         totalPartnersCount,
         inactivePartnersCount,
+        getAgentByPhone,
       }}
     >
       {children}

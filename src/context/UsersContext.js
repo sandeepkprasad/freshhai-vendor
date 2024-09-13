@@ -58,16 +58,44 @@ const UsersProvider = ({ children }) => {
     }
   };
 
-  const handleUserFilter = () => {
-    console.log("User filter clicked : ", userFilter);
-  };
-
   // Handle user modal
   const handleUserModal = (getUserId) => {
     const dataById = allUsers?.find((user) => user?.id === getUserId);
     setUserToView(dataById);
     setIsUserModal(true);
   };
+
+  // Get User By Phone
+  const getUserByPhone = useCallback(async () => {
+    try {
+      const userByPhoneCollectionRef = collection(firestore, "users");
+
+      const q = userFilter?.phone
+        ? query(
+            userByPhoneCollectionRef,
+            where("basicInfo.mobileNumber", "==", userFilter.phone)
+          )
+        : userByPhoneCollectionRef;
+
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
+        const userData = {
+          id: doc.id,
+          ...doc.data(),
+        };
+
+        setUserToView(userData);
+        setIsUserModal(true);
+      } else {
+        console.warn("No user found with the provided phone number.");
+        setUserToView(null);
+      }
+    } catch (error) {
+      console.error("Error fetching user by phone number: ", error);
+    }
+  }, [firestore, userFilter.phone]);
 
   const getTotalUserCount = useCallback(async () => {
     try {
@@ -134,7 +162,6 @@ const UsersProvider = ({ children }) => {
         allUsers,
         userFilter,
         setUserFilter,
-        handleUserFilter,
         isUserModal,
         setIsUserModal,
         userToView,
@@ -144,6 +171,7 @@ const UsersProvider = ({ children }) => {
         activeUsersCount,
         totalUsersCount,
         blockedUsersCount,
+        getUserByPhone,
       }}
     >
       {children}

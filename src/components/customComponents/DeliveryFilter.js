@@ -4,7 +4,7 @@ import { DeliveryContext } from "../../context/DeliveryContext";
 
 const DeliveryFilter = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { deliveryFilter, setDeliveryFilter, handleDeliveryPartnerFilter } =
+  const { deliveryFilter, getAgentByPhone, setDeliveryFilter } =
     useContext(DeliveryContext);
 
   // Handle Delivery Filter
@@ -33,9 +33,9 @@ const DeliveryFilter = () => {
           isDarkMode
             ? "bg-neutral-black-dark text-neutral-gray-light"
             : "bg-neutral-white text-neutral-black-dark"
-        } w-[50%] md:w-[33%] h-6 rounded shadow font-normal text-base px-[2%] focus:outline-none placeholder:text-xs`}
+        } w-[50%] md:w-[33%] h-6 rounded shadow font-normal text-xs px-[2%] focus:outline-none placeholder:text-xs`}
       />
-      <button className="filterApplyBtn" onClick={handleDeliveryPartnerFilter}>
+      <button className="filterApplyBtn" onClick={getAgentByPhone}>
         Filter
       </button>
       <button

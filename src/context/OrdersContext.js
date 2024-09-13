@@ -73,11 +73,11 @@ const OrdersProvider = ({ children }) => {
   // Get Order By ID
   const getOrderbyId = useCallback(async () => {
     try {
-      const ordersCollectionRef = collection(firestore, "orders");
+      const orderByIdCollectionRef = collection(firestore, "orders");
 
       const q = orderFilter?.id
-        ? query(ordersCollectionRef, where("id", "==", orderFilter.id))
-        : ordersCollectionRef;
+        ? query(orderByIdCollectionRef, where("id", "==", orderFilter.id))
+        : orderByIdCollectionRef;
 
       const querySnapshot = await getDocs(q);
 
