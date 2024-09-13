@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
-import { ProductsContext } from "../../context/ProductsContext";
 import { DeliveryContext } from "../../context/DeliveryContext";
 
 // Components Imports
 import RowText from "./RowText";
 
 const CustomerRow = ({ data, isClickable = false }) => {
-  const { isDarkMode } = useContext(ProductsContext);
   const { handleDeliveryPartnerModal } = useContext(DeliveryContext);
 
   const handleClick = () => {

@@ -307,3 +307,8 @@ export const defaultImageAssets = {
   imageNotFoundUrl:
     "https://firebasestorage.googleapis.com/v0/b/freshhai-all.appspot.com/o/assets%2Fimage_not_found.jpeg?alt=media&token=36664369-acad-44f9-8a36-0a2510012ef9",
 };
+
+export const registeredAdmins = [
+  "sandeep@freshhai.com",
+  "sandeep@freshhai.shop",
+];

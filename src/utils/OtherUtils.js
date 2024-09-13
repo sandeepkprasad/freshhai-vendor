@@ -1,3 +1,5 @@
+import { registeredAdmins } from "./LocalData";
+
 export const getInitials = (fullName) => {
   const nameParts = fullName.split(" ");
 
@@ -11,4 +13,8 @@ export const getFirstName = (fullName) => {
   const nameParts = fullName.split(" ");
 
   return nameParts[0] || "Admin";
+};
+
+export const checkAdminEmail = (email) => {
+  return registeredAdmins.includes(email);
 };

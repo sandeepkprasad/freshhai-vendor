@@ -87,13 +87,13 @@ const ViewDeliveryPartnerModal = React.memo(() => {
             >
               <FaAddressCard />{" "}
               <span
-                className={`font-normal text-xs ${
+                className={`font-semibold text-sm ${
                   isDarkMode
                     ? "text-neutral-gray-light"
                     : "text-neutral-black-dark"
                 }`}
               >
-                Copy Id
+                {partnerToView?.id}
               </span>{" "}
               <button
                 className="active:scale-95 duration-300"

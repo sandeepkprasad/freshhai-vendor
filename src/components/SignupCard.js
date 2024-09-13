@@ -3,6 +3,7 @@ import { FirebaseContext } from "../context/FirebaseContext";
 import { ProductsContext } from "../context/ProductsContext";
 import { useNavigate } from "react-router-dom";
 import { defaultImageAssets } from "../utils/LocalData";
+import { checkAdminEmail } from "../utils/OtherUtils";
 
 // React Icons
 import { ImEye, ImEyeBlocked } from "../utils/Icons";
@@ -38,12 +39,16 @@ const SignupCard = () => {
     setPasswordVisibility((prev) => !prev);
   };
 
+  // Check If Admin Email is Registered
+  const isAdminEmailRegistered = checkAdminEmail(signupCred?.email);
+
   // Handle Admin Signup
   const handleAdminSignup = () => {
     if (
       signupCred?.email &&
       signupCred?.password &&
-      signupCred?.password === confirmPassword
+      signupCred?.password === confirmPassword &&
+      isAdminEmailRegistered
     ) {
       createUserWithEmailAndPassword(
         auth,
