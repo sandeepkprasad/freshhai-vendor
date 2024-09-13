@@ -25,11 +25,13 @@ const CustomerRow = ({ data, isClickable = false }) => {
       <RowText text={data?.vehicle_details?.vehicle_number} />
       <RowText text={data?.vehicle_details?.license_number} />
       <span
-        className={`flex-1 text-start font-normal text-xs ${
-          isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
+        className={`flex-1 text-start font-semibold text-xs ${
+          data?.status?.active
+            ? "text-primary-green-dark"
+            : "text-secondary-red-dark"
         } overflow-hidden`}
       >
-        {data?.status?.active ? "Active" : "In-Active"}
+        {data?.status?.active ? "Active" : "Inactive"}
       </span>
       <span
         className={`flex-1 text-start font-semibold text-xs ${
@@ -38,7 +40,7 @@ const CustomerRow = ({ data, isClickable = false }) => {
             : "text-secondary-red-dark"
         } overflow-hidden`}
       >
-        {data?.availability ? "Available" : "Not Available"}
+        {data?.availability ? "Available" : "Unavailable"}
       </span>
     </div>
   );
