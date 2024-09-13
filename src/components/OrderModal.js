@@ -45,11 +45,11 @@ const OrderModal = () => {
 
   const getCurrentLocation = () => {};
 
-  console.log("Order Status : ", orderToUpdate);
+  console.log("Order Data : ", orderToUpdate);
 
   return (
     <ModalWrapper
-      heading={"ODR" + orderToUpdate?.id.toUpperCase()}
+      heading={"ODR" + orderToUpdate?.id?.toUpperCase()}
       closeModal={setIsOrderModal}
     >
       <div className="w-full h-full flex flex-col justify-between items-center">

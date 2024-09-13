@@ -70,6 +70,35 @@ const OrdersProvider = ({ children }) => {
     setIsOrderModal(true);
   };
 
+  // Get Order By ID
+  const getOrderbyId = useCallback(async () => {
+    try {
+      const ordersCollectionRef = collection(firestore, "orders");
+
+      const q = orderFilter?.id
+        ? query(ordersCollectionRef, where("id", "==", orderFilter.id))
+        : ordersCollectionRef;
+
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
+        const orderData = {
+          id: doc.id,
+          ...doc.data(),
+        };
+
+        setOrderToUpdate(orderData);
+        setIsOrderModal(true);
+      } else {
+        console.warn("No order found with the provided id.");
+        setOrderToUpdate(null);
+      }
+    } catch (error) {
+      console.error("Error fetching order by id: ", error);
+    }
+  }, [firestore, orderFilter?.id]);
+
   // Update Order
   const updateOrder = async (updatedOrder) => {
     if (updatedOrder) {
@@ -188,6 +217,7 @@ const OrdersProvider = ({ children }) => {
         latestOrdersCount,
         lastMonthOrdersCount,
         totalOrdersCount,
+        getOrderbyId,
       }}
     >
       {children}

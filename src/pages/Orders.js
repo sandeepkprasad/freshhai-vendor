@@ -32,7 +32,7 @@ const Orders = () => {
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-between items-center">
               <Heading heading={"Latest Orders"} />
-              <OrderFilter dataType={"latest"} />
+              <OrderFilter />
             </div>
             <div
               className={`w-full h-[90%] ${

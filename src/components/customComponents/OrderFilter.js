@@ -5,7 +5,8 @@ import { orderFilterData } from "../../utils/LocalData";
 
 const OrderFilter = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { orderFilter, setOrderFilter } = useContext(OrdersContext);
+  const { orderFilter, setOrderFilter, getOrderbyId } =
+    useContext(OrdersContext);
 
   // Handle Product Filter
   const handleFilterChange = (e) => {
@@ -14,11 +15,6 @@ const OrderFilter = () => {
       ...prevFilter,
       [name]: value,
     }));
-  };
-
-  // Handle Apply Filter
-  const handleApplyFilter = () => {
-    alert("Product Filter Applied");
   };
 
   // Handle Clear Filter
@@ -38,13 +34,13 @@ const OrderFilter = () => {
           isDarkMode
             ? "bg-neutral-black-dark text-neutral-gray-light"
             : "bg-neutral-white text-neutral-black-dark"
-        } w-[33%] rounded shadow font-normal text-base px-[2%] focus:outline-none placeholder:text-xs`}
+        } w-[33%] h-6 rounded shadow font-normal text-xs px-[2%] focus:outline-none placeholder:text-xs`}
       />
       <select
         name="status"
         value={orderFilter?.status}
         onChange={handleFilterChange}
-        className={`${isDarkMode ? "dropdownClassDark" : "dropdownClass"}`}
+        className={`${isDarkMode ? "dropdownClassDark hidden" : "dropdownClass hidden"}`}
       >
         <option value="">By Status</option>
         {orderFilterData?.status?.map((status, index) => (
@@ -53,7 +49,7 @@ const OrderFilter = () => {
           </option>
         ))}
       </select>
-      <button className="filterApplyBtn" onClick={handleApplyFilter}>
+      <button className="filterApplyBtn" onClick={getOrderbyId}>
         Filter
       </button>
       <button
