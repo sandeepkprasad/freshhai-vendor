@@ -1,5 +1,6 @@
 import React, { useContext, Suspense, lazy } from "react";
 import { ProductsContext } from "../context/ProductsContext";
+import { OrdersContext } from "../context/OrdersContext";
 import adminContext from "../context/adminContext";
 import { Link } from "react-router-dom";
 
@@ -17,7 +18,8 @@ const LatestOrderRow = lazy(() =>
 
 const Dashboard = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { latestOrders, topSellingProducts } = useContext(adminContext);
+  const { allOrders } = useContext(OrdersContext);
+  const { topSellingProducts } = useContext(adminContext);
 
   const overviewData = [
     { heading: "Total Value", data: `₹ ${7000}` },
@@ -87,10 +89,10 @@ const Dashboard = () => {
             </div>
             <div className="w-full h-[85%] overflow-hidden">
               <HeadRow
-                rowData={["Order Id", "Name", "Price", "Delivery", "Status"]}
+                rowData={["Name", "Total", "Payment", "Delivery", "Status"]}
               />
-              {latestOrders?.length > 0 ? (
-                <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
+              {allOrders?.length > 0 ? (
+                <div className="w-full h-[95%] pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
                   <Suspense
                     fallback={
                       <div className="w-full h-[95%] flex justify-center items-center">
@@ -100,7 +102,7 @@ const Dashboard = () => {
                       </div>
                     }
                   >
-                    {latestOrders?.map((order, index) => (
+                    {allOrders?.slice(0, 10).map((order, index) => (
                       <LatestOrderRow data={order} key={index} />
                     ))}
                   </Suspense>
@@ -201,17 +203,10 @@ const Dashboard = () => {
           </div>
           <div className="w-full h-[30vh] overflow-hidden">
             <HeadRow
-              rowData={[
-                "Name",
-                "Items",
-                "Amount",
-                "Payment",
-                "Delivery",
-                "Status",
-              ]}
+              rowData={["Name", "Total", "Payment", "Delivery", "Status"]}
             />
-            {latestOrders?.length > 0 ? (
-              <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
+            {allOrders?.length > 0 ? (
+              <div className="w-full h-[95%] pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
                 <Suspense
                   fallback={
                     <div className="w-full h-[95%] flex justify-center items-center">
@@ -221,7 +216,7 @@ const Dashboard = () => {
                     </div>
                   }
                 >
-                  {latestOrders?.map((order, index) => (
+                  {allOrders?.slice(0, 10).map((order, index) => (
                     <LatestOrderRow data={order} key={index} />
                   ))}
                 </Suspense>

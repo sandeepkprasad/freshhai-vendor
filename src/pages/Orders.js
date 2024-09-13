@@ -43,7 +43,7 @@ const Orders = () => {
             >
               <HeadRow
                 rowData={[
-                  "Customer",
+                  "Name",
                   "Product",
                   "Total",
                   "Payment",
@@ -236,7 +236,7 @@ const Orders = () => {
             >
               <HeadRow
                 rowData={[
-                  "Customer",
+                  "Name",
                   "Product",
                   "Total",
                   "Payment",
