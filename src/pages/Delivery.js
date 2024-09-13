@@ -102,7 +102,6 @@ const Delivery = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
-                title="Click for Active Agents"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Available
@@ -125,7 +124,6 @@ const Delivery = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
-                title="Click for Inactive Agents"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Total
@@ -148,7 +146,6 @@ const Delivery = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
-                title="Click for Suspended Agents"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Inactive

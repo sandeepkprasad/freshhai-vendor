@@ -93,7 +93,6 @@ const Orders = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
-                title="Click for Latest Orders"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Latest
@@ -116,7 +115,6 @@ const Orders = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
-                title="Click for Last Month Orders"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Last Month
@@ -139,7 +137,6 @@ const Orders = () => {
                     ? "bg-neutral-black-dark border border-neutral-black-dark"
                     : "bg-neutral-white border"
                 } flex flex-col justify-center items-start rounded-lg shadow pl-[15%] pr-[1%]`}
-                title="Click for Total Orders"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
                   Total
@@ -168,7 +165,6 @@ const Orders = () => {
                   ? "bg-neutral-black-dark border border-neutral-black-dark"
                   : "bg-neutral-white border"
               } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
-              title="Click for Latest Orders"
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
                 Latest
@@ -191,7 +187,6 @@ const Orders = () => {
                   ? "bg-neutral-black-dark border border-neutral-black-dark"
                   : "bg-neutral-white border"
               } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
-              title="Click for Last Month Orders"
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
                 Last Month
@@ -214,7 +209,6 @@ const Orders = () => {
                   ? "bg-neutral-black-dark border border-neutral-black-dark"
                   : "bg-neutral-white border"
               } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
-              title="Click for Total Orders"
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
                 Total
