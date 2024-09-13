@@ -47,11 +47,6 @@ const UsersProvider = ({ children }) => {
     }
   }, [firestore]);
 
-  useEffect(() => {
-    getUsers();
-    console.log("Getting all users.");
-  }, [getUsers]);
-
   // Add fake users
   const addUser = async () => {
     try {
@@ -89,11 +84,6 @@ const UsersProvider = ({ children }) => {
     }
   }, [firestore]);
 
-  useEffect(() => {
-    getTotalUserCount();
-    console.log("Total users count.");
-  }, [getTotalUserCount]);
-
   const getBlockedUserCount = useCallback(async () => {
     try {
       const blockedUserCountCollectionRef = collection(firestore, "users");
@@ -111,11 +101,6 @@ const UsersProvider = ({ children }) => {
       console.error("Error fetching blocked user count: ", error);
     }
   }, [firestore]);
-
-  useEffect(() => {
-    getBlockedUserCount();
-    console.log("Blocked users count.");
-  }, [getBlockedUserCount]);
 
   const getActiveUserCount = useCallback(async () => {
     try {
@@ -136,9 +121,12 @@ const UsersProvider = ({ children }) => {
   }, [firestore]);
 
   useEffect(() => {
+    getUsers();
+    getTotalUserCount();
+    getBlockedUserCount();
     getActiveUserCount();
-    console.log("Active users count.");
-  }, [getActiveUserCount]);
+    console.log("Getting all users & total, blocked and active users count.");
+  }, [getUsers, getTotalUserCount, getBlockedUserCount, getActiveUserCount]);
 
   return (
     <UsersContext.Provider

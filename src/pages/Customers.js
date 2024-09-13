@@ -182,7 +182,7 @@ const Customers = () => {
               } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
-                Total Users
+                Total
               </p>
               <p
                 className={`font-semibold text-[5vw] ${

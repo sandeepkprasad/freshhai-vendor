@@ -15,8 +15,14 @@ const DeliveryRow = lazy(() =>
 
 const Delivery = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { allDeliveryPartners, addDeliveryPartners, isPartnerModal } =
-    useContext(DeliveryContext);
+  const {
+    allDeliveryPartners,
+    availablePartnersCount,
+    totalPartnersCount,
+    inactivePartnersCount,
+    addDeliveryPartners,
+    isPartnerModal,
+  } = useContext(DeliveryContext);
 
   return (
     <>
@@ -89,7 +95,7 @@ const Delivery = () => {
               </button>
             </div>
             <div className="w-full h-[90%] bg-transparent flex flex-col justify-between items-center space-y-[8%]">
-              {/** Active Agents */}
+              {/** Available partners count */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -99,7 +105,7 @@ const Delivery = () => {
                 title="Click for Active Agents"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Active Partners
+                  Available
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -108,11 +114,11 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allDeliveryPartners?.length}
+                  {availablePartnersCount}
                 </p>
               </div>
 
-              {/** Total Users */}
+              {/** Total partners count */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -122,7 +128,7 @@ const Delivery = () => {
                 title="Click for Inactive Agents"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Total Partners
+                  Total
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -131,11 +137,11 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allDeliveryPartners?.length}
+                  {totalPartnersCount}
                 </p>
               </div>
 
-              {/** Blocked Users */}
+              {/** Inactive partners count */}
               <div
                 className={`w-full h-1/3 ${
                   isDarkMode
@@ -145,7 +151,7 @@ const Delivery = () => {
                 title="Click for Suspended Agents"
               >
                 <p className="font-semibold text-[1vw] text-neutral-black-light">
-                  Suspended Partners
+                  Inactive
                 </p>
                 <p
                   className={`font-semibold text-[2vw] ${
@@ -154,7 +160,7 @@ const Delivery = () => {
                       : "text-neutral-black-dark"
                   }`}
                 >
-                  {allDeliveryPartners?.length}
+                  {inactivePartnersCount}
                 </p>
               </div>
             </div>
@@ -164,7 +170,7 @@ const Delivery = () => {
         {/** Mobile Screens */}
         <div className="w-full h-full pb-[2%] md:hidden overflow-x-hidden overflow-y-scroll">
           <div className="w-full h-fit grid grid-cols-3 gap-[2%] mb-[5%]">
-            {/** Active Agents */}
+            {/** Available partners count */}
             <div
               className={`w-full h-[10vh] ${
                 isDarkMode
@@ -173,7 +179,7 @@ const Delivery = () => {
               } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
-                Active Partners
+                Available
               </p>
               <p
                 className={`font-semibold text-[5vw] ${
@@ -182,11 +188,11 @@ const Delivery = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allDeliveryPartners?.length}
+                {availablePartnersCount}
               </p>
             </div>
 
-            {/** Total Users */}
+            {/** Total partners count */}
             <div
               className={`w-full h-10vh ${
                 isDarkMode
@@ -204,11 +210,11 @@ const Delivery = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allDeliveryPartners?.length}
+                {totalPartnersCount}
               </p>
             </div>
 
-            {/** Blocked Users */}
+            {/** Inactive partners count */}
             <div
               className={`w-full h-[10vh] ${
                 isDarkMode
@@ -217,7 +223,7 @@ const Delivery = () => {
               } flex flex-col justify-center items-start rounded-lg shadow pl-[10%] pr-[1%]`}
             >
               <p className="font-semibold text-[3.5vw] text-neutral-black-light">
-                Suspended Partners
+                Inactive
               </p>
               <p
                 className={`font-semibold text-[5vw] ${
@@ -226,7 +232,7 @@ const Delivery = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                {allDeliveryPartners?.length}
+                {inactivePartnersCount}
               </p>
             </div>
           </div>

@@ -11,7 +11,14 @@ import { FirebaseContext } from "./FirebaseContext";
 import { deliveryPartnerSchema } from "../utils/LocalData";
 
 // Firebase Services
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  getCountFromServer,
+} from "firebase/firestore";
 
 export const DeliveryContext = createContext();
 
@@ -21,6 +28,9 @@ const DeliveryProvider = ({ children }) => {
   const [deliveryFilter, setDeliveryFilter] = useState({ phone: "" });
   const [partnerToView, setPartnerToView] = useState(null);
   const [isPartnerModal, setIsPartnerModal] = useState(false);
+  const [availablePartnersCount, setAvailablePartnersCount] = useState(0);
+  const [totalPartnersCount, setTotalPartnersCount] = useState(0);
+  const [inactivePartnersCount, setInactivePartnersCount] = useState(0);
 
   // Fetch all delivery partners
   const getDeliveryPartners = useCallback(async () => {
@@ -39,11 +49,6 @@ const DeliveryProvider = ({ children }) => {
       console.error("Error fetching delivery partners: ", error);
     }
   }, [firestore]);
-
-  useEffect(() => {
-    getDeliveryPartners();
-    console.log("Getting all delivery partners.");
-  }, [getDeliveryPartners]);
 
   // Add fake delivery partners
   const addDeliveryPartners = async () => {
@@ -72,6 +77,81 @@ const DeliveryProvider = ({ children }) => {
     setIsPartnerModal(true);
   };
 
+  const getAvailablePartnerCount = useCallback(async () => {
+    try {
+      const availablePartnerCountCollectionRef = collection(
+        firestore,
+        "deliveryPartners"
+      );
+
+      const q = query(
+        availablePartnerCountCollectionRef,
+        where("availability", "==", true)
+      );
+
+      const countSnapshot = await getCountFromServer(q);
+      const availablePartnerCount = countSnapshot.data().count;
+
+      setAvailablePartnersCount(availablePartnerCount);
+    } catch (error) {
+      console.error("Error fetching available partner count: ", error);
+    }
+  }, [firestore]);
+
+  const getTotalPartnerCount = useCallback(async () => {
+    try {
+      const totalPartnerCountCollectionRef = collection(
+        firestore,
+        "deliveryPartners"
+      );
+
+      const q = query(totalPartnerCountCollectionRef);
+
+      const countSnapshot = await getCountFromServer(q);
+      const totalPartnerCount = countSnapshot.data().count;
+
+      setTotalPartnersCount(totalPartnerCount);
+    } catch (error) {
+      console.error("Error fetching total partner count: ", error);
+    }
+  }, [firestore]);
+
+  const getInactivePartnerCount = useCallback(async () => {
+    try {
+      const inactivePartnerCountCollectionRef = collection(
+        firestore,
+        "deliveryPartners"
+      );
+
+      const q = query(
+        inactivePartnerCountCollectionRef,
+        where("status.active", "==", false)
+      );
+
+      const countSnapshot = await getCountFromServer(q);
+      const inactivePartnerCount = countSnapshot.data().count;
+
+      setInactivePartnersCount(inactivePartnerCount);
+    } catch (error) {
+      console.error("Error fetching inactive partner count: ", error);
+    }
+  }, [firestore]);
+
+  useEffect(() => {
+    getDeliveryPartners();
+    getAvailablePartnerCount();
+    getTotalPartnerCount();
+    getInactivePartnerCount();
+    console.log(
+      "Getting all partners & available, total and suspended partners."
+    );
+  }, [
+    getDeliveryPartners,
+    getAvailablePartnerCount,
+    getTotalPartnerCount,
+    getInactivePartnerCount,
+  ]);
+
   return (
     <DeliveryContext.Provider
       value={{
@@ -85,6 +165,9 @@ const DeliveryProvider = ({ children }) => {
         deliveryFilter,
         setDeliveryFilter,
         handleDeliveryPartnerFilter,
+        availablePartnersCount,
+        totalPartnersCount,
+        inactivePartnersCount,
       }}
     >
       {children}

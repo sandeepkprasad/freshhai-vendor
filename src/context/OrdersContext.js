@@ -52,11 +52,6 @@ const OrdersProvider = ({ children }) => {
     }
   }, [firestore]);
 
-  useEffect(() => {
-    getOrders();
-    console.log("Getting all orders.");
-  }, [getOrders]);
-
   // Add fake orders
   const addOrder = async () => {
     try {
@@ -123,11 +118,6 @@ const OrdersProvider = ({ children }) => {
     }
   }, [firestore]);
 
-  useEffect(() => {
-    getOrderCountForCurrentMonth();
-    console.log("Latest orders count.");
-  }, [getOrderCountForCurrentMonth]);
-
   const getLastMonthOrderCount = useCallback(async () => {
     try {
       const now = new Date();
@@ -151,11 +141,6 @@ const OrdersProvider = ({ children }) => {
     }
   }, [firestore]);
 
-  useEffect(() => {
-    getLastMonthOrderCount();
-    console.log("Last month orders count.");
-  }, [getLastMonthOrderCount]);
-
   const getTotalOrderCount = useCallback(async () => {
     try {
       const totalOrderCountCollectionRef = collection(firestore, "orders");
@@ -172,9 +157,19 @@ const OrdersProvider = ({ children }) => {
   }, [firestore]);
 
   useEffect(() => {
+    getOrders();
+    getOrderCountForCurrentMonth();
+    getLastMonthOrderCount();
     getTotalOrderCount();
-    console.log("Total orders count.");
-  }, [getTotalOrderCount]);
+    console.log(
+      "Getting all orders & latest, last month and total orders count."
+    );
+  }, [
+    getOrders,
+    getOrderCountForCurrentMonth,
+    getLastMonthOrderCount,
+    getTotalOrderCount,
+  ]);
 
   return (
     <OrdersContext.Provider
