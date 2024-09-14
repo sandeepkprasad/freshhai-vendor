@@ -228,24 +228,14 @@ const Orders = () => {
             <Heading heading={"Latest Orders"} />
             <OrderFilter />
             <div
-              className={`w-full h-[60vh] ${
+              className={`w-full h-[57vh] ${
                 isDarkMode
                   ? "bg-neutral-black-dark border border-neutral-black-dark"
                   : "bg-neutral-white border"
-              } flex flex-col justify-between items-center rounded-lg shadow p-[1%]`}
+              } rounded-lg shadow p-[1%]`}
             >
-              <HeadRow
-                rowData={[
-                  "Name",
-                  "Product",
-                  "Total",
-                  "Payment",
-                  "Delivery",
-                  "Status",
-                ]}
-              />
               {allOrders?.length > 0 ? (
-                <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
+                <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
                   <Suspense
                     fallback={
                       <div className="w-full h-[95%] flex justify-center items-center">

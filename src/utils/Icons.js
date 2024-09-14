@@ -33,6 +33,8 @@ import { BiSupport } from "react-icons/bi";
 
 import { FaSave, FaAddressCard } from "react-icons/fa";
 
+import { SlArrowRight } from "react-icons/sl";
+
 export {
   MdOutlineDashboard,
   MdOutlineShoppingCart,
@@ -63,4 +65,5 @@ export {
   MdDateRange,
   FaAddressCard,
   MdContentCopy,
+  SlArrowRight,
 };
