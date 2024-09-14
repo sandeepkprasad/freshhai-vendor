@@ -11,7 +11,6 @@ import RowTextStatus from "./RowTextStatus";
 const LatestOrderRow = ({ data }) => {
   const { time, date } = extractDeliveryTimeDate(data?.actual_delivery_time);
 
-  console.log("Latest Order : ", data);
   return (
     <div className="w-full h-fit flex justify-between items-center border-b py-[0.5%] active:scale-95 duration-300">
       <RowText text={data?.delivery_address?.name} />

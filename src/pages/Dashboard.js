@@ -17,15 +17,19 @@ const LatestOrderRow = lazy(() =>
 );
 
 const Dashboard = () => {
-  const { isDarkMode } = useContext(ProductsContext);
-  const { allOrders } = useContext(OrdersContext);
+  const { isDarkMode, totalProductsCount } = useContext(ProductsContext);
+  const { allOrders, totalOrdersCount, totalNetAmount } =
+    useContext(OrdersContext);
   const { topSellingProducts } = useContext(adminContext);
 
   const overviewData = [
-    { heading: "Total Value", data: `₹ ${7000}` },
-    { heading: "Avg. Order Value", data: `₹ ${7000}` },
-    { heading: "Total Orders", data: `${7000}` },
-    { heading: "Total Products", data: `${70}` },
+    { heading: "Total Value", data: `₹ ${totalNetAmount}` },
+    {
+      heading: "Avg. Order Value",
+      data: `₹ ${totalNetAmount / totalOrdersCount}`,
+    },
+    { heading: "Total Orders", data: `${totalOrdersCount}` },
+    { heading: "Total Products", data: `${totalProductsCount}` },
   ];
 
   return (

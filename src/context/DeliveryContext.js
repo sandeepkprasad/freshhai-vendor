@@ -174,7 +174,7 @@ const DeliveryProvider = ({ children }) => {
     getTotalPartnerCount();
     getInactivePartnerCount();
     console.log(
-      "Getting all partners & available, total and suspended partners."
+      "Getting all partners & available, total and suspended partners count."
     );
   }, [
     getDeliveryPartners,

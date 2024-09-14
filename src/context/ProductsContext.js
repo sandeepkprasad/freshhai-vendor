@@ -15,7 +15,10 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  query,
+  getCountFromServer,
 } from "firebase/firestore";
+
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const ProductsContext = createContext();
@@ -29,6 +32,7 @@ const ProductsProvider = ({ children }) => {
   const [isDeleteModal, setIsDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [totalProductsCount, setTotalProductsCount] = useState(0);
   const [notificationData, setNotificationData] = useState({
     flag: false,
     type: "",
@@ -76,11 +80,6 @@ const ProductsProvider = ({ children }) => {
       console.error("Error fetching products: ", error);
     }
   }, [firestore]);
-
-  useEffect(() => {
-    getProducts();
-    console.log("Getting all products.");
-  }, [getProducts]);
 
   // Add new product
   const addProduct = async (productToAdd) => {
@@ -192,6 +191,28 @@ const ProductsProvider = ({ children }) => {
     setIsDeleteModal(false);
   };
 
+  // Total products count
+  const getTotalProductsCount = useCallback(async () => {
+    try {
+      const totalProductsCollectionRef = collection(firestore, "products");
+
+      const q = query(totalProductsCollectionRef);
+
+      const countSnapshot = await getCountFromServer(q);
+      const totalProductCount = countSnapshot.data().count;
+
+      setTotalProductsCount(totalProductCount);
+    } catch (error) {
+      console.error("Error fetching total products count: ", error);
+    }
+  }, [firestore]);
+
+  useEffect(() => {
+    getProducts();
+    getTotalProductsCount();
+    console.log("Getting all products & all products count.");
+  }, [getProducts, getTotalProductsCount]);
+
   return (
     <ProductsContext.Provider
       value={{
@@ -216,6 +237,7 @@ const ProductsProvider = ({ children }) => {
         getProducts,
         productFilter,
         setProductFilter,
+        totalProductsCount,
       }}
     >
       {children}

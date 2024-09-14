@@ -36,6 +36,7 @@ const OrdersProvider = ({ children }) => {
   const [latestOrdersCount, setLatestOrdersCount] = useState(0);
   const [lastMonthOrdersCount, setLastMonthOrdersCount] = useState(0);
   const [totalOrdersCount, setTotalOrdersCount] = useState(0);
+  const [totalNetAmount, setTotalNetAmount] = useState(0);
 
   // Fetch all users
   const getOrders = useCallback(async () => {
@@ -185,19 +186,38 @@ const OrdersProvider = ({ children }) => {
     }
   }, [firestore]);
 
+  const getTotalNetAmount = useCallback(async () => {
+    try {
+      const ordersCollectionRef = collection(firestore, "orders");
+
+      const querySnapshot = await getDocs(ordersCollectionRef);
+
+      const totalNetAmount = querySnapshot.docs.reduce((total, doc) => {
+        const orderData = doc.data();
+        return total + (orderData.net_amount || 0);
+      }, 0);
+
+      setTotalNetAmount(totalNetAmount);
+    } catch (error) {
+      console.error("Error calculating total net amount: ", error);
+    }
+  }, [firestore]);
+
   useEffect(() => {
     getOrders();
     getOrderCountForCurrentMonth();
     getLastMonthOrderCount();
     getTotalOrderCount();
+    getTotalNetAmount();
     console.log(
-      "Getting all orders & latest, last month and total orders count."
+      "Getting all orders & latest, last month, total orders and total orders value count."
     );
   }, [
     getOrders,
     getOrderCountForCurrentMonth,
     getLastMonthOrderCount,
     getTotalOrderCount,
+    getTotalNetAmount,
   ]);
 
   return (
@@ -217,6 +237,7 @@ const OrdersProvider = ({ children }) => {
         latestOrdersCount,
         lastMonthOrdersCount,
         totalOrdersCount,
+        totalNetAmount,
         getOrderbyId,
       }}
     >
