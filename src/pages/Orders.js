@@ -232,7 +232,7 @@ const Orders = () => {
                 isDarkMode
                   ? "bg-neutral-black-dark border border-neutral-black-dark"
                   : "bg-neutral-white border"
-              } rounded-lg shadow p-[1%]`}
+              } rounded-lg shadow p-[2%]`}
             >
               {allOrders?.length > 0 ? (
                 <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">

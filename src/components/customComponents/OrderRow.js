@@ -29,7 +29,7 @@ const OrderRow = ({ data, isClickable = false }) => {
     <>
       {/** Large Screens */}
       <div
-        className={`w-full h-fit hidden md:flex justify-between items-center border-b py-[0.5%] space-x-[5%] md:space-x-0 duration-300 ${clickableClass}`}
+        className={`w-full h-fit hidden md:flex justify-between items-center border-b py-[0.5%] duration-300 ${clickableClass}`}
         onClick={handleClick}
       >
         <RowText text={data?.delivery_address?.name} />
@@ -55,7 +55,7 @@ const OrderRow = ({ data, isClickable = false }) => {
 
       {/** Small Screens */}
       <div
-        className={`w-full h-fit flex md:hidden justify-between items-center border-b py-[2%] duration-300 ${clickableClass}`}
+        className={`w-full h-fit flex md:hidden justify-between items-center border-b py-[1%] duration-300 ${clickableClass}`}
         onClick={handleClick}
       >
         <div className="w-[90%] h-fit">
