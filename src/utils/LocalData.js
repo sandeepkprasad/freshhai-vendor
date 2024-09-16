@@ -1,3 +1,7 @@
+import { serverTimestamp } from "firebase/firestore";
+
+const timestamp = serverTimestamp();
+
 export const productSchema = {
   imageUrl: null,
   name: "",
@@ -124,6 +128,7 @@ export const userSchema = {
   },
   orderReferences: ["order_1", "order_2", "order_3"],
   userStatus: "active",
+  createdAt: timestamp,
 };
 
 export const deliveryPartnerSchema = {
@@ -164,6 +169,7 @@ export const deliveryPartnerSchema = {
   assigned_orders: ["order123", "order124"],
   order_history: ["order101", "order102", "order103"],
   availability: true,
+  createdAt: timestamp,
 };
 
 export const orderSchema = {
@@ -246,6 +252,7 @@ export const orderSchema = {
       timestamp: "2024-09-05T12:45:00Z",
     },
   ],
+  createdAt: timestamp,
 };
 
 export const productFilterData = {

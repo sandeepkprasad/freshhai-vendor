@@ -17,6 +17,7 @@ const Delivery = () => {
   const { isDarkMode } = useContext(ProductsContext);
   const {
     allDeliveryPartners,
+    //fetchNextDeliveryPartnersPage,
     availablePartnersCount,
     totalPartnersCount,
     inactivePartnersCount,
@@ -32,7 +33,9 @@ const Delivery = () => {
           {/** Left Side Part */}
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-between items-center">
-              <Heading heading="Delivery Agents" />
+              <Heading
+                heading={`Delivery Agents (${allDeliveryPartners?.length})`}
+              />
               <DeliveryFilter />
             </div>
 
@@ -234,7 +237,9 @@ const Delivery = () => {
             </div>
           </div>
           <div className="w-full h-fit flex flex-col justify-start items-start space-y-[2%]">
-            <Heading heading="Delivery Agents" />
+            <Heading
+              heading={`Delivery Agents (${allDeliveryPartners?.length})`}
+            />
             <DeliveryFilter />
             <div
               className={`w-full h-[57vh] ${

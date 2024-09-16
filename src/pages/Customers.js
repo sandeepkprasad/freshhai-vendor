@@ -22,7 +22,7 @@ const Customers = () => {
     blockedUsersCount,
     isUserModal,
     addUser,
-    fetchNextUsersPage,
+    //fetchNextUsersPage,
   } = useContext(UsersContext);
 
   return (
@@ -75,7 +75,7 @@ const Customers = () => {
           <div className="w-[20%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-end items-center">
               <Heading heading={"Overview"} />
-              <button className="font-normal text-xs" onClick={fetchNextUsersPage}>
+              <button className="font-normal text-xs hidden" onClick={addUser}>
                 Add User
               </button>
             </div>
@@ -219,7 +219,7 @@ const Customers = () => {
             </div>
           </div>
           <div className="w-full h-fit flex flex-col justify-start items-start space-y-[2%]">
-            <Heading heading="All Users" />
+            <Heading heading={`All Users (${allUsers?.length})`} />
             <CustomerFilter />
             <div
               className={`w-full h-[57vh] ${

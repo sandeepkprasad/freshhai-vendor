@@ -1,5 +1,6 @@
-import React, { useContext, Suspense, lazy } from "react";
+import React, { useContext, Suspense, lazy, useEffect } from "react";
 import "../App.css";
+import { useInView } from "react-intersection-observer";
 import { ProductsContext } from "../context/ProductsContext";
 import { OrdersContext } from "../context/OrdersContext";
 
@@ -20,9 +21,18 @@ const Orders = () => {
     lastMonthOrdersCount,
     totalOrdersCount,
     addOrder,
-    //fetchNextPage,
+    fetchNextPage,
     isOrderModal,
   } = useContext(OrdersContext);
+  const { ref, inView } = useInView({
+    threshold: 0.5, // 50% of the element is visible
+  });
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
   return (
     <>
@@ -67,6 +77,20 @@ const Orders = () => {
                       <OrderRow data={order} isClickable={true} key={index} />
                     ))}
                   </Suspense>
+                  <div
+                    ref={ref}
+                    className="w-full h-[10vh] flex justify-center items-center"
+                  >
+                    {inView ? (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Loading more...
+                      </p>
+                    ) : (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Scroll to load more
+                      </p>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="w-full h-[95%] flex justify-center items-center">
@@ -226,7 +250,7 @@ const Orders = () => {
             </div>
           </div>
           <div className="w-full h-fit flex flex-col justify-start items-start space-y-[2%]">
-            <Heading heading={"Latest Orders"} />
+            <Heading heading={`Latest Orders (${allOrders?.length})`} />
             <OrderFilter />
             <div
               className={`w-full h-[57vh] ${
@@ -250,6 +274,20 @@ const Orders = () => {
                       <OrderRow data={order} isClickable={true} key={index} />
                     ))}
                   </Suspense>
+                  <div
+                    ref={ref}
+                    className="w-full h-[10vh] flex justify-center items-center"
+                  >
+                    {inView ? (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Loading more...
+                      </p>
+                    ) : (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Scroll to load more
+                      </p>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="w-full h-[95%] flex justify-center items-center">

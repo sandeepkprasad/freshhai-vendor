@@ -18,6 +18,8 @@ import {
   query,
   where,
   getCountFromServer,
+  limit,
+  startAfter,
 } from "firebase/firestore";
 
 export const DeliveryContext = createContext();
@@ -25,6 +27,8 @@ export const DeliveryContext = createContext();
 const DeliveryProvider = ({ children }) => {
   const { firestore } = useContext(FirebaseContext);
   const [allDeliveryPartners, setAllDeliveryPartners] = useState([]);
+  const [lastVisibleDeliveryPartner, setLastVisibleDeliveryPartner] =
+    useState(null);
   const [deliveryFilter, setDeliveryFilter] = useState({ phone: "" });
   const [partnerToView, setPartnerToView] = useState(null);
   const [isPartnerModal, setIsPartnerModal] = useState(false);
@@ -33,22 +37,54 @@ const DeliveryProvider = ({ children }) => {
   const [inactivePartnersCount, setInactivePartnersCount] = useState(0);
 
   // Fetch all delivery partners
-  const getDeliveryPartners = useCallback(async () => {
-    try {
-      const deliveryPartnersCollectionRef = collection(
-        firestore,
-        "deliveryPartners"
-      );
-      const querySnapshot = await getDocs(deliveryPartnersCollectionRef);
-      const deliveryPartnersList = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setAllDeliveryPartners(deliveryPartnersList);
-    } catch (error) {
-      console.error("Error fetching delivery partners: ", error);
+  const getDeliveryPartners = useCallback(
+    async (lastDoc = null) => {
+      try {
+        const deliveryPartnersCollectionRef = collection(
+          firestore,
+          "deliveryPartners"
+        );
+
+        let deliveryPartnersQuery = query(
+          deliveryPartnersCollectionRef,
+          limit(20)
+        );
+
+        if (lastDoc) {
+          deliveryPartnersQuery = query(
+            deliveryPartnersCollectionRef,
+            startAfter(lastDoc),
+            limit(20)
+          );
+        }
+
+        const querySnapshot = await getDocs(deliveryPartnersQuery);
+
+        const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+        const deliveryPartnersList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAllDeliveryPartners((prevDeliveryPartners) => [
+          ...prevDeliveryPartners,
+          ...deliveryPartnersList,
+        ]);
+
+        setLastVisibleDeliveryPartner(lastVisible);
+      } catch (error) {
+        console.error("Error fetching delivery partners: ", error);
+      }
+    },
+    [firestore]
+  );
+
+  const fetchNextDeliveryPartnersPage = () => {
+    if (lastVisibleDeliveryPartner) {
+      getDeliveryPartners(lastVisibleDeliveryPartner);
     }
-  }, [firestore]);
+  };
 
   // Add fake delivery partners
   const addDeliveryPartners = async () => {
@@ -199,6 +235,7 @@ const DeliveryProvider = ({ children }) => {
         totalPartnersCount,
         inactivePartnersCount,
         getAgentByPhone,
+        fetchNextDeliveryPartnersPage,
       }}
     >
       {children}
