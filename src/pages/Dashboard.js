@@ -210,12 +210,9 @@ const Dashboard = () => {
               View All
             </Link>
           </div>
-          <div className="w-full h-[30vh] overflow-hidden">
-            <HeadRow
-              rowData={["Name", "Total", "Payment", "Delivery", "Status"]}
-            />
+          <div className="w-full h-[25vh] overflow-hidden">
             {allOrders?.length > 0 ? (
-              <div className="w-full h-[95%] pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+              <div className="w-full h-full pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
                 <Suspense
                   fallback={
                     <div className="w-full h-[95%] flex justify-center items-center">
@@ -240,7 +237,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div
-          className={`w-full h-[30vh] ${
+          className={`w-full h-[25vh] ${
             isDarkMode
               ? "bg-neutral-black-dark border border-neutral-black-dark"
               : "bg-neutral-white border"
