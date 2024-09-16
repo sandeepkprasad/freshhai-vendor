@@ -20,6 +20,7 @@ const Orders = () => {
     lastMonthOrdersCount,
     totalOrdersCount,
     addOrder,
+    //fetchNextPage,
     isOrderModal,
   } = useContext(OrdersContext);
 
@@ -31,7 +32,7 @@ const Orders = () => {
           {/** Left Side Part */}
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-between items-center">
-              <Heading heading={"Latest Orders"} />
+              <Heading heading={`Latest Orders (${allOrders?.length})`} />
               <OrderFilter />
             </div>
             <div

@@ -19,6 +19,8 @@ import {
   query,
   where,
   getCountFromServer,
+  limit,
+  startAfter,
 } from "firebase/firestore";
 
 // Fake data imports
@@ -30,6 +32,7 @@ const OrdersProvider = ({ children }) => {
   const { firestore } = useContext(FirebaseContext);
   const { handleNotification } = useContext(ProductsContext);
   const [allOrders, setAllOrders] = useState([]);
+  const [lastVisibleDoc, setLastVisibleDoc] = useState(null);
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [isOrderModal, setIsOrderModal] = useState(false);
   const [orderToUpdate, setOrderToUpdate] = useState(null);
@@ -54,19 +57,45 @@ const OrdersProvider = ({ children }) => {
   ];
 
   // Fetch all users
-  const getOrders = useCallback(async () => {
-    try {
-      const ordersCollectionRef = collection(firestore, "orders");
-      const querySnapshot = await getDocs(ordersCollectionRef);
-      const ordersList = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setAllOrders(ordersList);
-    } catch (error) {
-      console.error("Error fetching orders: ", error);
+  const getOrders = useCallback(
+    async (lastDoc = null) => {
+      try {
+        const ordersCollectionRef = collection(firestore, "orders");
+
+        let ordersQuery = query(ordersCollectionRef, limit(20));
+
+        if (lastDoc) {
+          ordersQuery = query(
+            ordersCollectionRef,
+            startAfter(lastDoc),
+            limit(20)
+          );
+        }
+
+        const querySnapshot = await getDocs(ordersQuery);
+
+        const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+        const ordersList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAllOrders((prevOrders) => [...prevOrders, ...ordersList]);
+
+        setLastVisibleDoc(lastVisible);
+      } catch (error) {
+        console.error("Error fetching orders: ", error);
+      }
+    },
+    [firestore]
+  );
+
+  const fetchNextPage = () => {
+    if (lastVisibleDoc) {
+      getOrders(lastVisibleDoc);
     }
-  }, [firestore]);
+  };
 
   // Add fake orders
   const addOrder = async () => {
@@ -255,6 +284,7 @@ const OrdersProvider = ({ children }) => {
         totalNetAmount,
         salesBarChartData,
         getOrderbyId,
+        fetchNextPage,
       }}
     >
       {children}

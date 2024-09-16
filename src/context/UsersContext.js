@@ -18,6 +18,8 @@ import {
   query,
   where,
   getCountFromServer,
+  limit,
+  startAfter,
 } from "firebase/firestore";
 
 export const UsersContext = createContext();
@@ -25,6 +27,7 @@ export const UsersContext = createContext();
 const UsersProvider = ({ children }) => {
   const { firestore } = useContext(FirebaseContext);
   const [allUsers, setAllUsers] = useState([]);
+  const [lastVisibleUser, setLastVisibleUser] = useState(null);
   const [userFilter, setUserFilter] = useState({ phone: "" });
   const [userToView, setUserToView] = useState(null);
   const [isUserModal, setIsUserModal] = useState(false);
@@ -33,19 +36,45 @@ const UsersProvider = ({ children }) => {
   const [blockedUsersCount, setBlockedUsersCount] = useState(0);
 
   // Fetch all users
-  const getUsers = useCallback(async () => {
-    try {
-      const usersCollectionRef = collection(firestore, "users");
-      const querySnapshot = await getDocs(usersCollectionRef);
-      const usersList = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setAllUsers(usersList);
-    } catch (error) {
-      console.error("Error fetching users: ", error);
+  const getUsers = useCallback(
+    async (lastDoc = null) => {
+      try {
+        const usersCollectionRef = collection(firestore, "users");
+
+        let usersQuery = query(usersCollectionRef, limit(20));
+
+        if (lastDoc) {
+          usersQuery = query(
+            usersCollectionRef,
+            startAfter(lastDoc),
+            limit(20)
+          );
+        }
+
+        const querySnapshot = await getDocs(usersQuery);
+
+        const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+        const usersList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAllUsers((prevUsers) => [...prevUsers, ...usersList]);
+
+        setLastVisibleUser(lastVisible);
+      } catch (error) {
+        console.error("Error fetching users: ", error);
+      }
+    },
+    [firestore]
+  );
+
+  const fetchNextUsersPage = () => {
+    if (lastVisibleUser) {
+      getUsers(lastVisibleUser);
     }
-  }, [firestore]);
+  };
 
   // Add fake users
   const addUser = async () => {
@@ -172,6 +201,7 @@ const UsersProvider = ({ children }) => {
         totalUsersCount,
         blockedUsersCount,
         getUserByPhone,
+        fetchNextUsersPage,
       }}
     >
       {children}
