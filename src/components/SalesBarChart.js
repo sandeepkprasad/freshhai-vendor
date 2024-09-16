@@ -19,8 +19,8 @@ const SalesBarChart = () => {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={salesBarChartData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+          <YAxis tick={{ fontSize: 12 }} />
           <Tooltip />
           <Legend />
           <Bar dataKey="sales" fill="#8884d8" />
