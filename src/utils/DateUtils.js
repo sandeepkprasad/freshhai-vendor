@@ -36,7 +36,7 @@ export const extractDateTime = (dateString) => {
 export const extractDeliveryTimeDate = (dateString) => {
   const date = new Date(dateString);
 
-  const month = date.toLocaleString("default", { month: "long" });
+  const month = date.toLocaleString("default", { month: "short" });
   const day = date.getDate();
 
   let hours = date.getHours();

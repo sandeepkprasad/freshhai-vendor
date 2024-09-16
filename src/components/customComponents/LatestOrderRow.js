@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
-import { ProductsContext } from "../../context/ProductsContext";
+import React from "react";
 import { extractDeliveryTimeDate } from "../../utils/DateUtils";
 
 // React Icons
-import { MdDone, MdClose, SlArrowRight } from "../../utils/Icons";
+import { MdDone, MdClose } from "../../utils/Icons";
 
 // Components Imports
 import RowText from "./RowText";
@@ -11,7 +10,6 @@ import RowTextStatus from "./RowTextStatus";
 import RowTextSmall from "./RowTextSmall";
 
 const LatestOrderRow = ({ data }) => {
-  const { isDarkMode } = useContext(ProductsContext);
   const { time, date } = extractDeliveryTimeDate(data?.actual_delivery_time);
 
   return (
