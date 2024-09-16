@@ -36,7 +36,7 @@ const Dashboard = () => {
   return (
     <DashboardWrapper>
       {/** Large Screens */}
-      <div className="w-full h-full hidden md:flex flex-col justify-between items-start pb-[0.5%] space-y-[2%] overflow-hidden">
+      <div className="w-full h-full hidden md:flex flex-col justify-between items-start pb-[2%] space-y-[2%] overflow-hidden">
         <div className="w-full h-[50%] flex justify-center items-center space-x-[2%]">
           <div
             className={`w-[60%] h-full ${
