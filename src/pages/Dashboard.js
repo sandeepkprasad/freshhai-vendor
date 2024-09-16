@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
 import HeadRow from "../components/customComponents/HeadRow";
+import SalesBarChart from "../components/SalesBarChart";
 
 const TopSellingProductCard = lazy(() =>
   import("../components/TopSellingProductCard")
@@ -42,8 +43,10 @@ const Dashboard = () => {
               isDarkMode
                 ? "bg-neutral-black-dark border border-neutral-black-dark"
                 : "bg-neutral-white border"
-            } border rounded-lg shadow`}
-          ></div>
+            } border rounded-lg shadow p-[1%]`}
+          >
+            <SalesBarChart />
+          </div>
           <div className="w-[40%] h-full grid grid-cols-2 gap-x-[4%] gap-y-[8%]">
             {overviewData?.map((boxData, index) => (
               <div
@@ -183,8 +186,10 @@ const Dashboard = () => {
             isDarkMode
               ? "bg-neutral-black-dark border border-neutral-black-dark"
               : "bg-neutral-white border"
-          } border rounded-lg shadow mb-[2%]`}
-        ></div>
+          } border rounded-lg shadow p-[2%] mb-[2%]`}
+        >
+          <SalesBarChart />
+        </div>
         <div
           className={`w-full h-fit ${
             isDarkMode
