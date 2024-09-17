@@ -4,6 +4,7 @@ import { ProductsContext } from "../context/ProductsContext";
 // Components Imports
 import DashboardWrapper from "../components/DashboardWrapper";
 import Heading from "../components/customComponents/Heading";
+import SupportComponent from "../components/SupportComponent";
 
 const Support = () => {
   const { isDarkMode } = useContext(ProductsContext);
@@ -23,36 +24,7 @@ const Support = () => {
                 : "bg-neutral-white border"
             } flex flex-col justify-center items-center rounded-lg shadow space-y-[1%] p-[1%]`}
           >
-            <p
-              className={`font-medium text-2xl ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-dark"
-              }`}
-            >
-              <span className="font-normal text-base">Contact Number :</span>{" "}
-              12345 67890
-            </p>
-            <p
-              className={`font-medium text-2xl ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-dark"
-              }`}
-            >
-              <span className="font-normal text-base">Email :</span>{" "}
-              support@freshhai.com
-            </p>
-            <p
-              className={`font-medium text-2xl ${
-                isDarkMode
-                  ? "text-neutral-gray-light"
-                  : "text-neutral-black-dark"
-              }`}
-            >
-              <span className="font-normal text-base">WhatsApp :</span>{" "}
-              12345 67890
-            </p>
+            <SupportComponent />
           </div>
         </div>
         <div className="w-[20%] h-full flex flex-col justify-between items-center"></div>
@@ -68,30 +40,7 @@ const Support = () => {
               : "bg-neutral-white border"
           } flex flex-col justify-center items-center rounded-lg shadow space-y-[1%] p-[2%]`}
         >
-          <p
-            className={`font-medium text-2xl ${
-              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            }`}
-          >
-            <span className="font-normal text-base">Contact Number :</span>{" "}
-            12345 67890
-          </p>
-          <p
-            className={`font-medium text-2xl ${
-              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            }`}
-          >
-            <span className="font-normal text-base">Email :</span>{" "}
-            support@freshhai.com
-          </p>
-          <p
-            className={`font-medium text-2xl ${
-              isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-            }`}
-          >
-            <span className="font-normal text-base">WhatsApp :</span> 12345
-            67890
-          </p>
+          <SupportComponent />
         </div>
       </div>
     </DashboardWrapper>

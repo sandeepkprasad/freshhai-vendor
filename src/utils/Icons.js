@@ -19,6 +19,7 @@ import {
   MdExitToApp,
   MdDateRange,
   MdContentCopy,
+  MdWhatsapp,
 } from "react-icons/md";
 
 import { LuSunMoon } from "react-icons/lu";
@@ -66,4 +67,5 @@ export {
   FaAddressCard,
   MdContentCopy,
   SlArrowRight,
+  MdWhatsapp,
 };
