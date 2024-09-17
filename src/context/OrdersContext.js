@@ -58,7 +58,7 @@ const OrdersProvider = ({ children }) => {
 
   // Fetch all users
   const getOrders = useCallback(
-    async (lastDoc = null) => {
+    async (lastDoc = null, reset = false) => {
       try {
         const ordersCollectionRef = collection(firestore, "orders");
 
@@ -81,7 +81,12 @@ const OrdersProvider = ({ children }) => {
           ...doc.data(),
         }));
 
-        setAllOrders((prevOrders) => [...prevOrders, ...ordersList]);
+        // If reset, clear the previous orders
+        if (reset) {
+          setAllOrders(ordersList);
+        } else {
+          setAllOrders((prevOrders) => [...prevOrders, ...ordersList]);
+        }
 
         setLastVisibleDoc(lastVisible);
       } catch (error) {
@@ -101,7 +106,7 @@ const OrdersProvider = ({ children }) => {
   const addOrder = async () => {
     try {
       await addDoc(collection(firestore, "orders"), orderSchema);
-      getOrders();
+      getOrders(null, true);
       console.log("New order added to database.");
     } catch (error) {
       console.log("Error while adding order : ", error);
@@ -150,7 +155,7 @@ const OrdersProvider = ({ children }) => {
       try {
         const docRef = doc(firestore, "orders", updatedOrder?.id);
         await updateDoc(docRef, updatedOrder);
-        getOrders();
+        getOrders(null, true);
         console.log("Order updated to database.");
         handleNotification(true, "green", "Order updated successfully.");
         setIsOrderModal(false);

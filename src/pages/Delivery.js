@@ -1,4 +1,5 @@
-import React, { useContext, Suspense, lazy } from "react";
+import React, { useContext, Suspense, lazy, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { ProductsContext } from "../context/ProductsContext";
 import { DeliveryContext } from "../context/DeliveryContext";
 
@@ -17,13 +18,22 @@ const Delivery = () => {
   const { isDarkMode } = useContext(ProductsContext);
   const {
     allDeliveryPartners,
-    //fetchNextDeliveryPartnersPage,
+    fetchNextDeliveryPartnersPage,
     availablePartnersCount,
     totalPartnersCount,
     inactivePartnersCount,
     addDeliveryPartners,
     isPartnerModal,
   } = useContext(DeliveryContext);
+  const { ref, inView } = useInView({
+    threshold: 0.5, // 50% of the element is visible
+  });
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextDeliveryPartnersPage();
+    }
+  }, [inView, fetchNextDeliveryPartnersPage]);
 
   return (
     <>
@@ -75,6 +85,20 @@ const Delivery = () => {
                       />
                     ))}
                   </Suspense>
+                  <div
+                    ref={ref}
+                    className="w-full h-[10vh] flex justify-center items-center"
+                  >
+                    {inView ? (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Loading more...
+                      </p>
+                    ) : (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Scroll to load more
+                      </p>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="w-full h-[95%] flex justify-center items-center">
@@ -267,6 +291,20 @@ const Delivery = () => {
                       />
                     ))}
                   </Suspense>
+                  <div
+                    ref={ref}
+                    className="w-full h-[10vh] flex justify-center items-center"
+                  >
+                    {inView ? (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Loading more...
+                      </p>
+                    ) : (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Scroll to load more
+                      </p>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="w-full h-[95%] flex justify-center items-center">

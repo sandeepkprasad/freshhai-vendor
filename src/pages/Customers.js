@@ -1,4 +1,5 @@
-import React, { useContext, Suspense, lazy } from "react";
+import React, { useContext, Suspense, lazy, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { ProductsContext } from "../context/ProductsContext";
 import { UsersContext } from "../context/UsersContext";
 
@@ -22,8 +23,17 @@ const Customers = () => {
     blockedUsersCount,
     isUserModal,
     addUser,
-    //fetchNextUsersPage,
+    fetchNextUsersPage,
   } = useContext(UsersContext);
+  const { ref, inView } = useInView({
+    threshold: 0.5, // 50% of the element is visible
+  });
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextUsersPage();
+    }
+  }, [inView, fetchNextUsersPage]);
 
   return (
     <>
@@ -60,6 +70,20 @@ const Customers = () => {
                       <CustomerRow data={user} isClickable={true} key={index} />
                     ))}
                   </Suspense>
+                  <div
+                    ref={ref}
+                    className="w-full h-[10vh] flex justify-center items-center"
+                  >
+                    {inView ? (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Loading more...
+                      </p>
+                    ) : (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Scroll to load more
+                      </p>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="w-full h-[95%] flex justify-center items-center">
@@ -243,6 +267,20 @@ const Customers = () => {
                       <CustomerRow data={user} isClickable={true} key={index} />
                     ))}
                   </Suspense>
+                  <div
+                    ref={ref}
+                    className="w-full h-[10vh] flex justify-center items-center"
+                  >
+                    {inView ? (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Loading more...
+                      </p>
+                    ) : (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Scroll to load more
+                      </p>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="w-full h-[95%] flex justify-center items-center">
