@@ -70,19 +70,14 @@ const Customers = () => {
                       <CustomerRow data={user} isClickable={true} key={index} />
                     ))}
                   </Suspense>
-                  <div
-                    ref={ref}
-                    className="w-full h-[10vh] flex justify-center items-center"
-                  >
-                    {inView ? (
-                      <p className="font-semibold text-sm text-neutral-black-light">
-                        Loading more...
-                      </p>
-                    ) : (
-                      <p className="font-semibold text-sm text-neutral-black-light">
-                        Scroll to load more
-                      </p>
-                    )}
+                  <div className="w-full h-fit flex justify-center items-center py-[1%]">
+                    <button
+                      className="viewMoreBtn"
+                      title="Click to view more"
+                      onClick={fetchNextUsersPage}
+                    >
+                      View more
+                    </button>
                   </div>
                 </div>
               ) : (

@@ -56,7 +56,7 @@ const OrdersProvider = ({ children }) => {
     { name: "Dec", sales: 0 },
   ];
 
-  // Fetch all users
+  // Fetch all orders
   const getOrders = useCallback(
     async (lastDoc = null, reset = false) => {
       try {
