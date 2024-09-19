@@ -193,18 +193,12 @@ const OrdersProvider = ({ children }) => {
         setRealtimeOrders(orders);
         if (orders.length > 0) {
           handleNotification(true, "green", "New order received");
-          {
-            /** const orderNotificationAudio = new Audio(
-            "/assets/order_notification.wav"
-          );
-          orderNotificationAudio.play(); */
-          }
         }
       });
     } catch (error) {
       console.error("Error fetching real-time orders:", error);
     }
-  }, []);
+  }, [firestore, handleNotification]);
 
   // Add fake orders
   const addOrder = async () => {
