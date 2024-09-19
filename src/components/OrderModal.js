@@ -45,8 +45,6 @@ const OrderModal = () => {
 
   const getCurrentLocation = () => {};
 
-  console.log("Order Data : ", orderToUpdate);
-
   return (
     <ModalWrapper
       heading={"ODR" + orderToUpdate?.id?.toUpperCase()}

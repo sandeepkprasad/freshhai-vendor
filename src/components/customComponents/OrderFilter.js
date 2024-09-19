@@ -5,8 +5,13 @@ import { orderFilterData } from "../../utils/LocalData";
 
 const OrderFilter = () => {
   const { isDarkMode } = useContext(ProductsContext);
-  const { orderFilter, setOrderFilter, getOrderbyId } =
-    useContext(OrdersContext);
+  const {
+    orderFilter,
+    setOrderFilter,
+    getOrderbyId,
+    ordersSwitch,
+    setOrdersSwitch,
+  } = useContext(OrdersContext);
 
   // Handle Product Filter
   const handleFilterChange = (e) => {
@@ -24,6 +29,18 @@ const OrderFilter = () => {
 
   return (
     <div className="w-full md:w-[75%] h-fit flex justify-start md:justify-end items-center space-x-[2%]">
+      <button
+        className={`${ordersSwitch ? "switchBtn" : "font-semibold text-xs text-neutral-gray-dark"}`}
+        onClick={() => setOrdersSwitch(true)}
+      >
+        Recent
+      </button>
+      <button
+        className={`${!ordersSwitch ? "switchBtn" : "font-semibold text-xs text-neutral-gray-dark"}`}
+        onClick={() => setOrdersSwitch(false)}
+      >
+        All
+      </button>
       <input
         type="text"
         name="id"
@@ -40,7 +57,9 @@ const OrderFilter = () => {
         name="status"
         value={orderFilter?.status}
         onChange={handleFilterChange}
-        className={`${isDarkMode ? "dropdownClassDark hidden" : "dropdownClass hidden"}`}
+        className={`${
+          isDarkMode ? "dropdownClassDark hidden" : "dropdownClass hidden"
+        }`}
       >
         <option value="">By Status</option>
         {orderFilterData?.status?.map((status, index) => (

@@ -35,6 +35,7 @@ const OrdersProvider = ({ children }) => {
   const [allOrders, setAllOrders] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
   const [lastVisibleDoc, setLastVisibleDoc] = useState(null);
+  const [lastRecentVisibleDoc, setLastRecentVisibleDoc] = useState(null);
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [isOrderModal, setIsOrderModal] = useState(false);
   const [orderToUpdate, setOrderToUpdate] = useState(null);
@@ -42,6 +43,7 @@ const OrdersProvider = ({ children }) => {
   const [lastMonthOrdersCount, setLastMonthOrdersCount] = useState(0);
   const [totalOrdersCount, setTotalOrdersCount] = useState(0);
   const [totalNetAmount, setTotalNetAmount] = useState(0);
+  const [ordersSwitch, setOrdersSwitch] = useState(true);
 
   const salesBarChartData = [
     { name: "Jan", sales: 4000 },
@@ -148,7 +150,7 @@ const OrdersProvider = ({ children }) => {
           setRecentOrders((prevOrders) => [...prevOrders, ...ordersList]);
         }
 
-        setLastVisibleDoc(lastVisible);
+        setLastRecentVisibleDoc(lastVisible);
       } catch (error) {
         console.error("Error fetching recent orders: ", error);
       }
@@ -157,8 +159,8 @@ const OrdersProvider = ({ children }) => {
   );
 
   const fetchNextRecentPage = () => {
-    if (lastVisibleDoc) {
-      getRecentOrders(lastVisibleDoc);
+    if (lastRecentVisibleDoc) {
+      getRecentOrders(lastRecentVisibleDoc);
     }
   };
 
@@ -175,7 +177,9 @@ const OrdersProvider = ({ children }) => {
 
   // Order Update Modal
   const handleOrderModal = (getOrderId) => {
-    const dataById = allOrders?.find((order) => order?.id === getOrderId);
+    const orders = ordersSwitch ? recentOrders : allOrders;
+    const dataById = orders?.find((order) => order?.id === getOrderId);
+
     setOrderToUpdate(dataById);
     setIsOrderModal(true);
   };
@@ -215,7 +219,13 @@ const OrdersProvider = ({ children }) => {
       try {
         const docRef = doc(firestore, "orders", updatedOrder?.id);
         await updateDoc(docRef, updatedOrder);
-        getOrders(null, true);
+
+        if (ordersSwitch) {
+          getRecentOrders(null, true);
+        } else {
+          getOrders(null, true);
+        }
+
         console.log("Order updated to database.");
         handleNotification(true, "green", "Order updated successfully.");
         setIsOrderModal(false);
@@ -354,6 +364,8 @@ const OrdersProvider = ({ children }) => {
         getOrderbyId,
         fetchNextPage,
         fetchNextRecentPage,
+        ordersSwitch,
+        setOrdersSwitch,
       }}
     >
       {children}

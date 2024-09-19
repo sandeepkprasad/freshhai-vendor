@@ -17,14 +17,15 @@ const Orders = () => {
   const { isDarkMode } = useContext(ProductsContext);
   const {
     allOrders,
-    //recentOrders,
+    recentOrders,
     latestOrdersCount,
     lastMonthOrdersCount,
     totalOrdersCount,
     addOrder,
     fetchNextPage,
-    //fetchNextRecentPage,
+    fetchNextRecentPage,
     isOrderModal,
+    ordersSwitch,
   } = useContext(OrdersContext);
   const { ref, inView } = useInView({
     threshold: 0.5, // 50% of the element is visible
@@ -36,6 +37,43 @@ const Orders = () => {
     }
   }, [inView, fetchNextPage]);
 
+  const OrdersList = ({ orders, loadingMessage, fetchNextPage }) => (
+    <>
+      {orders?.length > 0 ? (
+        <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
+          <Suspense
+            fallback={
+              <div className="w-full h-[95%] flex justify-center items-center">
+                <p className="font-semibold text-xl text-neutral-gray-medium">
+                  {loadingMessage}
+                </p>
+              </div>
+            }
+          >
+            {orders?.map((order, index) => (
+              <OrderRow data={order} isClickable={true} key={index} />
+            ))}
+          </Suspense>
+          <div className="w-full h-fit flex justify-center items-center py-[1%]">
+            <button
+              className="viewMoreBtn"
+              title="Click to view more"
+              onClick={fetchNextPage}
+            >
+              View more
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="w-full h-[95%] flex justify-center items-center">
+          <p className="font-semibold text-xl text-neutral-gray-medium">
+            No orders available
+          </p>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <>
       <DashboardWrapper>
@@ -44,7 +82,11 @@ const Orders = () => {
           {/** Left Side Part */}
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-between items-center">
-              <Heading heading={`All Orders (${allOrders?.length})`} />
+              {ordersSwitch ? (
+                <Heading heading={`Recent Orders (${recentOrders?.length})`} />
+              ) : (
+                <Heading heading={`All Orders (${allOrders?.length})`} />
+              )}
               <OrderFilter />
             </div>
             <div
@@ -64,37 +106,18 @@ const Orders = () => {
                   "Status",
                 ]}
               />
-              {allOrders?.length > 0 ? (
-                <div className="w-full h-[95%] overflow-x-hidden overflow-y-scroll customScrollbar">
-                  <Suspense
-                    fallback={
-                      <div className="w-full h-[95%] flex justify-center items-center">
-                        <p className="font-semibold text-xl text-neutral-gray-medium">
-                          Loading latest orders...
-                        </p>
-                      </div>
-                    }
-                  >
-                    {allOrders?.map((order, index) => (
-                      <OrderRow data={order} isClickable={true} key={index} />
-                    ))}
-                  </Suspense>
-                  <div className="w-full h-fit flex justify-center items-center py-[1%]">
-                    <button
-                      className="viewMoreBtn"
-                      title="Click to view more"
-                      onClick={fetchNextPage}
-                    >
-                      View more
-                    </button>
-                  </div>
-                </div>
+              {ordersSwitch ? (
+                <OrdersList
+                  orders={recentOrders}
+                  loadingMessage="Loading recent orders..."
+                  fetchNextPage={fetchNextRecentPage}
+                />
               ) : (
-                <div className="w-full h-[95%] flex justify-center items-center">
-                  <p className="font-semibold text-xl text-neutral-gray-medium">
-                    No order available
-                  </p>
-                </div>
+                <OrdersList
+                  orders={allOrders}
+                  loadingMessage="Loading all orders..."
+                  fetchNextPage={fetchNextPage}
+                />
               )}
             </div>
           </div>
