@@ -21,7 +21,7 @@ import {
   getCountFromServer,
   limit,
   startAfter,
-  orderBy
+  orderBy,
 } from "firebase/firestore";
 
 // Fake data imports
@@ -115,18 +115,19 @@ const OrdersProvider = ({ children }) => {
           currentTime.getTime() - 90 * 60 * 1000
         );
 
+        // Query Firestore for orders created within the last 90 minutes
         let ordersQuery = query(
           ordersCollectionRef,
-          where("timestamp", ">=", ninetyMinutesAgo),
-          orderBy("timestamp", "desc"),
+          where("createdAt", ">=", ninetyMinutesAgo),
+          orderBy("createdAt", "desc"),
           limit(20)
         );
 
         if (lastDoc) {
           ordersQuery = query(
             ordersCollectionRef,
-            where("timestamp", ">=", ninetyMinutesAgo),
-            orderBy("timestamp", "desc"),
+            where("createdAt", ">=", ninetyMinutesAgo),
+            orderBy("createdAt", "desc"),
             startAfter(lastDoc),
             limit(20)
           );
@@ -313,15 +314,17 @@ const OrdersProvider = ({ children }) => {
 
   useEffect(() => {
     getOrders();
+    getRecentOrders();
     getOrderCountForCurrentMonth();
     getLastMonthOrderCount();
     getTotalOrderCount();
     getTotalNetAmount();
     console.log(
-      "Getting all orders & latest, last month, total orders and total orders value count."
+      "Getting all recent and orders & latest, last month, total orders and total orders value count."
     );
   }, [
     getOrders,
+    getRecentOrders,
     getOrderCountForCurrentMonth,
     getLastMonthOrderCount,
     getTotalOrderCount,

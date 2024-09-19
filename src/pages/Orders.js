@@ -17,11 +17,13 @@ const Orders = () => {
   const { isDarkMode } = useContext(ProductsContext);
   const {
     allOrders,
+    //recentOrders,
     latestOrdersCount,
     lastMonthOrdersCount,
     totalOrdersCount,
     addOrder,
     fetchNextPage,
+    //fetchNextRecentPage,
     isOrderModal,
   } = useContext(OrdersContext);
   const { ref, inView } = useInView({
