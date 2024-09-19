@@ -74,48 +74,6 @@ const Orders = () => {
     </>
   );
 
-  const OrdersListWithScroll = ({ orders, loadingMessage, inView, ref }) => (
-    <>
-      {orders?.length > 0 ? (
-        <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
-          <Suspense
-            fallback={
-              <div className="w-full h-[95%] flex justify-center items-center">
-                <p className="font-semibold text-xl text-neutral-gray-medium">
-                  {loadingMessage}
-                </p>
-              </div>
-            }
-          >
-            {orders?.map((order, index) => (
-              <OrderRow data={order} isClickable={true} key={index} />
-            ))}
-          </Suspense>
-          <div
-            ref={ref}
-            className="w-full h-[10vh] flex justify-center items-center"
-          >
-            {inView ? (
-              <p className="font-semibold text-sm text-neutral-black-light">
-                Loading more...
-              </p>
-            ) : (
-              <p className="font-semibold text-sm text-neutral-black-light">
-                Scroll to load more
-              </p>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className="w-full h-[95%] flex justify-center items-center">
-          <p className="font-semibold text-xl text-neutral-gray-medium">
-            No orders available
-          </p>
-        </div>
-      )}
-    </>
-  );
-
   return (
     <>
       <DashboardWrapper>
@@ -326,19 +284,93 @@ const Orders = () => {
               } rounded-lg shadow p-[2%]`}
             >
               {ordersSwitch ? (
-                <OrdersListWithScroll
-                  orders={recentOrders}
-                  loadingMessage="Loading recent orders..."
-                  inView={inView}
-                  ref={ref}
-                />
+                <>
+                  {recentOrders?.length > 0 ? (
+                    <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
+                      <Suspense
+                        fallback={
+                          <div className="w-full h-[95%] flex justify-center items-center">
+                            <p className="font-semibold text-xl text-neutral-gray-medium">
+                              Loading recent orders...
+                            </p>
+                          </div>
+                        }
+                      >
+                        {recentOrders?.map((order, index) => (
+                          <OrderRow
+                            data={order}
+                            isClickable={true}
+                            key={index}
+                          />
+                        ))}
+                      </Suspense>
+                      <div
+                        ref={ref}
+                        className="w-full h-[10vh] flex justify-center items-center"
+                      >
+                        {inView ? (
+                          <p className="font-semibold text-sm text-neutral-black-light">
+                            Loading more...
+                          </p>
+                        ) : (
+                          <p className="font-semibold text-sm text-neutral-black-light">
+                            Scroll to load more
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full h-[95%] flex justify-center items-center">
+                      <p className="font-semibold text-xl text-neutral-gray-medium">
+                        No recent order available
+                      </p>
+                    </div>
+                  )}
+                </>
               ) : (
-                <OrdersListWithScroll
-                  orders={allOrders}
-                  loadingMessage="Loading all orders..."
-                  inView={inView}
-                  ref={ref}
-                />
+                <>
+                  {allOrders?.length > 0 ? (
+                    <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
+                      <Suspense
+                        fallback={
+                          <div className="w-full h-[95%] flex justify-center items-center">
+                            <p className="font-semibold text-xl text-neutral-gray-medium">
+                              Loading all orders...
+                            </p>
+                          </div>
+                        }
+                      >
+                        {allOrders?.map((order, index) => (
+                          <OrderRow
+                            data={order}
+                            isClickable={true}
+                            key={index}
+                          />
+                        ))}
+                      </Suspense>
+                      <div
+                        ref={ref}
+                        className="w-full h-[10vh] flex justify-center items-center"
+                      >
+                        {inView ? (
+                          <p className="font-semibold text-sm text-neutral-black-light">
+                            Loading more...
+                          </p>
+                        ) : (
+                          <p className="font-semibold text-sm text-neutral-black-light">
+                            Scroll to load more
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-full h-[95%] flex justify-center items-center">
+                      <p className="font-semibold text-xl text-neutral-gray-medium">
+                        No order available
+                      </p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
