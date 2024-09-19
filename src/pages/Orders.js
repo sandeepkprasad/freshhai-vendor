@@ -126,7 +126,7 @@ const Orders = () => {
           <div className="w-[20%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-end items-center">
               <Heading heading={"Overview"} />
-              <button className="font-normal text-xs hidden" onClick={addOrder}>
+              <button className="font-normal text-xs" onClick={addOrder}>
                 Add Order
               </button>
             </div>

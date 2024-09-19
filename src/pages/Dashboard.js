@@ -19,7 +19,7 @@ const LatestOrderRow = lazy(() =>
 
 const Dashboard = () => {
   const { isDarkMode, totalProductsCount } = useContext(ProductsContext);
-  const { recentOrders, totalOrdersCount, totalNetAmount } =
+  const { realtimeOrders, totalOrdersCount, totalNetAmount } =
     useContext(OrdersContext);
   const { topSellingProducts } = useContext(adminContext);
 
@@ -82,7 +82,7 @@ const Dashboard = () => {
             } flex flex-col justify-between items-center rounded-lg shadow p-[1%]`}
           >
             <div className="w-full h-fit flex justify-between items-center">
-              <Heading heading="Latest Orders" />
+              <Heading heading="New Orders" />
               <Link
                 to="/orders"
                 className={`font-normal text-xs ${
@@ -98,7 +98,7 @@ const Dashboard = () => {
               <HeadRow
                 rowData={["Name", "Total", "Payment", "Delivery", "Status"]}
               />
-              {recentOrders?.length > 0 ? (
+              {realtimeOrders?.length > 0 ? (
                 <div className="w-full h-[95%] pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
                   <Suspense
                     fallback={
@@ -109,7 +109,7 @@ const Dashboard = () => {
                       </div>
                     }
                   >
-                    {recentOrders?.map((order, index) => (
+                    {realtimeOrders?.map((order, index) => (
                       <LatestOrderRow data={order} key={index} />
                     ))}
                   </Suspense>
@@ -198,7 +198,7 @@ const Dashboard = () => {
           } flex flex-col justify-between items-center rounded-lg shadow p-[2%] space-y-[2%] mb-[2%]`}
         >
           <div className="w-full h-fit flex justify-between items-center">
-            <Heading heading="Latest Orders" />
+            <Heading heading="New Orders" />
             <Link
               to="/orders"
               className={`font-normal text-sm ${
@@ -211,7 +211,7 @@ const Dashboard = () => {
             </Link>
           </div>
           <div className="w-full h-[25vh] overflow-hidden">
-            {recentOrders?.length > 0 ? (
+            {realtimeOrders?.length > 0 ? (
               <div className="w-full h-full pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
                 <Suspense
                   fallback={
@@ -222,7 +222,7 @@ const Dashboard = () => {
                     </div>
                   }
                 >
-                  {recentOrders?.map((order, index) => (
+                  {realtimeOrders?.map((order, index) => (
                     <LatestOrderRow data={order} key={index} />
                   ))}
                 </Suspense>

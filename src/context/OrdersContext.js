@@ -22,6 +22,8 @@ import {
   limit,
   startAfter,
   orderBy,
+  onSnapshot,
+  Timestamp,
 } from "firebase/firestore";
 
 // Fake data imports
@@ -34,6 +36,7 @@ const OrdersProvider = ({ children }) => {
   const { handleNotification } = useContext(ProductsContext);
   const [allOrders, setAllOrders] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
+  const [realtimeOrders, setRealtimeOrders] = useState([]);
   const [lastVisibleDoc, setLastVisibleDoc] = useState(null);
   const [lastRecentVisibleDoc, setLastRecentVisibleDoc] = useState(null);
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
@@ -163,6 +166,45 @@ const OrdersProvider = ({ children }) => {
       getRecentOrders(lastRecentVisibleDoc);
     }
   };
+
+  // Last 15 min realtime orders
+  const fetchRealTimeOrders = useCallback(() => {
+    try {
+      const ordersCollectionRef = collection(firestore, "orders");
+
+      const now = Timestamp.now();
+
+      const fifteenMinutesAgo = new Timestamp(
+        now.seconds - 15 * 60,
+        now.nanoseconds
+      );
+
+      const ordersQuery = query(
+        ordersCollectionRef,
+        where("createdAt", ">=", fifteenMinutesAgo),
+        orderBy("createdAt", "desc")
+      );
+
+      onSnapshot(ordersQuery, (snapshot) => {
+        const orders = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setRealtimeOrders(orders);
+        if (orders.length > 0) {
+          handleNotification(true, "green", "New order received");
+          {
+            /** const orderNotificationAudio = new Audio(
+            "/assets/order_notification.wav"
+          );
+          orderNotificationAudio.play(); */
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching real-time orders:", error);
+    }
+  }, []);
 
   // Add fake orders
   const addOrder = async () => {
@@ -329,6 +371,7 @@ const OrdersProvider = ({ children }) => {
     getLastMonthOrderCount();
     getTotalOrderCount();
     getTotalNetAmount();
+    fetchRealTimeOrders();
     console.log(
       "Getting all recent and orders & latest, last month, total orders and total orders value count."
     );
@@ -339,6 +382,7 @@ const OrdersProvider = ({ children }) => {
     getLastMonthOrderCount,
     getTotalOrderCount,
     getTotalNetAmount,
+    fetchRealTimeOrders,
   ]);
 
   return (
@@ -346,6 +390,7 @@ const OrdersProvider = ({ children }) => {
       value={{
         allOrders,
         recentOrders,
+        realtimeOrders,
         addOrder,
         orderFilter,
         setOrderFilter,
