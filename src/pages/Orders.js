@@ -74,6 +74,48 @@ const Orders = () => {
     </>
   );
 
+  const OrdersListWithScroll = ({ orders, loadingMessage, inView, ref }) => (
+    <>
+      {orders?.length > 0 ? (
+        <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
+          <Suspense
+            fallback={
+              <div className="w-full h-[95%] flex justify-center items-center">
+                <p className="font-semibold text-xl text-neutral-gray-medium">
+                  {loadingMessage}
+                </p>
+              </div>
+            }
+          >
+            {orders?.map((order, index) => (
+              <OrderRow data={order} isClickable={true} key={index} />
+            ))}
+          </Suspense>
+          <div
+            ref={ref}
+            className="w-full h-[10vh] flex justify-center items-center"
+          >
+            {inView ? (
+              <p className="font-semibold text-sm text-neutral-black-light">
+                Loading more...
+              </p>
+            ) : (
+              <p className="font-semibold text-sm text-neutral-black-light">
+                Scroll to load more
+              </p>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="w-full h-[95%] flex justify-center items-center">
+          <p className="font-semibold text-xl text-neutral-gray-medium">
+            No orders available
+          </p>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <>
       <DashboardWrapper>
@@ -270,7 +312,11 @@ const Orders = () => {
             </div>
           </div>
           <div className="w-full h-fit flex flex-col justify-start items-start space-y-[2%]">
-            <Heading heading={`Latest Orders (${allOrders?.length})`} />
+            {ordersSwitch ? (
+              <Heading heading={`Recent Orders (${recentOrders?.length})`} />
+            ) : (
+              <Heading heading={`All Orders (${allOrders?.length})`} />
+            )}
             <OrderFilter />
             <div
               className={`w-full h-[57vh] ${
@@ -279,42 +325,20 @@ const Orders = () => {
                   : "bg-neutral-white border"
               } rounded-lg shadow p-[2%]`}
             >
-              {allOrders?.length > 0 ? (
-                <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
-                  <Suspense
-                    fallback={
-                      <div className="w-full h-[95%] flex justify-center items-center">
-                        <p className="font-semibold text-xl text-neutral-gray-medium">
-                          Loading latest orders...
-                        </p>
-                      </div>
-                    }
-                  >
-                    {allOrders?.map((order, index) => (
-                      <OrderRow data={order} isClickable={true} key={index} />
-                    ))}
-                  </Suspense>
-                  <div
-                    ref={ref}
-                    className="w-full h-[10vh] flex justify-center items-center"
-                  >
-                    {inView ? (
-                      <p className="font-semibold text-sm text-neutral-black-light">
-                        Loading more...
-                      </p>
-                    ) : (
-                      <p className="font-semibold text-sm text-neutral-black-light">
-                        Scroll to load more
-                      </p>
-                    )}
-                  </div>
-                </div>
+              {ordersSwitch ? (
+                <OrdersListWithScroll
+                  orders={recentOrders}
+                  loadingMessage="Loading recent orders..."
+                  inView={inView}
+                  ref={ref}
+                />
               ) : (
-                <div className="w-full h-[95%] flex justify-center items-center">
-                  <p className="font-semibold text-xl text-neutral-gray-medium">
-                    No order available
-                  </p>
-                </div>
+                <OrdersListWithScroll
+                  orders={allOrders}
+                  loadingMessage="Loading all orders..."
+                  inView={inView}
+                  ref={ref}
+                />
               )}
             </div>
           </div>
