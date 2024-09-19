@@ -309,9 +309,7 @@ const Orders = () => {
                         className="w-full h-[10vh] flex justify-center items-center"
                       >
                         {inView ? (
-                          <p className="font-semibold text-sm text-neutral-black-light">
-                            Loading more...
-                          </p>
+                          <p className="font-semibold text-sm text-neutral-black-light"></p>
                         ) : (
                           <p className="font-semibold text-sm text-neutral-black-light">
                             Scroll to load more
@@ -353,9 +351,7 @@ const Orders = () => {
                         className="w-full h-[10vh] flex justify-center items-center"
                       >
                         {inView ? (
-                          <p className="font-semibold text-sm text-neutral-black-light">
-                            Loading more...
-                          </p>
+                          <p className="font-semibold text-sm text-neutral-black-light"></p>
                         ) : (
                           <p className="font-semibold text-sm text-neutral-black-light">
                             Scroll to load more
