@@ -42,7 +42,7 @@ const Orders = () => {
           {/** Left Side Part */}
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-between items-center">
-              <Heading heading={`Latest Orders (${allOrders?.length})`} />
+              <Heading heading={`All Orders (${allOrders?.length})`} />
               <OrderFilter />
             </div>
             <div

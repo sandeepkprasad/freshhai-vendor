@@ -21,6 +21,7 @@ import {
   getCountFromServer,
   limit,
   startAfter,
+  orderBy
 } from "firebase/firestore";
 
 // Fake data imports
@@ -32,6 +33,7 @@ const OrdersProvider = ({ children }) => {
   const { firestore } = useContext(FirebaseContext);
   const { handleNotification } = useContext(ProductsContext);
   const [allOrders, setAllOrders] = useState([]);
+  const [recentOrders, setRecentOrders] = useState([]);
   const [lastVisibleDoc, setLastVisibleDoc] = useState(null);
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [isOrderModal, setIsOrderModal] = useState(false);
@@ -81,7 +83,6 @@ const OrdersProvider = ({ children }) => {
           ...doc.data(),
         }));
 
-        // If reset, clear the previous orders
         if (reset) {
           setAllOrders(ordersList);
         } else {
@@ -99,6 +100,64 @@ const OrdersProvider = ({ children }) => {
   const fetchNextPage = () => {
     if (lastVisibleDoc) {
       getOrders(lastVisibleDoc);
+    }
+  };
+
+  // Fetch orders from the last 90 minutes (1.5 hours)
+  const getRecentOrders = useCallback(
+    async (lastDoc = null, reset = false) => {
+      try {
+        const ordersCollectionRef = collection(firestore, "orders");
+
+        // Calculate the timestamp for 90 minutes ago
+        const currentTime = new Date();
+        const ninetyMinutesAgo = new Date(
+          currentTime.getTime() - 90 * 60 * 1000
+        );
+
+        let ordersQuery = query(
+          ordersCollectionRef,
+          where("timestamp", ">=", ninetyMinutesAgo),
+          orderBy("timestamp", "desc"),
+          limit(20)
+        );
+
+        if (lastDoc) {
+          ordersQuery = query(
+            ordersCollectionRef,
+            where("timestamp", ">=", ninetyMinutesAgo),
+            orderBy("timestamp", "desc"),
+            startAfter(lastDoc),
+            limit(20)
+          );
+        }
+
+        const querySnapshot = await getDocs(ordersQuery);
+        const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+        const ordersList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // If reset, clear the previous orders
+        if (reset) {
+          setRecentOrders(ordersList);
+        } else {
+          setRecentOrders((prevOrders) => [...prevOrders, ...ordersList]);
+        }
+
+        setLastVisibleDoc(lastVisible);
+      } catch (error) {
+        console.error("Error fetching recent orders: ", error);
+      }
+    },
+    [firestore]
+  );
+
+  const fetchNextRecentPage = () => {
+    if (lastVisibleDoc) {
+      getRecentOrders(lastVisibleDoc);
     }
   };
 
@@ -273,6 +332,7 @@ const OrdersProvider = ({ children }) => {
     <OrdersContext.Provider
       value={{
         allOrders,
+        recentOrders,
         addOrder,
         orderFilter,
         setOrderFilter,
@@ -290,6 +350,7 @@ const OrdersProvider = ({ children }) => {
         salesBarChartData,
         getOrderbyId,
         fetchNextPage,
+        fetchNextRecentPage,
       }}
     >
       {children}
