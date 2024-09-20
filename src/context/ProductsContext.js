@@ -66,6 +66,19 @@ const ProductsProvider = ({ children }) => {
     });
   };
 
+  // Handle Copy To Clipboard
+  const handleCopyText = (textToCopy) => {
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        handleNotification(true, "green", "Copied to clipboard!");
+      })
+      .catch((err) => {
+        handleNotification(true, "red", "Failed to copy to clipboard");
+        console.error("Failed to copy to clipboard:", err);
+      });
+  };
+
   // Fetch all products
   const getProducts = useCallback(async () => {
     try {
@@ -238,6 +251,7 @@ const ProductsProvider = ({ children }) => {
         productFilter,
         setProductFilter,
         totalProductsCount,
+        handleCopyText,
       }}
     >
       {children}

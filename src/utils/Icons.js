@@ -32,7 +32,7 @@ import { FaFishFins, FaArrowLeft } from "react-icons/fa6";
 
 import { BiSupport } from "react-icons/bi";
 
-import { FaSave, FaAddressCard } from "react-icons/fa";
+import { FaSave, FaAddressCard, FaCircle } from "react-icons/fa";
 
 import { SlArrowRight } from "react-icons/sl";
 
@@ -68,4 +68,5 @@ export {
   MdContentCopy,
   SlArrowRight,
   MdWhatsapp,
+  FaCircle,
 };

@@ -16,7 +16,7 @@ import {
 import ModalWrapper from "./ModalWrapper";
 
 const ViewDeliveryPartnerModal = React.memo(() => {
-  const { isDarkMode, handleNotification } = useContext(ProductsContext);
+  const { isDarkMode, handleCopyText } = useContext(ProductsContext);
   const { partnerToView, setPartnerToView, setIsPartnerModal } =
     useContext(DeliveryContext);
   const [selectedOption, setSelectedOption] = useState(0);
@@ -28,22 +28,6 @@ const ViewDeliveryPartnerModal = React.memo(() => {
 
   const getCurrentLocation = (latitude, longitude) => {
     alert(latitude, longitude);
-  };
-
-  const handleCopyAgentId = (agentId) => {
-    navigator.clipboard
-      .writeText(agentId)
-      .then(() => {
-        handleNotification(
-          true,
-          "green",
-          "Agent ID copied to clipboard successfully!"
-        );
-      })
-      .catch((err) => {
-        handleNotification(true, "red", "Failed to copy agent ID");
-        console.error("Failed to copy agent ID:", err);
-      });
   };
 
   return (
@@ -98,7 +82,7 @@ const ViewDeliveryPartnerModal = React.memo(() => {
               <button
                 className="active:scale-95 duration-300"
                 title="Copy delivery agent id"
-                onClick={() => handleCopyAgentId(partnerToView?.id)}
+                onClick={() => handleCopyText(partnerToView?.id)}
               >
                 <MdContentCopy />
               </button>

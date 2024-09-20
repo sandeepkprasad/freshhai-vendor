@@ -4,7 +4,14 @@ import { OrdersContext } from "../context/OrdersContext";
 import { orderFilterData } from "../utils/LocalData";
 
 // React Icons
-import { MdPrint, FaSave, MdPerson, MdPhone } from "../utils/Icons";
+import {
+  MdPrint,
+  FaSave,
+  MdPerson,
+  MdPhone,
+  FaAddressCard,
+  MdContentCopy,
+} from "../utils/Icons";
 
 // Components Imports
 import ModalWrapper from "./ModalWrapper";
@@ -13,7 +20,7 @@ import ModalWrapper from "./ModalWrapper";
 //import { extractDateTime } from "../utils/DateUtils";
 
 const OrderModal = () => {
-  const { isDarkMode } = useContext(ProductsContext);
+  const { isDarkMode, handleCopyText } = useContext(ProductsContext);
   const {
     setIsOrderModal,
     orderToUpdate,
@@ -71,6 +78,31 @@ const OrderModal = () => {
             >
               <MdPhone />{" "}
               <span>{orderToUpdate?.delivery_address?.phone_number}</span>
+            </p>
+            <p
+              className={`font-semibold text-sm ${
+                isDarkMode
+                  ? "text-neutral-gray-light"
+                  : "text-neutral-black-dark"
+              } flex items-center space-x-[2%]`}
+            >
+              <FaAddressCard />{" "}
+              <span
+                className={`font-semibold text-sm ${
+                  isDarkMode
+                    ? "text-neutral-gray-light"
+                    : "text-neutral-black-dark"
+                }`}
+              >
+                ODR{orderToUpdate?.id?.toUpperCase()}
+              </span>{" "}
+              <button
+                className="active:scale-95 duration-300"
+                title="Copy delivery agent id"
+                onClick={() => handleCopyText(orderToUpdate?.id)}
+              >
+                <MdContentCopy />
+              </button>
             </p>
           </div>
           <div className="w-full h-fit flex justify-start items-center space-x-[5%] border-b mb-[2%]">

@@ -91,12 +91,12 @@ const Orders = () => {
             >
               <HeadRow
                 rowData={[
-                  "Name",
                   "Product",
                   "Total",
                   "Payment",
                   "Delivery",
                   "Status",
+                  "Received",
                 ]}
               />
               <OrdersList
