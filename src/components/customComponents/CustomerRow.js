@@ -1,16 +1,11 @@
 import React, { useContext } from "react";
-import { ProductsContext } from "../../context/ProductsContext";
 import { UsersContext } from "../../context/UsersContext";
-
-// React Icons
-import { SlArrowRight } from "../../utils/Icons";
 
 // Components Imports
 import RowText from "./RowText";
 import RowTextSmall from "./RowTextSmall";
 
 const CustomerRow = ({ data, isClickable = false }) => {
-  const { isDarkMode } = useContext(ProductsContext);
   const { handleUserModal } = useContext(UsersContext);
 
   const handleClick = () => {
@@ -37,23 +32,16 @@ const CustomerRow = ({ data, isClickable = false }) => {
 
       {/** Mobile Screens */}
       <div
-        className={`w-full h-fit flex md:hidden justify-between items-center border-b py-[1%] duration-300 ${clickableClass}`}
+        className={`w-full h-fit md:hidden border-b py-[1%] duration-300 ${clickableClass}`}
         onClick={handleClick}
       >
-        <div className="w-[90%] h-fit">
-          <RowTextSmall title="Full Name" value={data?.basicInfo?.fullName} />
-          <RowTextSmall title="Mobile No." value={data?.basicInfo?.mobileNumber} />
-          <RowTextSmall title="Email" value={data?.basicInfo?.email} />
-          <RowTextSmall
-            title="Postal Code"
-            value={data?.addresses[0]?.pincode}
-          />
-        </div>
-        <SlArrowRight
-          className={`text-2xl ${
-            isDarkMode ? "text-neutral-gray-light" : "text-neutral-black-dark"
-          }`}
+        <RowTextSmall title="Full Name" value={data?.basicInfo?.fullName} />
+        <RowTextSmall
+          title="Mobile No."
+          value={data?.basicInfo?.mobileNumber}
         />
+        <RowTextSmall title="Email" value={data?.basicInfo?.email} />
+        <RowTextSmall title="Postal Code" value={data?.addresses[0]?.pincode} />
       </div>
     </>
   );

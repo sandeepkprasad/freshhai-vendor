@@ -117,7 +117,7 @@ const Sidebar = () => {
       </div>
 
       {/** Mobile Screens */}
-      <div className="w-full h-[10%] bg-primary-blue-dark flex justify-evenly items-center fixed left-0 bottom-0 right-0 md:hidden">
+      <div className="w-full h-[8%] bg-primary-blue-dark flex justify-evenly items-center fixed left-0 bottom-0 right-0 md:hidden">
         {sidebarItemsSmall?.map((item, index) => (
           <Link
             to={item.route}
