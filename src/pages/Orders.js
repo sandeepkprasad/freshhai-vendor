@@ -17,15 +17,12 @@ const Orders = () => {
   const { isDarkMode } = useContext(ProductsContext);
   const {
     allOrders,
-    recentOrders,
     latestOrdersCount,
     lastMonthOrdersCount,
     totalOrdersCount,
     addOrder,
     fetchNextPage,
-    fetchNextRecentPage,
     isOrderModal,
-    ordersSwitch,
   } = useContext(OrdersContext);
   const { ref, inView } = useInView({
     threshold: 0.5, // 50% of the element is visible
@@ -82,11 +79,7 @@ const Orders = () => {
           {/** Left Side Part */}
           <div className="w-[80%] h-full flex flex-col justify-between items-center">
             <div className="w-full h-fit flex justify-between items-center">
-              {ordersSwitch ? (
-                <Heading heading={`Recent Orders (${recentOrders?.length})`} />
-              ) : (
-                <Heading heading={`All Orders (${allOrders?.length})`} />
-              )}
+              <Heading heading={`Orders (${allOrders?.length})`} />
               <OrderFilter />
             </div>
             <div
@@ -106,19 +99,11 @@ const Orders = () => {
                   "Status",
                 ]}
               />
-              {ordersSwitch ? (
-                <OrdersList
-                  orders={recentOrders}
-                  loadingMessage="Loading recent orders..."
-                  fetchNextPage={fetchNextRecentPage}
-                />
-              ) : (
-                <OrdersList
-                  orders={allOrders}
-                  loadingMessage="Loading all orders..."
-                  fetchNextPage={fetchNextPage}
-                />
-              )}
+              <OrdersList
+                orders={allOrders}
+                loadingMessage="Loading all orders..."
+                fetchNextPage={fetchNextPage}
+              />
             </div>
           </div>
 
@@ -270,11 +255,7 @@ const Orders = () => {
             </div>
           </div>
           <div className="w-full h-fit flex flex-col justify-start items-start space-y-[2%]">
-            {ordersSwitch ? (
-              <Heading heading={`Recent Orders (${recentOrders?.length})`} />
-            ) : (
-              <Heading heading={`All Orders (${allOrders?.length})`} />
-            )}
+            <Heading heading={`Orders (${allOrders?.length})`} />
             <OrderFilter />
             <div
               className={`w-full h-[57vh] ${
@@ -283,90 +264,40 @@ const Orders = () => {
                   : "bg-neutral-white border"
               } rounded-lg shadow p-[2%]`}
             >
-              {ordersSwitch ? (
-                <>
-                  {recentOrders?.length > 0 ? (
-                    <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
-                      <Suspense
-                        fallback={
-                          <div className="w-full h-[95%] flex justify-center items-center">
-                            <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading recent orders...
-                            </p>
-                          </div>
-                        }
-                      >
-                        {recentOrders?.map((order, index) => (
-                          <OrderRow
-                            data={order}
-                            isClickable={true}
-                            key={index}
-                          />
-                        ))}
-                      </Suspense>
-                      <div
-                        ref={ref}
-                        className="w-full h-[10vh] flex justify-center items-center"
-                      >
-                        {inView ? (
-                          <p className="font-semibold text-sm text-neutral-black-light"></p>
-                        ) : (
-                          <p className="font-semibold text-sm text-neutral-black-light">
-                            Scroll to load more
-                          </p>
-                        )}
+              {allOrders?.length > 0 ? (
+                <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-[95%] flex justify-center items-center">
+                        <p className="font-semibold text-xl text-neutral-gray-medium">
+                          Loading all orders...
+                        </p>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="w-full h-[95%] flex justify-center items-center">
-                      <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No recent order available
+                    }
+                  >
+                    {allOrders?.map((order, index) => (
+                      <OrderRow data={order} isClickable={true} key={index} />
+                    ))}
+                  </Suspense>
+                  <div
+                    ref={ref}
+                    className="w-full h-[10vh] flex justify-center items-center"
+                  >
+                    {inView ? (
+                      <p className="font-semibold text-sm text-neutral-black-light"></p>
+                    ) : (
+                      <p className="font-semibold text-sm text-neutral-black-light">
+                        Scroll to load more
                       </p>
-                    </div>
-                  )}
-                </>
+                    )}
+                  </div>
+                </div>
               ) : (
-                <>
-                  {allOrders?.length > 0 ? (
-                    <div className="w-full h-full overflow-x-hidden overflow-y-scroll customScrollbar">
-                      <Suspense
-                        fallback={
-                          <div className="w-full h-[95%] flex justify-center items-center">
-                            <p className="font-semibold text-xl text-neutral-gray-medium">
-                              Loading all orders...
-                            </p>
-                          </div>
-                        }
-                      >
-                        {allOrders?.map((order, index) => (
-                          <OrderRow
-                            data={order}
-                            isClickable={true}
-                            key={index}
-                          />
-                        ))}
-                      </Suspense>
-                      <div
-                        ref={ref}
-                        className="w-full h-[10vh] flex justify-center items-center"
-                      >
-                        {inView ? (
-                          <p className="font-semibold text-sm text-neutral-black-light"></p>
-                        ) : (
-                          <p className="font-semibold text-sm text-neutral-black-light">
-                            Scroll to load more
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="w-full h-[95%] flex justify-center items-center">
-                      <p className="font-semibold text-xl text-neutral-gray-medium">
-                        No order available
-                      </p>
-                    </div>
-                  )}
-                </>
+                <div className="w-full h-[95%] flex justify-center items-center">
+                  <p className="font-semibold text-xl text-neutral-gray-medium">
+                    No order available
+                  </p>
+                </div>
               )}
             </div>
           </div>

@@ -19,7 +19,7 @@ const LatestOrderRow = lazy(() =>
 
 const Dashboard = () => {
   const { isDarkMode, totalProductsCount } = useContext(ProductsContext);
-  const { realtimeOrders, totalOrdersCount, totalNetAmount } =
+  const { allOrders, totalOrdersCount, totalNetAmount } =
     useContext(OrdersContext);
   const { topSellingProducts } = useContext(adminContext);
 
@@ -98,7 +98,7 @@ const Dashboard = () => {
               <HeadRow
                 rowData={["Name", "Total", "Payment", "Delivery", "Status"]}
               />
-              {realtimeOrders?.length > 0 ? (
+              {allOrders?.length > 0 ? (
                 <div className="w-full h-[95%] pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
                   <Suspense
                     fallback={
@@ -109,7 +109,7 @@ const Dashboard = () => {
                       </div>
                     }
                   >
-                    {realtimeOrders?.map((order, index) => (
+                    {allOrders?.slice(0, 20).map((order, index) => (
                       <LatestOrderRow data={order} key={index} />
                     ))}
                   </Suspense>
@@ -211,7 +211,7 @@ const Dashboard = () => {
             </Link>
           </div>
           <div className="w-full h-[25vh] overflow-hidden">
-            {realtimeOrders?.length > 0 ? (
+            {allOrders?.length > 0 ? (
               <div className="w-full h-full pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
                 <Suspense
                   fallback={
@@ -222,7 +222,7 @@ const Dashboard = () => {
                     </div>
                   }
                 >
-                  {realtimeOrders?.map((order, index) => (
+                  {allOrders?.slice(0, 20).map((order, index) => (
                     <LatestOrderRow data={order} key={index} />
                   ))}
                 </Suspense>

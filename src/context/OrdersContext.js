@@ -23,7 +23,6 @@ import {
   startAfter,
   orderBy,
   onSnapshot,
-  Timestamp,
 } from "firebase/firestore";
 
 // Fake data imports
@@ -35,10 +34,7 @@ const OrdersProvider = ({ children }) => {
   const { firestore } = useContext(FirebaseContext);
   const { handleNotification } = useContext(ProductsContext);
   const [allOrders, setAllOrders] = useState([]);
-  const [recentOrders, setRecentOrders] = useState([]);
-  const [realtimeOrders, setRealtimeOrders] = useState([]);
   const [lastVisibleDoc, setLastVisibleDoc] = useState(null);
-  const [lastRecentVisibleDoc, setLastRecentVisibleDoc] = useState(null);
   const [orderFilter, setOrderFilter] = useState({ id: "", status: "" });
   const [isOrderModal, setIsOrderModal] = useState(false);
   const [orderToUpdate, setOrderToUpdate] = useState(null);
@@ -46,7 +42,6 @@ const OrdersProvider = ({ children }) => {
   const [lastMonthOrdersCount, setLastMonthOrdersCount] = useState(0);
   const [totalOrdersCount, setTotalOrdersCount] = useState(0);
   const [totalNetAmount, setTotalNetAmount] = useState(0);
-  const [ordersSwitch, setOrdersSwitch] = useState(true);
 
   const salesBarChartData = [
     { name: "Jan", sales: 4000 },
@@ -63,17 +58,47 @@ const OrdersProvider = ({ children }) => {
     { name: "Dec", sales: 0 },
   ];
 
+  // Listen for real-time new orders
+  const listenForNewOrders = useCallback(
+    (lastTimestamp) => {
+      const ordersCollectionRef = collection(firestore, "orders");
+
+      const newOrdersQuery = query(
+        ordersCollectionRef,
+        orderBy("createdAt", "desc"),
+        where("createdAt", ">", lastTimestamp)
+      );
+
+      const unsubscribe = onSnapshot(newOrdersQuery, (snapshot) => {
+        const newOrders = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setAllOrders((prevOrders) => [...newOrders, ...prevOrders]);
+      });
+
+      return unsubscribe;
+    },
+    [firestore]
+  );
+
   // Fetch all orders
   const getOrders = useCallback(
     async (lastDoc = null, reset = false) => {
       try {
         const ordersCollectionRef = collection(firestore, "orders");
 
-        let ordersQuery = query(ordersCollectionRef, limit(20));
+        let ordersQuery = query(
+          ordersCollectionRef,
+          orderBy("createdAt", "desc"),
+          limit(20)
+        );
 
         if (lastDoc) {
           ordersQuery = query(
             ordersCollectionRef,
+            orderBy("createdAt", "desc"),
             startAfter(lastDoc),
             limit(20)
           );
@@ -95,11 +120,15 @@ const OrdersProvider = ({ children }) => {
         }
 
         setLastVisibleDoc(lastVisible);
+
+        if (reset) {
+          listenForNewOrders(ordersList[0]?.createdAt);
+        }
       } catch (error) {
-        console.error("Error fetching orders: ", error);
+        console.error("Error fetching all orders: ", error);
       }
     },
-    [firestore]
+    [firestore, listenForNewOrders]
   );
 
   const fetchNextPage = () => {
@@ -107,98 +136,6 @@ const OrdersProvider = ({ children }) => {
       getOrders(lastVisibleDoc);
     }
   };
-
-  // Fetch orders from the last 90 minutes (1.5 hours)
-  const getRecentOrders = useCallback(
-    async (lastDoc = null, reset = false) => {
-      try {
-        const ordersCollectionRef = collection(firestore, "orders");
-
-        // Calculate the timestamp for 90 minutes ago
-        const currentTime = new Date();
-        const ninetyMinutesAgo = new Date(
-          currentTime.getTime() - 90 * 60 * 1000
-        );
-
-        // Query Firestore for orders created within the last 90 minutes
-        let ordersQuery = query(
-          ordersCollectionRef,
-          where("createdAt", ">=", ninetyMinutesAgo),
-          orderBy("createdAt", "desc"),
-          limit(20)
-        );
-
-        if (lastDoc) {
-          ordersQuery = query(
-            ordersCollectionRef,
-            where("createdAt", ">=", ninetyMinutesAgo),
-            orderBy("createdAt", "desc"),
-            startAfter(lastDoc),
-            limit(20)
-          );
-        }
-
-        const querySnapshot = await getDocs(ordersQuery);
-        const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-
-        const ordersList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        // If reset, clear the previous orders
-        if (reset) {
-          setRecentOrders(ordersList);
-        } else {
-          setRecentOrders((prevOrders) => [...prevOrders, ...ordersList]);
-        }
-
-        setLastRecentVisibleDoc(lastVisible);
-      } catch (error) {
-        console.error("Error fetching recent orders: ", error);
-      }
-    },
-    [firestore]
-  );
-
-  const fetchNextRecentPage = () => {
-    if (lastRecentVisibleDoc) {
-      getRecentOrders(lastRecentVisibleDoc);
-    }
-  };
-
-  // Last 15 min realtime orders
-  const fetchRealTimeOrders = useCallback(() => {
-    try {
-      const ordersCollectionRef = collection(firestore, "orders");
-
-      const now = Timestamp.now();
-
-      const fifteenMinutesAgo = new Timestamp(
-        now.seconds - 15 * 60,
-        now.nanoseconds
-      );
-
-      const ordersQuery = query(
-        ordersCollectionRef,
-        where("createdAt", ">=", fifteenMinutesAgo),
-        orderBy("createdAt", "desc")
-      );
-
-      onSnapshot(ordersQuery, (snapshot) => {
-        const orders = snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setRealtimeOrders(orders);
-        if (orders.length > 0) {
-          handleNotification(true, "green", "New order received");
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching real-time orders:", error);
-    }
-  }, [firestore, handleNotification]);
 
   // Add fake orders
   const addOrder = async () => {
@@ -213,9 +150,7 @@ const OrdersProvider = ({ children }) => {
 
   // Order Update Modal
   const handleOrderModal = (getOrderId) => {
-    const orders = ordersSwitch ? recentOrders : allOrders;
-    const dataById = orders?.find((order) => order?.id === getOrderId);
-
+    const dataById = allOrders?.find((order) => order?.id === getOrderId);
     setOrderToUpdate(dataById);
     setIsOrderModal(true);
   };
@@ -255,13 +190,7 @@ const OrdersProvider = ({ children }) => {
       try {
         const docRef = doc(firestore, "orders", updatedOrder?.id);
         await updateDoc(docRef, updatedOrder);
-
-        if (ordersSwitch) {
-          getRecentOrders(null, true);
-        } else {
-          getOrders(null, true);
-        }
-
+        getOrders(null, true);
         console.log("Order updated to database.");
         handleNotification(true, "green", "Order updated successfully.");
         setIsOrderModal(false);
@@ -360,31 +289,25 @@ const OrdersProvider = ({ children }) => {
 
   useEffect(() => {
     getOrders();
-    getRecentOrders();
     getOrderCountForCurrentMonth();
     getLastMonthOrderCount();
     getTotalOrderCount();
     getTotalNetAmount();
-    fetchRealTimeOrders();
     console.log(
       "Getting all recent and orders & latest, last month, total orders and total orders value count."
     );
   }, [
     getOrders,
-    getRecentOrders,
     getOrderCountForCurrentMonth,
     getLastMonthOrderCount,
     getTotalOrderCount,
     getTotalNetAmount,
-    fetchRealTimeOrders,
   ]);
 
   return (
     <OrdersContext.Provider
       value={{
         allOrders,
-        recentOrders,
-        realtimeOrders,
         addOrder,
         orderFilter,
         setOrderFilter,
@@ -402,9 +325,6 @@ const OrdersProvider = ({ children }) => {
         salesBarChartData,
         getOrderbyId,
         fetchNextPage,
-        fetchNextRecentPage,
-        ordersSwitch,
-        setOrdersSwitch,
       }}
     >
       {children}
