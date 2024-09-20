@@ -96,7 +96,7 @@ const OrderRow = ({ data, isClickable = false }) => {
           <RowTextStatus text={data?.order_status} />
         </p>
         {data?.order_status === "Placed" && (
-          <span className="text-xs text-secondary-red-dark absolute top-3 right-0">
+          <span className="text-xs text-secondary-red-dark absolute top-2 right-0">
             <FaCircle />
           </span>
         )}

@@ -96,7 +96,7 @@ const Dashboard = () => {
             </div>
             <div className="w-full h-[85%] overflow-hidden">
               <HeadRow
-                rowData={["Name", "Total", "Payment", "Delivery", "Status"]}
+                rowData={["Total", "Payment", "Delivery", "Status", "Recieved"]}
               />
               {allOrders?.length > 0 ? (
                 <div className="w-full h-[95%] pb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
