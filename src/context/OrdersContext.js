@@ -42,6 +42,7 @@ const OrdersProvider = ({ children }) => {
   const [lastMonthOrdersCount, setLastMonthOrdersCount] = useState(0);
   const [totalOrdersCount, setTotalOrdersCount] = useState(0);
   const [totalNetAmount, setTotalNetAmount] = useState(0);
+  const [topSellingProducts, setTopSellingProducts] = useState([]);
 
   const salesBarChartData = [
     { name: "Jan", sales: 4000 },
@@ -287,12 +288,42 @@ const OrdersProvider = ({ children }) => {
     }
   }, [firestore]);
 
+  // Fetch top selling products
+  const fetchTopSellingProducts = useCallback(async () => {
+    try {
+      const topSellingProductsRef = collection(firestore, "orders");
+      const querySnapshot = await getDocs(topSellingProductsRef);
+
+      const allOrderItems = [];
+      const itemCount = new Map();
+
+      querySnapshot.forEach((doc) => {
+        const orderData = doc.data();
+        orderData.order_items.forEach((item) => {
+          allOrderItems.push(item);
+          itemCount.set(item.name, (itemCount.get(item.name) || 0) + 1);
+        });
+      });
+
+      // Sort items by count and get the top 5
+      const sortedItems = Array.from(itemCount.entries())
+        .sort(([, countA], [, countB]) => countB - countA)
+        .slice(0, 5)
+        .map(([name]) => allOrderItems.find((item) => item.name === name));
+
+      setTopSellingProducts(sortedItems.filter(Boolean));
+    } catch (error) {
+      console.error("Error fetching top selling items:", error);
+    }
+  }, [firestore]);
+
   useEffect(() => {
     getOrders();
     getOrderCountForCurrentMonth();
     getLastMonthOrderCount();
     getTotalOrderCount();
     getTotalNetAmount();
+    fetchTopSellingProducts();
     console.log(
       "Getting all recent and orders & latest, last month, total orders and total orders value count."
     );
@@ -302,6 +333,7 @@ const OrdersProvider = ({ children }) => {
     getLastMonthOrderCount,
     getTotalOrderCount,
     getTotalNetAmount,
+    fetchTopSellingProducts,
   ]);
 
   return (
@@ -325,6 +357,7 @@ const OrdersProvider = ({ children }) => {
         salesBarChartData,
         getOrderbyId,
         fetchNextPage,
+        topSellingProducts,
       }}
     >
       {children}

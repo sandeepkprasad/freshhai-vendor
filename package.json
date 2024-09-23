@@ -14,7 +14,7 @@
     "react-intersection-observer": "^9.13.1",
     "react-router-dom": "^6.25.1",
     "react-scripts": "5.0.1",
-    "recharts": "^2.12.7",
+    "recharts": "^2.13.0-alpha.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

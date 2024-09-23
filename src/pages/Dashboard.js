@@ -1,7 +1,6 @@
 import React, { useContext, Suspense, lazy } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 import { OrdersContext } from "../context/OrdersContext";
-import adminContext from "../context/adminContext";
 import { Link } from "react-router-dom";
 
 // Components Imports
@@ -19,9 +18,8 @@ const LatestOrderRow = lazy(() =>
 
 const Dashboard = () => {
   const { isDarkMode, totalProductsCount } = useContext(ProductsContext);
-  const { allOrders, totalOrdersCount, totalNetAmount } =
+  const { allOrders, totalOrdersCount, totalNetAmount, topSellingProducts } =
     useContext(OrdersContext);
-  const { topSellingProducts } = useContext(adminContext);
 
   const overviewData = [
     { heading: "Total Value", data: `₹ ${totalNetAmount}` },
@@ -128,7 +126,7 @@ const Dashboard = () => {
               isDarkMode
                 ? "bg-neutral-black-dark border border-neutral-black-dark"
                 : "bg-neutral-white border"
-            } flex flex-col justify-between items-center rounded-lg shadow p-[1%]`}
+            } flex flex-col justify-between items-center rounded-lg shadow px-[1%] py-[0.5%]`}
           >
             <div className="w-full h-fit">
               <Heading heading="Top Selling Product" />

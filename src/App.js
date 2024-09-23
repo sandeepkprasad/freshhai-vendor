@@ -5,7 +5,6 @@ import ProductsProvider from "./context/ProductsContext";
 import UsersProvider from "./context/UsersContext";
 import DeliveryProvider from "./context/DeliveryContext";
 import OrdersProvider from "./context/OrdersContext";
-import AdminState from "./context/AdminState";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Components Imports
@@ -31,23 +30,21 @@ const App = () => {
           <UsersProvider>
             <DeliveryProvider>
               <OrdersProvider>
-                <AdminState>
-                  <NotificationPopup />
-                  <Routes>
-                    <Route exact path="/" element={<Dashboard />} />
-                    <Route path="/orders" element={<Orders />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route path="/analytics" element={<Analytics />} />
-                    <Route path="/customers" element={<Customers />} />
-                    <Route path="/delivery" element={<Delivery />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/support" element={<Support />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </AdminState>
+                <NotificationPopup />
+                <Routes>
+                  <Route exact path="/" element={<Dashboard />} />
+                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/customers" element={<Customers />} />
+                  <Route path="/delivery" element={<Delivery />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="/support" element={<Support />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
               </OrdersProvider>
             </DeliveryProvider>
           </UsersProvider>
