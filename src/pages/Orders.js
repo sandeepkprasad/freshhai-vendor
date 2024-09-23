@@ -3,6 +3,7 @@ import "../App.css";
 import { useInView } from "react-intersection-observer";
 import { ProductsContext } from "../context/ProductsContext";
 import { OrdersContext } from "../context/OrdersContext";
+import { DeliveryContext } from "../context/DeliveryContext";
 
 // Components Imports
 import DashboardWrapper from "../components/DashboardWrapper";
@@ -10,6 +11,7 @@ import Heading from "../components/customComponents/Heading";
 import OrderFilter from "../components/customComponents/OrderFilter";
 import HeadRow from "../components/customComponents/HeadRow";
 import OrderModal from "../components/OrderModal";
+import ViewDeliveryPartnerModal from "../components/ViewDeliveryPartnerModal";
 
 const OrderRow = lazy(() => import("../components/customComponents/OrderRow"));
 
@@ -24,6 +26,7 @@ const Orders = () => {
     fetchNextPage,
     isOrderModal,
   } = useContext(OrdersContext);
+  const { isPartnerModal } = useContext(DeliveryContext);
   const { ref, inView } = useInView({
     threshold: 0.5, // 50% of the element is visible
   });
@@ -305,6 +308,8 @@ const Orders = () => {
       </DashboardWrapper>
 
       {isOrderModal && <OrderModal />}
+
+      {isPartnerModal && <ViewDeliveryPartnerModal />}
     </>
   );
 };

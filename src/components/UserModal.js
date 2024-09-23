@@ -107,7 +107,7 @@ const UserModal = () => {
             </button>
           </div>
           {selectedOption === 0 && (
-            <div className="w-full h-[66%] md:h-[50%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+            <div className="w-full h-[50%] md:h-[40%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
               {userToView?.orderReferences.map((item, index) => (
                 <div
                   className="w-full h-fit flex justify-start items-start space-x-[2%]"
@@ -175,7 +175,7 @@ const UserModal = () => {
             </div>
           )}
           {selectedOption === 1 && (
-            <div className="w-full h-[66%] md:h-[50%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+            <div className="w-full h-[50%] md:h-[40%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
               {userToView?.addresses?.map((address, index) => (
                 <div className="w-full h-fit space-y-[2%]" key={index}>
                   <p

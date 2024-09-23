@@ -29,7 +29,8 @@ const OrderModal = () => {
     updateOrder,
     handlePrintOrder,
   } = useContext(OrdersContext);
-  const { getDeliveryPartnerName, partnerName } = useContext(DeliveryContext);
+  const { getDeliveryPartnerName, partnerName, handleDeliveryPartnerModal } =
+    useContext(DeliveryContext);
   const [selectedOption, setSelectedOption] = useState(0);
   const [deliveryPartnerEdit, setDeliveryPartnerEdit] = useState(false);
 
@@ -149,7 +150,7 @@ const OrderModal = () => {
             </button>
           </div>
           {selectedOption === 0 && (
-            <div className="w-full h-[66%] md:h-[50%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+            <div className="w-full h-[50%] md:h-[40%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
               {orderToUpdate?.order_items.map((item, index) => (
                 <div
                   className="w-full h-fit flex justify-start items-start space-x-[2%]"
@@ -208,7 +209,7 @@ const OrderModal = () => {
             </div>
           )}
           {selectedOption === 1 && (
-            <div className="w-full h-[66%] md:h-[50%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
+            <div className="w-full h-[50%] md:h-[40%] space-y-[5%] mb-[2%] overflow-x-hidden overflow-y-scroll customScrollbar">
               <div className="w-full h-fit space-y-[2%]">
                 <p
                   className={`font-normal text-xs ${
@@ -338,15 +339,20 @@ const OrderModal = () => {
                     }`}
                   />
                 ) : (
-                  <span
-                    className={`font-semibold text-xs ${
+                  <button
+                    className={`font-semibold text-sm md:text-xs ${
                       isDarkMode
                         ? "text-neutral-gray-light"
                         : "text-neutral-black-dark"
-                    }`}
+                    } border rounded px-[1%] py-[0.5%] md:py-[0.3%] active:scale-95 duration-300`}
+                    onClick={() =>
+                      handleDeliveryPartnerModal(
+                        orderToUpdate?.delivery_partner_id
+                      )
+                    }
                   >
                     {partnerName}
-                  </span>
+                  </button>
                 )}
                 {deliveryPartnerEdit ? (
                   <button
