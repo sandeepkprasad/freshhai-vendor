@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 import { OrdersContext } from "../context/OrdersContext";
+import { DeliveryContext } from "../context/DeliveryContext";
 import { orderFilterData } from "../utils/LocalData";
 
 // React Icons
@@ -28,7 +29,9 @@ const OrderModal = () => {
     updateOrder,
     handlePrintOrder,
   } = useContext(OrdersContext);
+  const { getDeliveryPartnerName, partnerName } = useContext(DeliveryContext);
   const [selectedOption, setSelectedOption] = useState(0);
+  const [deliveryPartnerEdit, setDeliveryPartnerEdit] = useState(false);
 
   const handleOrderStatusChange = (e) => {
     const newStatus = e.target.value;
@@ -51,6 +54,16 @@ const OrderModal = () => {
   };
 
   const getCurrentLocation = () => {};
+
+  const handleDeliveryPartnerEdit = () => {
+    setDeliveryPartnerEdit((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (orderToUpdate?.delivery_partner_id) {
+      getDeliveryPartnerName(orderToUpdate.delivery_partner_id);
+    }
+  }, [getDeliveryPartnerName, orderToUpdate?.delivery_partner_id]);
 
   return (
     <ModalWrapper
@@ -257,7 +270,7 @@ const OrderModal = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                Payment Status :
+                Payment :
               </span>
               <span
                 className={`font-semibold text-sm ${
@@ -277,7 +290,7 @@ const OrderModal = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                Order Status :
+                Status :
               </span>
               <select
                 id="order_status"
@@ -302,7 +315,7 @@ const OrderModal = () => {
                 ))}
               </select>
             </div>
-            <div className="w-full h-fit flex justify-between items-center">
+            <div className="w-full h-fit flex flex-col justify-start items-start space-y-[2%]">
               <span
                 className={`font-normal text-xs ${
                   isDarkMode
@@ -310,18 +323,47 @@ const OrderModal = () => {
                     : "text-neutral-black-dark"
                 }`}
               >
-                Delivery Partner Id :
+                Delivery Partner :
               </span>
-              <input
-                type="text"
-                value={orderToUpdate?.delivery_partner_id}
-                onChange={handleDeliveryPartnerChange}
-                className={`h-6 md:h-5 rounded font-normal text-xs px-[1%] focus:outline-none ${
-                  isDarkMode
-                    ? "bg-neutral-black-light text-neutral-gray-light"
-                    : "bg-neutral-gray-light text-neutral-black-dark"
-                }`}
-              />
+              <div className="w-full h-fit flex justify-start items-center space-x-[3%]">
+                {deliveryPartnerEdit ? (
+                  <input
+                    type="text"
+                    value={orderToUpdate?.delivery_partner_id}
+                    onChange={handleDeliveryPartnerChange}
+                    className={`h-6 md:h-5 rounded font-normal text-xs px-[1%] focus:outline-none ${
+                      isDarkMode
+                        ? "bg-neutral-black-light text-neutral-gray-light"
+                        : "bg-neutral-gray-light text-neutral-black-dark"
+                    }`}
+                  />
+                ) : (
+                  <span
+                    className={`font-semibold text-xs ${
+                      isDarkMode
+                        ? "text-neutral-gray-light"
+                        : "text-neutral-black-dark"
+                    }`}
+                  >
+                    {partnerName}
+                  </span>
+                )}
+                {deliveryPartnerEdit ? (
+                  <button
+                    className="font-normal text-xs text-primary-blue-dark underline active:scale-95 duration-300"
+                    onClick={handleDeliveryPartnerEdit}
+                  >
+                    Cancel
+                  </button>
+                ) : (
+                  <button
+                    className="font-normal text-xs text-primary-blue-dark underline active:scale-95 duration-300"
+                    onClick={handleDeliveryPartnerEdit}
+                  >
+                    Change
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

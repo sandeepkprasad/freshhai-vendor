@@ -14,6 +14,8 @@ import { deliveryPartnerSchema } from "../utils/LocalData";
 import {
   collection,
   getDocs,
+  getDoc,
+  doc,
   addDoc,
   query,
   where,
@@ -35,6 +37,7 @@ const DeliveryProvider = ({ children }) => {
   const [availablePartnersCount, setAvailablePartnersCount] = useState(0);
   const [totalPartnersCount, setTotalPartnersCount] = useState(0);
   const [inactivePartnersCount, setInactivePartnersCount] = useState(0);
+  const [partnerName, setPartnerName] = useState("");
 
   // Fetch all delivery partners
   const getDeliveryPartners = useCallback(
@@ -204,6 +207,27 @@ const DeliveryProvider = ({ children }) => {
     }
   }, [firestore]);
 
+  // Get Delivery Agent Name By ID
+  const getDeliveryPartnerName = useCallback(
+    async (partnerId) => {
+      try {
+        const partnerDocRef = doc(firestore, "deliveryPartners", partnerId);
+        const docSnapshot = await getDoc(partnerDocRef);
+
+        if (docSnapshot.exists()) {
+          const deliveryPartnerData = docSnapshot.data();
+          setPartnerName(deliveryPartnerData.name);
+        } else {
+          setPartnerName("Not Assigned");
+        }
+      } catch (error) {
+        console.error("Error fetching delivery partner by ID: ", error);
+        setPartnerName("Not Assigned");
+      }
+    },
+    [firestore]
+  );
+
   useEffect(() => {
     getDeliveryPartners();
     getAvailablePartnerCount();
@@ -236,6 +260,8 @@ const DeliveryProvider = ({ children }) => {
         inactivePartnersCount,
         getAgentByPhone,
         fetchNextDeliveryPartnersPage,
+        getDeliveryPartnerName,
+        partnerName,
       }}
     >
       {children}
